@@ -28,7 +28,7 @@ typedef struct _Game {
 
 Status game_create(Game *game);
 
-Status game_create_from_file(Game *game, char *filename);
+
 
 Status game_destroy(Game *game);
 
