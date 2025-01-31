@@ -59,6 +59,7 @@ Status object_set_name(Object *obj, char *name){
     return OK;
 }
 /************NO ESTOY SEGURO DE QUE ESTO SE ACABA ASÍ */
+
 Status object_print(Object *obj){
     Id aux=NO_ID;
 
