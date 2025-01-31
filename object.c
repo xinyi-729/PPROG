@@ -92,4 +92,11 @@ Status object_print(Object *obj){
 }
 
 
+const char* object_get_name(Object* obj){
+    if(!obj)
+        return NULL;
+
+    return obj->name;
+}
+
 

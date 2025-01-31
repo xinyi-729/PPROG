@@ -62,5 +62,14 @@ Status object_set_name(Object *obj, char *name);
  */
 Status object_print(Object* obj);
 
+/**
+ * @brief Consigue el nombre del objeto 
+ * @author XINYI HUANG
+ *
+ * @param obj puntero a Object
+ * @return Un puntero al nombre de tal objeto. En casos de errores, devuelve NULL.
+ */
+const char* object_get_name(Object* obj);
+
 
 #endif
