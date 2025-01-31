@@ -1,17 +1,31 @@
-#include "object.h"
+/**
+ * @brief Implementa el módulo de objetos del juego
+ *
+ * @file object.c
+ * @author XINYI HUANG
+ * @version 0
+ * @date 31-01-2025
+ * @copyright GNU Public License
+ */
 
+#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/**
+ * @brief Object
+ *
+ * Esta estructura guarda toda la información de un objeto
+ */
 struct _Object
 {
-    Id id;
-    char name[WORD_SIZE+1];
+    Id id;                          /*!< Identificador del objeto*/
+    char name[WORD_SIZE+1];         /*!< Nombre del objeto*/
 };
 
 
-/*********PREGUNTA: ¿El object tmb se inicializa recibiendo un id? */
 Object *object_create(Id id){
     Object *obj=NULL;
 
@@ -32,7 +46,8 @@ Object *object_create(Id id){
 }
 
 Status object_destroy(Object* obj){
-    if(obj == NULL)
+    /*Cde*/
+    if(!obj)
         return ERROR;
 
     free(obj);
@@ -50,14 +65,19 @@ Id object_get_id(Object *obj){
 
 Status object_set_name(Object *obj, char *name){
     int c;
+    /*Cde*/
     if(!obj || !name)
         return ERROR;
 
+    /*Copiar el nombre*/
     if(!strcpy(obj->name, name))
         return ERROR;
 
     return OK;
 }
+
+
+
 /************NO ESTOY SEGURO DE QUE ESTO SE ACABA ASÍ */
 
 Status object_print(Object *obj){

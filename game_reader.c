@@ -1,5 +1,11 @@
 /**
- * @brief balbalbaba
+ * @brief El módulo de la lectura del juego
+ *
+ * @file game_reader.c
+ * @author XINYI HUANG
+ * @version 0
+ * @date 31-01-2025
+ * @copyright GNU Public License
  */
 #include "game_reader.h"
 
