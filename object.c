@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 /**
@@ -76,6 +77,13 @@ Status object_set_name(Object *obj, char *name){
     return OK;
 }
 
+const char* object_get_name(Object* obj){
+    if(!obj)
+        return NULL;
+
+    return obj->name;
+}
+
 
 
 /************NO ESTOY SEGURO DE QUE ESTO SE ACABA ASÍ */
@@ -92,11 +100,5 @@ Status object_print(Object *obj){
 }
 
 
-const char* object_get_name(Object* obj){
-    if(!obj)
-        return NULL;
-
-    return obj->name;
-}
 
 

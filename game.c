@@ -73,7 +73,15 @@ Space *game_get_space(Game *game, Id id) {
   return NULL;
 }
 
-Id game_get_player_location(Game *game) { return game->player_location; }
+Id game_get_player_location(Game *game) { 
+    
+  if(!game)
+    return NO_ID;
+  
+  
+  
+  return game->player_location;
+}
 
 Status game_set_player_location(Game *game, Id id) {
   if (id == NO_ID) {
@@ -85,7 +93,13 @@ Status game_set_player_location(Game *game, Id id) {
   return OK;
 }
 
-Id game_get_object_location(Game *game) { return game->object_location; }
+Id game_get_object_location(Game *game) { 
+
+
+
+  
+  return game->object_location;
+}
 
 Status game_set_object_location(Game *game, Id id) {
 
