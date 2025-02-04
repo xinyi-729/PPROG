@@ -17,8 +17,9 @@
 
 #define MAX_SPACES 100
 
+/**Object location se cambia a Object* obj? Porque object en sí no tiene un campo que se llama location */
 typedef struct _Game {
-  Id player_location;
+  Player* player;
   Id object_location;
   Space *spaces[MAX_SPACES];
   int n_spaces;

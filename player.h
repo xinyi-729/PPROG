@@ -91,4 +91,8 @@ Id player_get_object(Player* player);
  */
 Status player_print(Player* player);
 
+Status player_set_location(Player *pla, Id loc);
+
+Id player_get_location(Player * player);
+
 #endif

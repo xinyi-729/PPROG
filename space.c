@@ -27,7 +27,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id object;              /*!< Whether the space has an object or not */
+  Id object;                /*!< Identificador del objeto en el espacio */
 };
 
 /** space_create allocates memory for a new space
@@ -175,7 +175,7 @@ Status space_print(Space* space) {
   }
 
   /* 1. Print the id and the name of the space */
-  fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", space->id, space->name);
+  fprintf(stdout, "--> Space (Id: %ld; Name: %s; Object: %ld)\n", space->id, space->name, space->object);
 
   /* 2. For each direction, print its link */
   idaux = space_get_north(space);
@@ -204,11 +204,11 @@ Status space_print(Space* space) {
   }
 
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object(space)) {
-    fprintf(stdout, "---> Object in the space.\n");
-  } else {
-    fprintf(stdout, "---> No object in the space.\n");
-  }
+  // if (space_get_object(space)) {
+  //   fprintf(stdout, "---> Object in the space.\n");
+  // } else {
+  //   fprintf(stdout, "---> No object in the space.\n");
+  // }
 
   return OK;
 }
