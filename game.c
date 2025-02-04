@@ -10,6 +10,8 @@
 
 #include "game.h"
 #include "game_reader.h"
+#include "player.h"
+#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -83,12 +85,14 @@ Id game_get_player_location(Game *game) {
   return game->player_location;
 }
 
-Status game_set_player_location(Game *game, Id id) {
-  if (id == NO_ID) {
+
+/**NO ESTOY SEGURO */
+Status game_set_player_location(Game *game, Player *player) {
+  if (!player) {
     return ERROR;
   }
 
-  game->player_location = id;
+  game->player_location = player_get_id(player);
 
   return OK;
 }
@@ -142,6 +146,10 @@ void game_print(Game *game) {
   printf("=> Object location: %d\n", (int)game->object_location);
   printf("=> Player location: %d\n", (int)game->player_location);
 }
+
+
+
+
 
 /**
    Implementation of private functions

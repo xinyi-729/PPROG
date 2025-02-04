@@ -9,7 +9,6 @@
  */
 
 #include "player.h"
-#include "space.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +42,7 @@ Player* player_create(Id id) {
   /* Initialization of an empty player */
   newPlayer->id = id;
   newPlayer->name[0] = '\0';
-  newPlayer->location = 11;
+  newPlayer->location = NO_ID;
   newPlayer->object = NO_ID;
 
   return newPlayer;
@@ -83,7 +82,7 @@ const char* player_get_name(Player* player) {
   }
   return player->name;
 }
-/************** */
+
 Status player_set_object(Player* player, Id obj) {
   if (!player) {
     return ERROR;
@@ -92,11 +91,28 @@ Status player_set_object(Player* player, Id obj) {
   return OK;
 }
 
-Bool player_get_object(Player* player) {
+Id player_get_object(Player* player) {
   if (!player) {
-    return FALSE;
+    return NO_ID;
   }
   return player->object;
+}
+
+Status player_set_location(Player *pla, Id loc){
+
+  if(!pla)
+    return ERROR;
+
+  pla->location = loc;
+
+  return OK;
+}
+
+Id player_get_location(Player * player){
+  if(!player)
+    return NO_ID;
+
+  return player->location;
 }
 
 Status player_print(Player* player) {
@@ -108,15 +124,8 @@ Status player_print(Player* player) {
   }
 
   /* 1. Print the id and the name of the player */
-  fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->id, player->name);
+  fprintf(stdout, "--> Player (Id: %ld; Name: %s; Location: %ld; Object: %ld)\n", player->id, player->name, player->location, player->object);
 
-
-  /* 3. Print if there is an object in the player or not */
-  if (player_get_object(player)) {
-    fprintf(stdout, "---> Object in the player.\n");
-  } else {
-    fprintf(stdout, "---> No object in the player.\n");
-  }
 
   return OK;
 }

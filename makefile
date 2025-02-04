@@ -29,7 +29,7 @@ game.o: game.c game.h command.h space.h types.h game_reader.h
 space.o: space.c space.h types.h
 	$(CC) $(CFLAGS) -c $<
 
-player.o: player.c player.h types.h
+player.o: player.c player.h types.h spcae.h
 	$(CC) $(CFLAGS) -c $<
 
 ###############################

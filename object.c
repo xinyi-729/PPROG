@@ -85,9 +85,6 @@ const char* object_get_name(Object* obj){
 }
 
 
-
-/************NO ESTOY SEGURO DE QUE ESTO SE ACABA ASÍ */
-
 Status object_print(Object *obj){
     Id aux=NO_ID;
 
