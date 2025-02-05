@@ -97,10 +97,12 @@ Status game_set_player_location(Game *game, Id id) {
 Id game_get_object_location(Game *game) { 
   int i;
 
-  for(i=0; i<game->)
+  for(i=0; i<game->n_spaces; i++){
+    if(game->object == space_get_object_id(game->spaces[i]))
+      return game->spaces[i];
+  }
 
-
-  return game->object_location;
+  return NO_ID;
 }
 
 Status game_set_object_location(Game *game, Id id) {
@@ -109,8 +111,8 @@ Status game_set_object_location(Game *game, Id id) {
     return ERROR;
   }
 
-  game->object_location = id;
-  space_set_object(game_get_space(game, id), id);
+  game->object = id;
+  space_set_object_id(game_get_space(game, id), id);
 
   return OK;
 }
