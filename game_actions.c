@@ -27,9 +27,10 @@ void game_actions_next(Game *game);
 
 void game_actions_back(Game *game);
 
-/**New functions take drop */
+/**New functions take/drop */
 
 void game_actions_take(Game *game);
+void game_actions_drop(Game *game);
 
 
 /**
@@ -112,7 +113,7 @@ void game_actions_back(Game *game) {
 /****************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 void game_actions_take(Game *game){
   Id player_space_id= NO_ID;
-  Id object_space_id = NO_ID, object_id;
+  Id object_space_id = NO_ID, object_id=NO_ID;
   Space *space=NULL;
 
   if(!game)
@@ -145,6 +146,36 @@ void game_actions_take(Game *game){
     return;
 
   /*Ahora, toca guardar el object en otro lugar (?)*/  
+
+  return;
+}
+
+void game_actions_drop(Game *game){
+  Id player_space_id=NO_ID;
+  Id object_id=NO_ID;
+  Space *space=NULL;
+
+  if(!game)
+    return;
+
+  player_space_id = game_get_player_location(game);
+  if(player_space_id == NO_ID)    /**EL ==NO_ID lo puedo escribir como !player... no? */
+    return;
+
+  /*DUDA: ¿Hay que controlar si el objeto ya existe en el espacio? O no se da el caso?*/
+
+  space = game_get_space(game, player_space_id);
+  if(!space)
+    return;
+
+  /*Obtener el id del objeto!!! 
+  ---Capaz le añadimos una entrada Id object?*/
+
+
+  if(space_set_object_id(space, object_id) ==ERROR)
+    return;
+
+  /*Después de poner el object_id en el espacio, eliminarlo del "basurero"*/
 
   return;
 }
