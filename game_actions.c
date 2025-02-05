@@ -9,6 +9,7 @@
  */
 
 #include "game_actions.h"
+#include "space.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,11 @@ void game_actions_exit(Game *game);
 void game_actions_next(Game *game);
 
 void game_actions_back(Game *game);
+
+/**New functions take drop */
+
+void game_actions_take(Game *game);
+
 
 /**
    Game actions implementation
@@ -91,7 +97,6 @@ void game_actions_back(Game *game) {
   Id space_id = NO_ID;
 
   space_id = game_get_player_location(game);
-
   if (NO_ID == space_id) {
     return;
   }
@@ -100,6 +105,46 @@ void game_actions_back(Game *game) {
   if (current_id != NO_ID) {
     game_set_player_location(game, current_id);
   }
+
+  return;
+}
+
+/****************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+void game_actions_take(Game *game){
+  Id player_space_id= NO_ID;
+  Id object_space_id = NO_ID, object_id;
+  Space *space=NULL;
+
+  if(!game)
+    return;
+
+  object_space_id = game_get_object_location(game);
+  if(object_space_id ==NO_ID)
+    return;
+
+  player_space_id = game_get_player_location(game);
+  if(player_space_id == NO_ID)
+    return;
+
+  if(player_space_id != object_space_id){
+    return;
+  }
+  
+  /*Obtener el TAD del espacio que está player y objeto*/
+  space = game_get_space(game, player_space_id);
+  if(!space)
+    return;
+
+  /*Obtener el id de ese objeto*/
+  object_id = space_get_object_id(space);
+  if(object_id == NO_ID)
+    return;
+
+  /*Como ya hicimos take, el objeto desaparece de ese espacio, lo que asignamos NO_ID para este espacio*/
+  if(space_set_object_id(space,NO_ID) ==ERROR)
+    return;
+
+  /*Ahora, toca guardar el object en otro lugar (?)*/  
 
   return;
 }

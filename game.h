@@ -20,7 +20,7 @@
 /**Object location se cambia a Object* obj? Porque object en sí no tiene un campo que se llama location */
 typedef struct _Game {
   Player* player;
-  Id object;
+  Id object;          /*DUDA: ¿Hay que cambiar esto a OBject*? aunque no veo muhco el sentido porque en space está con Id*/
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;

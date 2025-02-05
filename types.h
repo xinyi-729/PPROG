@@ -13,7 +13,7 @@
 
 #define WORD_SIZE 1000
 #define NO_ID -1
-
+#define WITH_PLAYER -3141592654
 typedef long Id;
 
 typedef enum { FALSE, TRUE } Bool;
