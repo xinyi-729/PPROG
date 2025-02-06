@@ -9,8 +9,7 @@
  */
 
 #include "game.h"
-#include "game_reader.h"
-#include "player.h"
+#include "game_reader.h" 
 #include "object.h"
 
 #include <stdio.h>
@@ -21,9 +20,8 @@
    Private functions
 */
 
-Status game_add_space(Game *game, Space *space);
 
-Id game_get_space_id_at(Game *game, int position);
+
 
 /**
    Game interface implementation
@@ -74,7 +72,7 @@ Space *game_get_space(Game *game, Id id) {
 
   return NULL;
 }
-/***¿ES ASÍ? */
+
 Id game_get_player_location(Game *game) { 
     
   if(!game)
@@ -94,7 +92,7 @@ Status game_set_player_location(Game *game, Id id) {
   return OK;
 }
 
-/****¿ES ASÍ ?? */
+
 Id game_get_object_location(Game *game) { 
   int i;
 

@@ -203,12 +203,5 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  /* 3. Print if there is an object in the space or not */
-  // if (space_get_object(space)) {
-  //   fprintf(stdout, "---> Object in the space.\n");
-  // } else {
-  //   fprintf(stdout, "---> No object in the space.\n");
-  // }
-
   return OK;
 }

@@ -31,7 +31,7 @@ Object *object_create(Id id){
     Object *obj=NULL;
 
     /*Cde*/
-    if(id == NULL)
+    if(id == NO_ID)
         return NULL;
 
     /*Reserva de memoria*/
@@ -65,7 +65,6 @@ Id object_get_id(Object *obj){
 }
 
 Status object_set_name(Object *obj, char *name){
-    int c;
     /*Cde*/
     if(!obj || !name)
         return ERROR;
@@ -86,7 +85,6 @@ const char* object_get_name(Object* obj){
 
 
 Status object_print(Object *obj){
-    Id aux=NO_ID;
 
     if(!obj)
         return ERROR;

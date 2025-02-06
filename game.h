@@ -12,15 +12,15 @@
 #define GAME_H
 
 #include "command.h"
-#include "space.h"
+#include "space.h" 
 #include "types.h"
+#include "player.h"
 
 #define MAX_SPACES 100
 
-/**Object location se cambia a Object* obj? Porque object en sí no tiene un campo que se llama location */
 typedef struct _Game {
   Player* player;
-  Id object;          /*DUDA: ¿Hay que cambiar esto a OBject*? aunque no veo muhco el sentido porque en space está con Id*/
+  Id object;         
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;
@@ -52,5 +52,10 @@ Bool game_get_finished(Game *game);
 Status game_set_finished(Game *game, Bool finished);
 
 void game_print(Game *game);
+
+/*FUncion privado que llegan a ser publico*/
+Id game_get_space_id_at(Game *game, int position);
+Status game_add_space(Game *game, Space *space);
+
 
 #endif

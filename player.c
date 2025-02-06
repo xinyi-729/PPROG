@@ -116,7 +116,6 @@ Id player_get_location(Player * player){
 }
 
 Status player_print(Player* player) {
-  Id idaux = NO_ID;
 
   /* Error Control */
   if (!player) {

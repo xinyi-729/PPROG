@@ -10,6 +10,7 @@
 
 #include "game_actions.h"
 #include "space.h"
+#include "player.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -110,7 +111,6 @@ void game_actions_back(Game *game) {
   return;
 }
 
-/****************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 void game_actions_take(Game *game){
   Id player_space_id= NO_ID;
   Id object_space_id = NO_ID, object_id=NO_ID;
@@ -119,6 +119,7 @@ void game_actions_take(Game *game){
   if(!game)
     return;
 
+  /*Conseguir el id del espacio de player y object*/
   object_space_id = game_get_object_location(game);
   if(object_space_id ==NO_ID)
     return;
@@ -145,7 +146,9 @@ void game_actions_take(Game *game){
   if(space_set_object_id(space,NO_ID) ==ERROR)
     return;
 
-  /*Ahora, toca guardar el object en otro lugar (?)*/  
+  /*Ahora, toca guardar el object en el jugador*/  
+  if(player_set_object(game->player, object_id) == ERROR)
+    return;
 
   return;
 }
@@ -161,21 +164,27 @@ void game_actions_drop(Game *game){
   player_space_id = game_get_player_location(game);
   if(player_space_id == NO_ID)    /**EL ==NO_ID lo puedo escribir como !player... no? */
     return;
+  if(!player_space_id)    
+    return;
 
   /*DUDA: ¿Hay que controlar si el objeto ya existe en el espacio? O no se da el caso?*/
 
   space = game_get_space(game, player_space_id);
   if(!space)
     return;
+  
+  /*Comprobar si el player tenga el object*/
+  object_id =player_get_object(game->player);
+  if(!object_id)
+    return;
 
-  /*Obtener el id del objeto!!! 
-  ---Capaz le añadimos una entrada Id object?*/
-
-
+  /*Asignamos el id del objeto en este espacio*/
   if(space_set_object_id(space, object_id) ==ERROR)
     return;
 
-  /*Después de poner el object_id en el espacio, eliminarlo del "basurero"*/
+  /*Ahora, borrarlo del jugador*/
+  if(player_set_object(game->player, NO_ID) == ERROR)
+    return;
 
   return;
 }

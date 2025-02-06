@@ -4,7 +4,7 @@ CLIB = -lscreen -L.
 
 all: anthill 
 
-anthill: game_loop.o game.o command.o game_actions.o graphic_engine.o space.o game_reader.o player.o
+anthill: game_loop.o game.o command.o game_actions.o graphic_engine.o space.o game_reader.o player.o object.o
 	$(CC) -o $@ $^ $(CLIB)
 
 #######################################################
@@ -29,7 +29,10 @@ game.o: game.c game.h command.h space.h types.h game_reader.h
 space.o: space.c space.h types.h
 	$(CC) $(CFLAGS) -c $<
 
-player.o: player.c player.h types.h spcae.h
+player.o: player.c player.h types.h space.h
+	$(CC) $(CFLAGS) -c $<
+	
+object.o: object.c types.h 
 	$(CC) $(CFLAGS) -c $<
 
 ###############################
