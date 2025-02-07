@@ -35,8 +35,8 @@ Status game_create(Game *game) {
   }
 
   game->n_spaces = 0;
-  game->player = NULL;
-  game->object=NO_ID;
+  game->player = player_create(ID_PLAYER);
+  game->object=ID_OBJECT;
   game->last_cmd = command_create();
   game->finished = FALSE;
 

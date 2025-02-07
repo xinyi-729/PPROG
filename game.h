@@ -17,6 +17,8 @@
 #include "player.h"
 
 #define MAX_SPACES 100
+#define ID_PLAYER 729
+#define ID_OBJECT 407
 
 typedef struct _Game {
   Player* player;
