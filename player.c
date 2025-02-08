@@ -97,7 +97,7 @@ const char* player_get_name(Player* player) {
 /*-----------------------------------------------------------------------------------------------------*/
 Status player_set_object(Player* player, Id value) {
   /* Control de errores */
-  if (!player||(value=NO_ID)) {
+  if (!player) {
     return ERROR;
   }
 
@@ -116,7 +116,7 @@ Id player_get_object(Player* player) {
 /*-----------------------------------------------------------------------------------------------------*/
 Status player_set_location(Player* player, Id value) {
   /* Control de errores */
-  if (!player||(value=NO_ID)) {
+  if (!player) {
     return ERROR;
   }
 
