@@ -2,7 +2,7 @@
  * @brief Define la interfaz del modulo game_reader
  *
  * @file game_reader.h
- * @author XINYI HUANG
+ * @author Xinyi Huang y Lucia Ordovas
  * @version 0
  * @date 31-01-2025
  * @copyright GNU Public License

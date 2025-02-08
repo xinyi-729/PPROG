@@ -2,12 +2,11 @@
  * @brief It defines the game loop
  *
  * @file game_loop.c
- * @author Profesores PPROG
+ * @author Xinyi Huang y Lucia Ordovas
  * @version 0
- * @date 27-01-2025
+ * @date 30-01-2025
  * @copyright GNU Public License
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 

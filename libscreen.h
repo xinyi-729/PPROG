@@ -2,9 +2,9 @@
  * @brief It defines the screen interface
  *
  * @file libscreen.h
- * @author Profesores PPROG
- * @version 3.5
- * @date 26-01-2024
+ * @author Xinyi Huang y Lucia Ordovas
+ * @version 0
+ * @date 30-01-2025
  * @copyright GNU Public License
  */
 

@@ -1,11 +1,11 @@
 /**
- * @brief It implements the player module
+ * @brief Implementa el modulo del jugador
  *
  * @file player.c
- * @author Xinyi Huang and Lucía Ordovás
+ * @author Lucia Ordovas
  * @version 0
  * @date 31-01-2025
- * @copyright GNU Public License
+ * @copyright Licencia Publica GNU
  */
 
 #include "player.h"
@@ -14,32 +14,36 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*-----------------------------------------------------------------------------------------------------*/
 /**
- * @brief Player
+ * @brief Jugador
  *
- * This structure stores all the information about the player
+ * Esta estructura almacena toda la informacion sobre el jugador
  */
 struct _Player {
-  Id id;                    /*!< Player ID, unique */
-  char name[WORD_SIZE + 1]; /*!< Player name */
-  Id location;             /*!< El espacio en el que se sitúa player*/
-  Id object;                /*!< El id del objeto */
+  Id id;                    /*!< ID del jugador, unico */
+  char name[WORD_SIZE + 1]; /*!< Nombre del jugador */
+  Id location;              /* Ubicacion del jugador */
+  Id object;                /* Que objeto tiene el jugador */
 };
 
-/** player_create allocates memory for a new player and initializes its elements */
+/*-----------------------------------------------------------------------------------------------------*/
+/* Funciones implementadas*/
+
+/* Creacion e inicializacion de un jugador */
 Player* player_create(Id id) {
   Player* newPlayer = NULL;
 
-  /* Error control */
+  /* Control de errores de los parametros */
   if (id == NO_ID) return NULL;
 
-  /* Memory allocation */
+  /* Reserva de memoria dinamica */
   newPlayer = (Player*)malloc(sizeof(Player));
   if (newPlayer == NULL) {
     return NULL;
   }
 
-  /* Initialization of an empty player */
+  /* Inicializacion */
   newPlayer->id = id;
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
@@ -49,6 +53,7 @@ Player* player_create(Id id) {
 }
 
 Status player_destroy(Player* player) {
+  /*Cde*/
   if (!player) {
     return ERROR;
   }
@@ -58,14 +63,19 @@ Status player_destroy(Player* player) {
   return OK;
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
+/* Obtenemos el ID del jugador, no cambiamos el ID en ningun modulo, por eso no hay set para el ID*/
 Id player_get_id(Player* player) {
+  /* Control de errores */
   if (!player) {
     return NO_ID;
   }
   return player->id;
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
 Status player_set_name(Player* player, char* name) {
+  /*Cde*/
   if (!player || !name) {
     return ERROR;
   }
@@ -77,54 +87,60 @@ Status player_set_name(Player* player, char* name) {
 }
 
 const char* player_get_name(Player* player) {
+  /* Control de errores */
   if (!player) {
     return NULL;
   }
   return player->name;
 }
 
-Status player_set_object(Player* player, Id obj) {
-  if (!player) {
+/*-----------------------------------------------------------------------------------------------------*/
+Status player_set_object(Player* player, Id value) {
+  /* Control de errores */
+  if (!player||(value=NO_ID)) {
     return ERROR;
   }
-  player->object = obj;
+
+  player->object = value;
   return OK;
 }
 
 Id player_get_object(Player* player) {
+  /* Control de errores */
   if (!player) {
     return NO_ID;
   }
   return player->object;
 }
 
-Status player_set_location(Player *pla, Id loc){
-
-  if(!pla)
+/*-----------------------------------------------------------------------------------------------------*/
+Status player_set_location(Player* player, Id value) {
+  /* Control de errores */
+  if (!player||(value=NO_ID)) {
     return ERROR;
+  }
 
-  pla->location = loc;
-
+  player->location = value;
   return OK;
 }
 
-Id player_get_location(Player * player){
-  if(!player)
+Id player_get_location(Player* player) {
+  /* Control de errores */
+  if (!player) {
     return NO_ID;
-
+  }
   return player->location;
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
 Status player_print(Player* player) {
-
-  /* Error Control */
+  /* Control de errores */
   if (!player) {
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the player */
+  /* Mostramos el nombre, ubicacion y objeto del jugador */
   fprintf(stdout, "--> Player (Id: %ld; Name: %s; Location: %ld; Object: %ld)\n", player->id, player->name, player->location, player->object);
-
 
   return OK;
 }

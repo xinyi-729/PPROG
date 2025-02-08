@@ -2,9 +2,9 @@
  * @brief It defines the space module interface
  *
  * @file space.h
- * @author Profesores PPROG
+ * @author Xinyi Huang y Lucia Ordovas
  * @version 0
- * @date 27-01-2025
+ * @date 30-01-2025
  * @copyright GNU Public License
  */
 

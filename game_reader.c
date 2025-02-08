@@ -2,7 +2,7 @@
  * @brief El módulo de la lectura del juego
  *
  * @file game_reader.c
- * @author XINYI HUANG
+ * @author Xinyi Huang y Lucia Ordovas
  * @version 0
  * @date 31-01-2025
  * @copyright GNU Public License
