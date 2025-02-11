@@ -15,6 +15,7 @@
 #include "space.h" 
 #include "types.h"
 #include "player.h"
+#include "object.h"
 
 #define MAX_SPACES 100
 #define ID_PLAYER 729
@@ -22,7 +23,7 @@
 
 typedef struct _Game {
   Player* player;
-  Id object;         
+  Object* object;         
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;

@@ -10,7 +10,7 @@
 
 #include "game.h"
 #include "game_reader.h" 
-#include "object.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +29,7 @@ Status game_create(Game *game) {
 
   game->n_spaces = 0;
   game->player = player_create(ID_PLAYER);
-  game->object=ID_OBJECT;
+  game->object = object_create(ID_OBJECT);
   game->last_cmd = command_create();
   game->finished = FALSE;
 
@@ -40,11 +40,15 @@ Status game_create(Game *game) {
 
 Status game_destroy(Game *game) {
   int i = 0;
+  if(!game)
+    return ERROR;
 
   for (i = 0; i < game->n_spaces; i++) {
     space_destroy(game->spaces[i]);
   }
 
+  player_destroy(game->player);
+  object_destroy(game->object);
   command_destroy(game->last_cmd);
 
   return OK;
@@ -75,7 +79,7 @@ Id game_get_player_location(Game *game) {
 }
 
 Status game_set_player_location(Game *game, Id id) {
-  if (!game) {
+  if (!game || id == NO_ID) {
     return ERROR;
   }
 
@@ -90,21 +94,24 @@ Id game_get_object_location(Game *game) {
   int i;
 
   for(i=0; i<game->n_spaces; i++){
-    if(game->object == space_get_object_id(game->spaces[i]))
+    if(object_get_id(game->object) == space_get_object_id(game->spaces[i]))
       return space_get_id(game->spaces[i]);
   }
 
   return NO_ID;
 }
 
+/****NO SE SI DEJARLO EN object_create */
 Status game_set_object_location(Game *game, Id id) {
 
-  if (id == NO_ID) {
+  if (!game) {
     return ERROR;
   }
 
-  game->object = id;
-  space_set_object_id(game_get_space(game, id), id);
+  game->object = object_create(id);
+  if(space_set_object_id(game_get_space(game, id), id) == ERROR){
+    return ERROR;
+  }
 
   return OK;
 }
@@ -135,7 +142,7 @@ void game_print(Game *game) {
     space_print(game->spaces[i]);
   }
 
-  printf("=> Object location: %d\n", (int)game->object);
+  printf("=> Object location: %d\n", (int) game_get_object_location(game));
   printf("=> Player location: %d\n", (int) player_get_location(game->player));
 }
 
