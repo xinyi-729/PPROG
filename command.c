@@ -23,7 +23,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
 /**
  * @brief Command
  *
- * This struct stores all the information related to a command.
+ * Guarda todas las informaciones relacionadas con el commando
  */
 struct _Command {
   CommandCode code; /*!< Name of the command */

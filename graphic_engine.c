@@ -9,14 +9,14 @@
  */
 
 #include "graphic_engine.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "command.h"
 #include "libscreen.h"
 #include "space.h"
 #include "types.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+
 
 #define WIDTH_MAP 48
 #define WIDTH_DES 29
