@@ -42,7 +42,7 @@ Status game_set_player_location(Game *game, Id id);
 
 Id game_get_object_location(Game *game);
 
-Status game_set_object_location(Game *game, Id id);
+Status game_set_object_location(Game *game, Id id_space);
 
 Command* game_get_last_command(Game *game);
 

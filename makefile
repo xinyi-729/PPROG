@@ -23,7 +23,7 @@ game_reader.o: game_reader.c game_reader.h game.h types.h command.h space.h
 graphic_engine.o: graphic_engine.c graphic_engine.h command.h space.h types.h libscreen.h game.h
 	$(CC) $(CFLAGS) -c $<
 
-game.o: game.c game.h command.h space.h types.h game_reader.h
+game.o: game.c game.h command.h space.h types.h
 	$(CC) $(CFLAGS) -c $<
 
 space.o: space.c space.h types.h

@@ -170,9 +170,7 @@ void game_actions_drop(Game *game){
     return;
 
   player_space_id = game_get_player_location(game);
-  if(player_space_id == NO_ID)    /**EL ==NO_ID lo puedo escribir como !player... no? */
-    return;
-  if(!player_space_id)    
+  if(player_space_id == NO_ID)  
     return;
 
   space = game_get_space(game, player_space_id);

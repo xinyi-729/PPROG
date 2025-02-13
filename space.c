@@ -149,11 +149,11 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-Status space_set_object_id(Space* space, Id value) {
+Status space_set_object_id(Space* space, Id id_object) {
   if (!space) {
     return ERROR;
   }
-  space->object = value;
+  space->object = id_object;
   return OK;
 }
 

@@ -80,12 +80,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
 
-    /*********** */
-    printf("gam_get: %d \n", (int) game_get_object_location(game));
-    printf("id_bakc: %d \n", (int) id_back);
-    printf("id_act: %d \n", (int) id_act);
-
-    /************ */
     if (game_get_object_location(game) == id_back)
       obj = '*';
     else
@@ -139,6 +133,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_clear(ge->descript);
   if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
+    screen_area_puts(ge->descript, str);
+  }
+  else{
+    sprintf(str, "The player has the object");
     screen_area_puts(ge->descript, str);
   }
 

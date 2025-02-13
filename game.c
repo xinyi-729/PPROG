@@ -9,8 +9,6 @@
  */
 
 #include "game.h"
-#include "game_reader.h" 
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -101,14 +99,13 @@ Id game_get_object_location(Game *game) {
   return NO_ID;
 }
 
-/****NO SE SI DEJARLO EN object_create */
-Status game_set_object_location(Game *game, Id id) {
+Status game_set_object_location(Game *game, Id id_space) {
 
   if (!game) {
     return ERROR;
   }
-  game->object = object_create(id);
-  if(space_set_object_id(game_get_space(game, id), id) == ERROR){
+
+  if(space_set_object_id(game_get_space(game, id_space), object_get_id(game->object)) == ERROR){
     return ERROR;
   }
 
