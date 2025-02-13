@@ -107,7 +107,6 @@ Status game_set_object_location(Game *game, Id id) {
   if (!game) {
     return ERROR;
   }
-
   game->object = object_create(id);
   if(space_set_object_id(game_get_space(game, id), id) == ERROR){
     return ERROR;

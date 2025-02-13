@@ -175,8 +175,6 @@ void game_actions_drop(Game *game){
   if(!player_space_id)    
     return;
 
-  /*DUDA: ¿Hay que controlar si el objeto ya existe en el espacio? O no se da el caso?*/
-
   space = game_get_space(game, player_space_id);
   if(!space)
     return;
