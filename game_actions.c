@@ -1,5 +1,5 @@
 /**
- * @brief It implements the game update through user actions
+ * @brief Define la interfaz de actualización del juego a traves de las acciones del usuario
  *
  * @file game_actions.c
  * @author Xinyi Huang y Lucia Ordovas
@@ -16,9 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
-   Private functions
-*/
+/*-----------------------------------------------------------------------------------------------------*/
+/* Funciones privadas*/
 
 void game_actions_unknown(Game *game);
 
@@ -33,10 +32,9 @@ void game_actions_back(Game *game);
 void game_actions_take(Game *game);
 void game_actions_drop(Game *game);
 
+/*-----------------------------------------------------------------------------------------------------*/
 
-/**
-   Game actions implementation
-*/
+/* Implementacion de funciones de la interfaz */
 
 Status game_actions_update(Game *game, Command *command) {
   CommandCode cmd;
@@ -77,9 +75,8 @@ Status game_actions_update(Game *game, Command *command) {
   return OK;
 }
 
-/**
-   Calls implementation for each action
-*/
+/*-----------------------------------------------------------------------------------------------------*/
+/* Implementacion de las funciones privadas */
 
 void game_actions_unknown(Game *game) {}
 
@@ -106,11 +103,13 @@ void game_actions_back(Game *game) {
   Id current_id = NO_ID;
   Id space_id = NO_ID;
 
+  /* Obtener la ubicacion del jugador */
   space_id = game_get_player_location(game);
   if (NO_ID == space_id) {
-    return;
+    return; /* Si el jugador no está en ningún espacio, no hacemos nada */
   }
-
+  
+  /* Mover al jugador a esa nueva ubicacion*/
   current_id = space_get_north(game_get_space(game, space_id));
   if (current_id != NO_ID) {
     game_set_player_location(game, current_id);
@@ -169,10 +168,12 @@ void game_actions_drop(Game *game){
   if(!game)
     return;
 
+  /*Conseguir el id del jugador*/
   player_space_id = game_get_player_location(game);
   if(player_space_id == NO_ID)  
     return;
 
+  /*Conseguir el espacio*/
   space = game_get_space(game, player_space_id);
   if(!space)
     return;

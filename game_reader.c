@@ -1,5 +1,5 @@
 /**
- * @brief El módulo de la lectura del juego
+ * @brief Define el lector de juegos
  *
  * @file game_reader.c
  * @author Xinyi Huang y Lucia Ordovas
@@ -13,6 +13,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*-----------------------------------------------------------------------------------------------------*/
 Status game_create_from_file(Game *game, char *filename) {
   if (game_create(game) == ERROR) {
     return ERROR;
@@ -22,12 +23,14 @@ Status game_create_from_file(Game *game, char *filename) {
     return ERROR;
   }
 
-  /* The player and the object are located in the first space */
+  /* El jugador y el objeto estan en el primer espacio */
   game_set_player_location(game, game_get_space_id_at(game, 0));
   game_set_object_location(game, game_get_space_id_at(game, 0));
 
   return OK;
 }
+
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status game_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;

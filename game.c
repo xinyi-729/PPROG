@@ -1,5 +1,5 @@
 /**
- * @brief It implements the game structure
+ * @brief Implementa la estructura del juego
  *
  * @file game.c
  * @author Xinyi Huang y Lucia Ordovas
@@ -14,9 +14,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
-   Game interface implementation
-*/
+/*-----------------------------------------------------------------------------------------------------*/
+ /* Funciones de la interfaz implementadas */
 
 Status game_create(Game *game) {
   int i;
@@ -34,8 +33,6 @@ Status game_create(Game *game) {
   return OK;
 }
 
-
-
 Status game_destroy(Game *game) {
   int i = 0;
   if(!game)
@@ -51,7 +48,8 @@ Status game_destroy(Game *game) {
 
   return OK;
 }
-
+/*-----------------------------------------------------------------------------------------------------*/
+ 
 Space *game_get_space(Game *game, Id id) {
   int i = 0;
 
@@ -59,7 +57,9 @@ Space *game_get_space(Game *game, Id id) {
     return NULL;
   }
 
+   /* Recorremos los espacios del juego */
   for (i = 0; i < game->n_spaces; i++) {
+    /* Si el id coincide con el id del espacio devolvemos ese id */
     if (id == space_get_id(game->spaces[i])) {
       return game->spaces[i];
     }
@@ -67,7 +67,8 @@ Space *game_get_space(Game *game, Id id) {
 
   return NULL;
 }
-
+/*-----------------------------------------------------------------------------------------------------*/
+ 
 Id game_get_player_location(Game *game) { 
     
   if(!game)
@@ -87,7 +88,8 @@ Status game_set_player_location(Game *game, Id id) {
   return OK;
 }
 
-
+/*-----------------------------------------------------------------------------------------------------*/
+ 
 Id game_get_object_location(Game *game) { 
   int i;
 
@@ -112,6 +114,8 @@ Status game_set_object_location(Game *game, Id id_space) {
   return OK;
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
+
 Command* game_get_last_command(Game *game) { return game->last_cmd; }
 
 Status game_set_last_command(Game *game, Command *command) {
@@ -120,6 +124,8 @@ Status game_set_last_command(Game *game, Command *command) {
   return OK;
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
+ 
 Bool game_get_finished(Game *game) { return game->finished; }
 
 Status game_set_finished(Game *game, Bool finished) {
@@ -127,30 +133,33 @@ Status game_set_finished(Game *game, Bool finished) {
 
   return OK;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 void game_print(Game *game) {
   int i = 0;
 
   printf("\n\n-------------\n\n");
 
-  printf("=> Spaces: \n");
+  printf("=> Espacios: \n");
   for (i = 0; i < game->n_spaces; i++) {
     space_print(game->spaces[i]);
   }
 
-  printf("=> Object location: %d\n", (int) game_get_object_location(game));
-  printf("=> Player location: %d\n", (int) player_get_location(game->player));
+  printf("=> Jugador: ");
+  if (game->player) {
+    player_print(game->player);
+  } else {
+    printf("No se ha asignado un jugador.\n");
+  }
+
+  printf("=> Objeto: ");
+  if (game->object) {
+    object_print(game->object);
+  } else {
+    printf("No se ha asignado un objeto.\n");
+  }
 }
-
-
-
-
-
-/**
-   Implementation of private functions
-*/
-
-
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status game_add_space(Game *game, Space *space) {
   if ((space == NULL) || (game->n_spaces >= MAX_SPACES)) {

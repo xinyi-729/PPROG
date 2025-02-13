@@ -1,5 +1,5 @@
 /**
- * @brief It implements a textual graphic engine
+ * @brief Implementa un motor grafico textual
  *
  * @file graphic_engine.c
  * @author Xinyi Huang y Lucia Ordovas
@@ -129,7 +129,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     }
   }
 
-  /* Paint in the description area */
+   /* Pintar en el area de descripcion */
   screen_area_clear(ge->descript);
   if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
@@ -140,22 +140,22 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     screen_area_puts(ge->descript, str);
   }
 
-  /* Paint in the banner area */
+   /* Pintar en el area de banner */
   screen_area_puts(ge->banner, "    The anthill game ");
 
-  /* Paint in the help area */
+   /* Pintar en el area de ayuda */
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
   sprintf(str, "     next or n, back or b, exit or e, take or t, drop or d");
   screen_area_puts(ge->help, str);
 
-  /* Paint in the feedback area */
+   /* Pintar en el area de retroalimentacion */
   last_cmd = command_get_code(game_get_last_command(game));
   sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   screen_area_puts(ge->feedback, str);
 
-  /* Dump to the terminal */
+   /* Mostrar en la terminal */
   screen_paint();
   printf("prompt:> ");
 }

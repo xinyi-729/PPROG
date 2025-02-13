@@ -1,6 +1,6 @@
 /**
- * @brief It defines the game update interface
- *
+ * @brief Define la interfaz de actualización del juego
+ * 
  * @file game_actions.h
  * @author Xinyi Huang y Lucia Ordovas
  * @version 0

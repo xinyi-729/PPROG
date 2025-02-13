@@ -1,5 +1,5 @@
 /**
- * @brief It defines the game loop
+ * @brief Define el bucle del juego
  *
  * @file game_loop.c
  * @author Xinyi Huang y Lucia Ordovas

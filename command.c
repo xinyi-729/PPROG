@@ -1,5 +1,5 @@
 /**
- * @brief It implements the command interpreter
+ * @brief Implementa el interprete de comandos
  *
  * @file command.c
  * @author Xinyi Huang y Lucia Ordovas
@@ -29,9 +29,9 @@ struct _Command {
   CommandCode code; /*!< Name of the command */
 };
 
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
+ /** command_create reserva memoria para un nuevo comando
+  *  e inicializa sus miembros
+  */
 Command* command_create() {
   Command* newCommand = NULL;
 
@@ -40,7 +40,7 @@ Command* command_create() {
     return NULL;
   }
 
-  /* Initialization of an empty command*/
+   /* Inicializacion de un comando vacio */
   newCommand->code = NO_CMD;
 
   return newCommand;

@@ -13,24 +13,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*-----------------------------------------------------------------------------------------------------*/
 /**
  * @brief Space
  *
- * This struct stores all the information of a space.
+  * Esta estructura almacena toda la informacion de un espacio.
  */
 struct _Space {
-  Id id;                    /*!< Id number of the space, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the space */
-  Id north;                 /*!< Id of the space at the north */
-  Id south;                 /*!< Id of the space at the south */
-  Id east;                  /*!< Id of the space at the east */
-  Id west;                  /*!< Id of the space at the west */
-  Id object;                /*!< Identificador del objeto en el espacio */
+  Id id;                    /*!< Numero de identificacion del espacio, debe ser unico */
+  char name[WORD_SIZE + 1]; /*!< Nombre del espacio */
+  Id north;                 /*!< Id del espacio al norte */
+  Id south;                 /*!< Id del espacio al sur */
+  Id east;                  /*!< Id del espacio al este */
+  Id west;                  /*!< Id del espacio al oeste */
+  Id object;                /*!< Id del Object */
 };
 
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
+ /** space_create reserva memoria para un nuevo espacio
+  *  e inicializa sus miembros
+  */
 Space* space_create(Id id) {
   Space* newSpace = NULL;
 
@@ -42,7 +43,7 @@ Space* space_create(Id id) {
     return NULL;
   }
 
-  /* Initialization of an empty space*/
+   /* Inicializacion de un espacio vacio */
   newSpace->id = id;
   newSpace->name[0] = '\0';
   newSpace->north = NO_ID;
@@ -63,6 +64,7 @@ Status space_destroy(Space* space) {
   space = NULL;
   return OK;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Id space_get_id(Space* space) {
   if (!space) {
@@ -70,6 +72,7 @@ Id space_get_id(Space* space) {
   }
   return space->id;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status space_set_name(Space* space, char* name) {
   if (!space || !name) {
@@ -88,6 +91,7 @@ const char* space_get_name(Space* space) {
   }
   return space->name;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status space_set_north(Space* space, Id id) {
   if (!space || id == NO_ID) {
@@ -148,6 +152,7 @@ Id space_get_west(Space* space) {
   }
   return space->west;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status space_set_object_id(Space* space, Id id_object) {
   if (!space) {
@@ -163,6 +168,7 @@ Id space_get_object_id(Space* space) {
   }
   return space->object;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status space_print(Space* space) {
   Id idaux = NO_ID;

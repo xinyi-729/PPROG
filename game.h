@@ -1,5 +1,5 @@
 /**
- * @brief It defines the game interface
+ * @brief Define la interfaz del juego
  *
  * @file game.h
  * @author Xinyi Huang y Lucia Ordovas
@@ -21,14 +21,21 @@
 #define ID_PLAYER 729
 #define ID_OBJECT 407
 
-typedef struct _Game {
-  Player* player;
-  Object* object;         
+/*-----------------------------------------------------------------------------------------------------*/
+ /**
+  * @brief Juego
+  *
+  * Esta estructura almacena toda la informacion de un juego.
+  */
+ typedef struct _Game {
+  Player *player;
+  Object *object;
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;
   Bool finished;
 } Game;
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status game_create(Game *game);
 
@@ -54,7 +61,7 @@ Status game_set_finished(Game *game, Bool finished);
 
 void game_print(Game *game);
 
-/*FUncion privado que llegan a ser publico*/
+/*-----------------------------------------------------------------------------------------------------*/
 Id game_get_space_id_at(Game *game, int position);
 Status game_add_space(Game *game, Space *space);
 

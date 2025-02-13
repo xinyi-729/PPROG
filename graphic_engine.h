@@ -1,5 +1,5 @@
 /**
- * @brief It defines the textual graphic engine interface
+ * @brief Define la interfaz del motor grafico textual
  *
  * @file graphic_engine.h
  * @author Xinyi Huang y Lucia Ordovas

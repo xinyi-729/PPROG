@@ -1,5 +1,5 @@
 /**
- * @brief It defines the command interpreter interface
+ * @brief Define la interfaz del interprete de comandos
  *
  * @file command.h
  * @author Xinyi Huang y Lucia Ordovas

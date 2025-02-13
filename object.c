@@ -1,5 +1,5 @@
 /**
- * @brief Implementa el módulo de objetos del juego
+ * @brief Implementa el módulo de objetos
  *
  * @file object.c
  * @author XINYI HUANG
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+/*-----------------------------------------------------------------------------------------------------*/
 /**
  * @brief Object
  *
@@ -25,7 +25,7 @@ struct _Object
     Id id;                          /*!< Identificador del objeto*/
     char name[WORD_SIZE+1];         /*!< Nombre del objeto*/
 };
-
+/*-----------------------------------------------------------------------------------------------------*/
 
 Object *object_create(Id id){
     Object *obj=NULL;
@@ -55,6 +55,7 @@ Status object_destroy(Object* obj){
     obj = NULL;
     return OK;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Id object_get_id(Object *obj){
 
@@ -63,6 +64,7 @@ Id object_get_id(Object *obj){
     
     return obj->id;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
 Status object_set_name(Object *obj, char *name){
     /*Cde*/
@@ -83,7 +85,7 @@ const char* object_get_name(Object* obj){
     return obj->name;
 }
 
-
+/*-----------------------------------------------------------------------------------------------------*/
 Status object_print(Object *obj){
 
     if(!obj)

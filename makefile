@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS = -Wall -ansi -pedantic -g -DDEBUG
+CFLAGS = -Wall  -pedantic -g -DDEBUG
 CLIB = -lscreen -L.
 
 all: anthill 
@@ -14,7 +14,7 @@ game_loop.o: game_loop.c command.h game.h game_actions.h graphic_engine.h types.
 command.o: command.c command.h  types.h
 	$(CC) $(CFLAGS) -c $<
 
-game_actions.o:  game_actions.c game_actions.h command.h game.h types.h
+game_actions.o:  game_actions.c game_actions.h command.h game.h types.h player.h space.h
 	$(CC) $(CFLAGS) -c $<
 
 game_reader.o: game_reader.c game_reader.h game.h types.h command.h space.h
