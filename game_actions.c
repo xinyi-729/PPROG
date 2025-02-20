@@ -154,8 +154,11 @@ void game_actions_take(Game *game){
     return;
 
   /*Ahora, toca guardar el object en el jugador*/  
-  if(player_set_object(game->player, object_id) == ERROR)
-    return;
+  // if(player_set_object(game->player, object_id) == ERROR)
+  //   return;
+  if(player_set_object(game_get_player(game), object_id) == ERROR)
+  return;
+
 
   return;
 }
@@ -179,7 +182,7 @@ void game_actions_drop(Game *game){
     return;
   
   /*Comprobar si el player tenga el object*/
-  object_id =player_get_object(game->player);
+  object_id =player_get_object(game_get_player(game));
   if(!object_id)
     return;
 
@@ -188,7 +191,7 @@ void game_actions_drop(Game *game){
     return;
 
   /*Ahora, borrarlo del jugador*/
-  if(player_set_object(game->player, NO_ID) == ERROR)
+  if(player_set_object(game_get_player(game), NO_ID) == ERROR)
     return;
 
   return;

@@ -10,15 +10,39 @@
 
 #include "game.h"
 
+#include "player.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /*-----------------------------------------------------------------------------------------------------*/
+ /**
+  * @brief Juego
+  *
+  * Esta estructura almacena toda la informacion de un juego.
+  */
+ struct _Game {
+  Player *player;
+  Object *object;
+  Space *spaces[MAX_SPACES];
+  int n_spaces;
+  Command *last_cmd;
+  Bool finished;
+};
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------------------------*/
  /* Funciones de la interfaz implementadas */
 
-Status game_create(Game *game) {
+Game* game_create() {
+  Game *game=NULL;
   int i;
+
+  game = (Game*) malloc(sizeof(Game));
+  if(!game)
+    return NULL;
 
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
@@ -30,7 +54,7 @@ Status game_create(Game *game) {
   game->last_cmd = command_create();
   game->finished = FALSE;
 
-  return OK;
+  return game;
 }
 
 Status game_destroy(Game *game) {
@@ -178,4 +202,12 @@ Id game_get_space_id_at(Game *game, int position) {
   }
 
   return space_get_id(game->spaces[position]);
+}
+
+/*FUNCIONES NUEVAS*/
+Player* game_get_player(Game *game){
+  if(!game)
+    return NULL;
+
+  return game->player;
 }

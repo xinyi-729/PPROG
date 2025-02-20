@@ -21,23 +21,10 @@
 #define ID_PLAYER 729
 #define ID_OBJECT 407
 
-/*-----------------------------------------------------------------------------------------------------*/
- /**
-  * @brief Juego
-  *
-  * Esta estructura almacena toda la informacion de un juego.
-  */
- typedef struct _Game {
-  Player *player;
-  Object *object;
-  Space *spaces[MAX_SPACES];
-  int n_spaces;
-  Command *last_cmd;
-  Bool finished;
-} Game;
-/*-----------------------------------------------------------------------------------------------------*/
+typedef struct _Game Game;
 
-Status game_create(Game *game);
+
+Game* game_create();
 
 Status game_destroy(Game *game);
 
@@ -64,6 +51,9 @@ void game_print(Game *game);
 /*-----------------------------------------------------------------------------------------------------*/
 Id game_get_space_id_at(Game *game, int position);
 Status game_add_space(Game *game, Space *space);
+
+Player *game_get_player(Game *game);
+
 
 
 #endif

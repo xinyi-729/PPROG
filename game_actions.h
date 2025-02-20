@@ -12,9 +12,10 @@
 #define GAME_ACTIONS_H
 
 #include "command.h"
-#include "game.h"
 #include "types.h"
 
-Status game_actions_update(Game *game, Command *cmd);
+#include "game.h"
+
+Status game_actions_update(Game *game,Command *cmd);
 
 #endif
