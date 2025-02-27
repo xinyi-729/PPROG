@@ -9,9 +9,11 @@ struct _Set{
 };
 /********FUNCIONES PRIVADOS********************** */
 
-Bool set_has(Set *set, Id id);
+
 
 Bool set_is_empty(Set *set);
+
+Bool set_is_full(Set *set);
 /******************************** */
 
 /*Recibe un número de ids para iniciazar?*/
@@ -63,7 +65,7 @@ int set_get_n_ids(Set *set){
 
 Status set_add(Set *set, Id id){
 
-    if(!set || id == NO_ID)
+    if(!set)
         return ERROR;
 
     if(set_has(set, id) == TRUE)
@@ -75,10 +77,11 @@ Status set_add(Set *set, Id id){
     return OK;
 }
 
+/*Para esto sí q necesita el id del objeto q quiere quitar*/
 Status set_del(Set *set, Id id){
     int i;
 
-    if(!set || id ==NO_ID)
+    if(!set)
         return ERROR;
 
     if(set_is_empty(set) == TRUE)
@@ -86,7 +89,7 @@ Status set_del(Set *set, Id id){
 
     for (i=0; i<set->n_ids; i++){
         if(set->ids[i] == id){
-            set->ids[i] == '\0';
+            set->ids[i] == NO_ID;
             /*mover el ultimo al hueco*/
             set->ids[i] = set->ids[set->n_ids-1];
             set->n_ids -= 1;
@@ -113,6 +116,14 @@ Bool set_has(Set *set, Id id){
 /*NO ESTOY SEGURO DE Q ES ASÍ*/
 Bool set_is_empty(Set *set){
     if(set->n_ids == 0)
+        return TRUE;
+
+    return FALSE;
+}
+
+Bool set_is_full(Set *set){
+
+    if(set->n_ids >= MAX_SET)
         return TRUE;
 
     return FALSE;

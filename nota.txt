@@ -1,0 +1,19 @@
+TEST
+gcc -WAll -asni -pedantic -c space.c space_test.c 
+gcc -o test space.o space_test.o
+./test
+
+valgrind --leak-check=full ./test
+//comprrobar q no nos queda memoria
+
+//para space_set obj location: 
+            si hacemos take, en vez de poner no_id ahora hacemos un setdel
+
+el set_getobjid no devuelve la lista de ids
+space_get_obj id y el getobjid se elimina y se crea dos nuevos con solo poner las funciones de set_add y set_del
+
+para set * id es estático, TAM_MAX = 50
+implementar función is_full
+
+MODIFICAR pseudocodigo más fácil.
+en vez de enrrollar con num_id, hacer cambiar ultima posición.

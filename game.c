@@ -9,8 +9,9 @@
  */
 
 #include "game.h"
-
 #include "player.h"
+
+#include "set.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +25,7 @@
   */
  struct _Game {
   Player *player;
-  Object *object;
+  Set *object;
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;
@@ -117,8 +118,8 @@ Status game_set_player_location(Game *game, Id id) {
 Id game_get_object_location(Game *game) { 
   int i;
 
-  for(i=0; i<game->n_spaces; i++){
-    if(object_get_id(game->object) == space_get_object_id(game->spaces[i]))
+  for(i=0; i<game->n_spaces; i++){/***hmmmm lo veo un poco raro */
+    if(object_get_id(game->object) == space_get_object_id(game->spaces[i], object_get_id(game->object)))
       return space_get_id(game->spaces[i]);
   }
 
@@ -204,10 +205,21 @@ Id game_get_space_id_at(Game *game, int position) {
   return space_get_id(game->spaces[position]);
 }
 
+/*-------------------------------------------------*/
 /*FUNCIONES NUEVAS*/
 Player* game_get_player(Game *game){
   if(!game)
     return NULL;
 
   return game->player;
+}
+
+Id game_get_object_id(Game *game, char *obj_name){
+  int i;
+  if(!game || !obj_name)
+    return NO_ID;
+
+  if()
+
+  
 }

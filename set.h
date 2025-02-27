@@ -4,6 +4,8 @@
 #include "types.h"
 #include "object.h"
 
+#define MAX_SET 50
+
 typedef struct _Set Set;
 
 Set *set_create();
@@ -19,6 +21,7 @@ int set_get_n_ids(Set *set);
 Status set_add(Set *set, Id id);
 
 Status set_del(Set *set, Id id);
+Bool set_has(Set *set, Id id);
 
 Status print(Set *set);
 

@@ -32,7 +32,10 @@ object.o: object.c object.h types.h
 player.o: player.c player.h types.h
 	$(CC) $(CFLAGS) -c $<
 
-space.o: space.c space.h types.h
+space.o: space.c space.h types.h set.h
+	$(CC) $(CFLAGS) -c $<
+
+set.o: set.c set.h types.h
 	$(CC) $(CFLAGS) -c $<
 
 ###############################

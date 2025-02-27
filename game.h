@@ -54,6 +54,7 @@ Status game_add_space(Game *game, Space *space);
 
 Player *game_get_player(Game *game);
 
+Id game_get_object_id(Game *game, char *obj_name);
 
 
 #endif

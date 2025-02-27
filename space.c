@@ -9,6 +9,8 @@
  */
 #include "space.h"
 
+#include "set.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +28,7 @@ struct _Space {
   Id south;                 /*!< Id del espacio al sur */
   Id east;                  /*!< Id del espacio al este */
   Id west;                  /*!< Id del espacio al oeste */
-  Id object;                /*!< Id del Object */
+  Set *objects;
 };
 
  /** space_create reserva memoria para un nuevo espacio
@@ -50,7 +52,8 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object = NO_ID;
+
+  newSpace->objects = set_create();
 
   return newSpace;
 }
@@ -154,20 +157,38 @@ Id space_get_west(Space* space) {
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
-Status space_set_object_id(Space* space, Id id_object) {
-  if (!space) {
+Bool space_has_object(Space *space, Id id){
+  
+  if(set_has(space->objects,id) == TRUE)
+    return TRUE;
+    
+  return FALSE;
+
+}
+/*----------------------------------------*/
+
+Status space_add_object(Space *space, Id id){
+  if(!space || id== NO_ID){
     return ERROR;
   }
-  space->object = id_object;
+
+  if(set_add(space->objects, id) == ERROR)
+    return ERROR;
+
   return OK;
 }
 
-Id space_get_object_id(Space* space) {
-  if (!space) {
-    return NO_ID;
+Status space_del_object(Space *space, Id id){
+  if(!space || id== NO_ID){
+    return ERROR;
   }
-  return space->object;
+
+  if(set_del(space->objects, id) == ERROR)
+    return ERROR;
+
+  return OK;
 }
+
 /*-----------------------------------------------------------------------------------------------------*/
 
 Status space_print(Space* space) {
@@ -179,7 +200,7 @@ Status space_print(Space* space) {
   }
 
   /* 1. Print the id and the name of the space */
-  fprintf(stdout, "--> Space (Id: %ld; Name: %s; Object: %ld)\n", space->id, space->name, space->object);
+  fprintf(stdout, "--> Space (Id: %ld; Name: %s; Set: %ld)\n", space->id, space->name, space->objects);
 
   /* 2. For each direction, print its link */
   idaux = space_get_north(space);

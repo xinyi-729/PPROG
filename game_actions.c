@@ -29,14 +29,14 @@ void game_actions_back(Game *game);
 
 /**New functions take/drop */
 
-void game_actions_take(Game *game);
-void game_actions_drop(Game *game);
+void game_actions_take(Game *game, char *obj_name);
+void game_actions_drop(Game *game, char *obj_name);
 
 /*-----------------------------------------------------------------------------------------------------*/
 
 /* Implementacion de funciones de la interfaz */
-
-Status game_actions_update(Game *game, Command *command) {
+/**---Por ahora le añado un campo char *obj_name, luego ya veré qué hacer con él */
+Status game_actions_update(Game *game, Command *command, char *obj_name) {
   CommandCode cmd;
 
   game_set_last_command(game, command);
@@ -61,11 +61,11 @@ Status game_actions_update(Game *game, Command *command) {
       break;
     
     case TAKE:
-      game_actions_take(game);
+      game_actions_take(game, obj_name);
       break;
 
     case DROP:
-      game_actions_drop(game);
+      game_actions_drop(game, obj_name);
       break; 
 
     default:
@@ -118,7 +118,7 @@ void game_actions_back(Game *game) {
   return;
 }
 
-void game_actions_take(Game *game){
+void game_actions_take(Game *game, char *obj_name){
   Id player_space_id= NO_ID;
   Id object_space_id = NO_ID, object_id=NO_ID;
   Space *space=NULL;
@@ -126,36 +126,28 @@ void game_actions_take(Game *game){
   if(!game)
     return;
 
-  /*Conseguir el id del espacio de player y object*/
-  object_space_id = game_get_object_location(game);
-  if(object_space_id ==NO_ID)
-    return;
-
   player_space_id = game_get_player_location(game);
   if(player_space_id == NO_ID)
     return;
 
-  if(player_space_id != object_space_id){
-    return;
-  }
-  
-  /*Obtener el TAD del espacio que está player y objeto*/
+  /*Obtener el id del objeto*/
+  if(object_id = game_get_object_id(game, obj_name) == NO_ID)
+    return ;
+
+  /*Obtener el TAD del espacio que está player*/
   space = game_get_space(game, player_space_id);
   if(!space)
     return;
 
-  /*Obtener el id de ese objeto*/
-  object_id = space_get_object_id(space);
-  if(object_id == NO_ID)
+  /*Comprobar que si este espacio hay ese objeto*/
+  if(space_has_object(space, object_id) == FALSE)
     return;
 
-  /*Como ya hicimos take, el objeto desaparece de ese espacio, lo que asignamos NO_ID para este espacio*/
-  if(space_set_object_id(space,NO_ID) ==ERROR)
+  /*Como ya hicimos take, el objeto desaparece de ese espacio llamando a space_del_object*/
+  if(space_del_object(space, object_id) == ERROR)
     return;
 
   /*Ahora, toca guardar el object en el jugador*/  
-  // if(player_set_object(game->player, object_id) == ERROR)
-  //   return;
   if(player_set_object(game_get_player(game), object_id) == ERROR)
   return;
 
@@ -163,7 +155,7 @@ void game_actions_take(Game *game){
   return;
 }
 
-void game_actions_drop(Game *game){
+void game_actions_drop(Game *game, char *obj_name){
   Id player_space_id=NO_ID;
   Id object_id=NO_ID;
   Space *space=NULL;
@@ -186,8 +178,8 @@ void game_actions_drop(Game *game){
   if(!object_id)
     return;
 
-  /*Asignamos el id del objeto en este espacio*/
-  if(space_set_object_id(space, object_id) ==ERROR)
+  /*Llamamos a space_del_obj para eliminar de este espacio*/
+  if(space_del_object(space, object_id) == ERROR)
     return;
 
   /*Ahora, borrarlo del jugador*/

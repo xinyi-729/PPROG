@@ -138,24 +138,27 @@ typedef struct _Space Space;
   */
  Id space_get_west(Space* space);
  
- /**
-  * @brief Establece el id del objeto que hay en el espacio
-  * @author Xinyi Huang y Lucia Ordovas
-  *
-  * @param space un puntero al espacio
-  * @param value el id del objeto
-  * @return OK, si todo sale bien, o ERROR si hubo algun problema
-  */
- Status space_set_object_id(Space* space, Id id_object);
+ Bool space_has_object(Space *space, Id id);
+ Status space_del_object(Space *space, Id id);
+ Status space_add_object(Space *space, Id id);
+//  /**
+//   * @brief Establece el id del objeto que hay en el espacio
+//   * @author Xinyi Huang y Lucia Ordovas
+//   *
+//   * @param space un puntero al espacio
+//   * @param value el id del objeto
+//   * @return OK, si todo sale bien, o ERROR si hubo algun problema
+//   */
+//  Status space_set_object_id(Space* space, Id id_object);
  
- /**
-  * @brief Obtiene el id del objeto que hay en el espacio
-  * @author Xinyi Huang y Lucia Ordovas
-  *
-  * @param space un puntero al espacio
-  * @return el id del espacio
-  */
- Id space_get_object_id(Space* space);
+//  /**
+//   * @brief Obtiene el id del objeto que hay en el espacio
+//   * @author Xinyi Huang y Lucia Ordovas
+//   *
+//   * @param space un puntero al espacio
+//   * @return el id del espacio
+//   */
+//  Id space_get_object_id(Space* space, Id id_object);
  
  /**
   * @brief Imprime la informacion del espacio
