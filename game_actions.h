@@ -15,6 +15,14 @@
 #include "types.h"
 #include "game.h"
 
+/**
+ * @brief Actualiza el estado del juego segun el comando recibido
+ * @author Xinyi Huang y Lucia Ordovas
+ *
+ * @param game Puntero al juego
+ * @param command Puntero al comando 
+ * @return OK si la actualizacion fue exitosa, ERROR en caso contrario
+ */
 Status game_actions_update(Game *game,Command *cmd, char *obj_name);
 
 #endif

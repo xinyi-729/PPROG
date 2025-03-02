@@ -16,11 +16,14 @@
 #include "graphic_engine.h"
 #include "game_reader.h"
 
+/*-------------------------------------------------------------------------------*/
+
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
 void game_loop_run(Game *game, Graphic_engine *gengine);
 
 void game_loop_cleanup(Game *game, Graphic_engine *gengine);
+/*-------------------------------------------------------------------------------*/
 
 int main(int argc, char *argv[]) {
   Game *game=NULL;
@@ -41,6 +44,7 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+/*-------------------------------------------------------------------------------*/
 
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   if (game_create_from_file(game, file_name) == ERROR) {

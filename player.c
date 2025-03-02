@@ -25,6 +25,7 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*!< Nombre del jugador */
   Id location;              /* Ubicacion del jugador */
   Id object;                /* Que objeto tiene el jugador */
+  Id health;
 };
 
 /*-----------------------------------------------------------------------------------------------------*/
@@ -130,6 +131,27 @@ Id player_get_location(Player* player) {
     return NO_ID;
   }
   return player->location;
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
+Status character_set_health(Player *player, long value){
+  /* Cde */
+  if(!player||value<0){
+    return ERROR;
+  }
+
+  player->health=value;
+
+  return OK;
+}
+
+long character_get_health(Player *player){
+  /* Cde */
+  if(!player||player->health<0){
+    return -1;
+  }
+
+  return player->health;
 }
 
 /*-----------------------------------------------------------------------------------------------------*/

@@ -117,6 +117,7 @@ void game_actions_back(Game *game) {
 
   return;
 }
+/*------------------------------------------------------------------------------*/
 
 void game_actions_take(Game *game, char *obj_name){
   Id player_space_id= NO_ID;
@@ -154,6 +155,8 @@ void game_actions_take(Game *game, char *obj_name){
 
   return;
 }
+
+/*------------------------------------------------------------------------------*/
 
 void game_actions_drop(Game *game, char *obj_name){
   Id player_space_id=NO_ID;

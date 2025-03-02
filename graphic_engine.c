@@ -8,6 +8,7 @@
  * @copyright GNU Public License
  */
 
+ /*------------------------------------------------------------*/
 #include "graphic_engine.h"
 #include "command.h"
 #include "libscreen.h"
@@ -25,11 +26,16 @@
 #define HEIGHT_BAN 1
 #define HEIGHT_HLP 2
 #define HEIGHT_FDB 3
-
+/*------------------------------------------------------------*/
+/**
+ * @brief Estructura de datos que representa el motor gráfico
+ * @author Xinyi Huang y Lucia Ordovas
+ */
 struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
+/*------------------------------------------------------------*/
 Graphic_engine *graphic_engine_create() {
   static Graphic_engine *ge = NULL;
 
@@ -52,6 +58,7 @@ Graphic_engine *graphic_engine_create() {
   return ge;
 }
 
+/*------------------------------------------------------------*/
 void graphic_engine_destroy(Graphic_engine *ge) {
   if (!ge) return;
 
@@ -65,6 +72,7 @@ void graphic_engine_destroy(Graphic_engine *ge) {
   free(ge);
 }
 
+/*------------------------------------------------------------*/
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
   Space *space_act = NULL;

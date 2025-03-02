@@ -19,7 +19,7 @@
 
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"},{"d", "Drop"}};
 
-
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 /**
  * @brief Command
  *
@@ -28,7 +28,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
 struct _Command {
   CommandCode code; /*!< Name of the command */
 };
-
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
  /** command_create reserva memoria para un nuevo comando
   *  e inicializa sus miembros
   */
@@ -55,7 +55,7 @@ Status command_destroy(Command* command) {
   command = NULL;
   return OK;
 }
-
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
 Status command_set_code(Command* command, CommandCode code) {
   if (!command) {
     return ERROR;
@@ -72,6 +72,7 @@ CommandCode command_get_code(Command* command) {
   }
   return command->code;
 }
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
 
 Status command_get_user_input(Command* command) {
   char input[CMD_LENGHT] = "", *token = NULL;
