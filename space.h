@@ -12,6 +12,7 @@
 #define SPACE_H
 
 #include "types.h"
+#include "set.h"
 
 typedef struct _Space Space;
 
@@ -141,6 +142,7 @@ typedef struct _Space Space;
  Bool space_has_object(Space *space, Id id);
  Status space_del_object(Space *space, Id id);
  Status space_add_object(Space *space, Id id);
+ Set *space_get_set(Space *space);
 //  /**
 //   * @brief Establece el id del objeto que hay en el espacio
 //   * @author Xinyi Huang y Lucia Ordovas

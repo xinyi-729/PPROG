@@ -4,7 +4,7 @@
 #include "types.h"
 #include "object.h"
 
-#define MAX_SET 50
+#define MAX_OBJECTS 50
 
 typedef struct _Set Set;
 

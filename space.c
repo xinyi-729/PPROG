@@ -9,8 +9,6 @@
  */
 #include "space.h"
 
-#include "set.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -156,7 +154,7 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 /*-----------------------------------------------------------------------------------------------------*/
-
+/*NUEVAS*/
 Bool space_has_object(Space *space, Id id){
   
   if(set_has(space->objects,id) == TRUE)
@@ -187,6 +185,13 @@ Status space_del_object(Space *space, Id id){
     return ERROR;
 
   return OK;
+}
+
+Set *space_get_set(Space *space){
+  if(!space)
+    return NULL;
+
+  return space->objects;
 }
 
 /*-----------------------------------------------------------------------------------------------------*/

@@ -15,6 +15,6 @@
 #include "types.h"
 #include "game.h"
 
-Status game_actions_update(Game *game,Command *cmd);
+Status game_actions_update(Game *game,Command *cmd, char *obj_name);
 
 #endif

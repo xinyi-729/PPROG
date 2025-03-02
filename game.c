@@ -12,6 +12,7 @@
 #include "player.h"
 
 #include "set.h"
+#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,11 +26,13 @@
   */
  struct _Game {
   Player *player;
-  Set *object;
+  Object *object[MAX_OBJECTS];
+  int n_objects;
   Space *spaces[MAX_SPACES];
   int n_spaces;
   Command *last_cmd;
   Bool finished;
+  
 };
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -47,11 +50,12 @@ Game* game_create() {
 
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
+    game->object[i] = NULL; /*Poner los punteros a NULL*/
   }
 
   game->n_spaces = 0;
+  game->n_objects = 0;
   game->player = player_create(ID_PLAYER);
-  game->object = object_create(ID_OBJECT);
   game->last_cmd = command_create();
   game->finished = FALSE;
 
@@ -65,10 +69,11 @@ Status game_destroy(Game *game) {
 
   for (i = 0; i < game->n_spaces; i++) {
     space_destroy(game->spaces[i]);
+    object_destroy(game->object[i]);
   }
 
   player_destroy(game->player);
-  object_destroy(game->object);
+
   command_destroy(game->last_cmd);
 
   return OK;
@@ -115,29 +120,38 @@ Status game_set_player_location(Game *game, Id id) {
 
 /*-----------------------------------------------------------------------------------------------------*/
  
-Id game_get_object_location(Game *game) { 
-  int i;
+// Id game_get_object_location(Game *game, char *obj) { 
+//   int i,j;
+//   Id obj_id;
 
-  for(i=0; i<game->n_spaces; i++){/***hmmmm lo veo un poco raro */
-    if(object_get_id(game->object) == space_get_object_id(game->spaces[i], object_get_id(game->object)))
-      return space_get_id(game->spaces[i]);
-  }
+//   if(!game || !obj)
+//     return NO_ID;
 
-  return NO_ID;
-}
+//   obj_id = game_get_object_id(game,obj);
 
-Status game_set_object_location(Game *game, Id id_space) {
+//   for(i=0; i<game->n_spaces; i++){
+//     for(j=0; j<set_get_n_ids(space_get_set(game->spaces[i])); j++){
+//       if(obj_id == space_get_object_id(game->spaces[i], object_get_id(game->object[i])))
+//         return space_get_id(game->spaces[i]);
+//     }
 
-  if (!game) {
-    return ERROR;
-  }
+//   }
 
-  if(space_set_object_id(game_get_space(game, id_space), object_get_id(game->object)) == ERROR){
-    return ERROR;
-  }
+//   return NO_ID;
+// }
 
-  return OK;
-}
+// Status game_set_object_location(Game *game, Id id_space) {
+
+//   if (!game) {
+//     return ERROR;
+//   }
+
+//   if(space_set_object_id(game_get_space(game, id_space), object_get_id(game->object)) == ERROR){
+//     return ERROR;
+//   }
+
+//   return OK;
+// }
 
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -177,12 +191,12 @@ void game_print(Game *game) {
     printf("No se ha asignado un jugador.\n");
   }
 
-  printf("=> Objeto: ");
-  if (game->object) {
-    object_print(game->object);
-  } else {
-    printf("No se ha asignado un objeto.\n");
+  printf("=> Objetos: \n");
+  for(i=0; i<game->n_objects;i++){
+    object_print(game->object[i]);
   }
+   /* printf("No se ha asignado un objeto.\n");*/
+  
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -219,7 +233,11 @@ Id game_get_object_id(Game *game, char *obj_name){
   if(!game || !obj_name)
     return NO_ID;
 
-  if()
+  /*Busca en la lista de objetos, si lo encuentra, retorna su id*/
+  for(i=0; i<game->n_objects; i++){
+    if(object_get_name(game->object[i]) == obj_name){
+      return object_get_id(game->object[i]);
+    }
+  }
 
-  
 }

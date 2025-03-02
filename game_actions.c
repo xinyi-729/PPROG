@@ -120,7 +120,7 @@ void game_actions_back(Game *game) {
 
 void game_actions_take(Game *game, char *obj_name){
   Id player_space_id= NO_ID;
-  Id object_space_id = NO_ID, object_id=NO_ID;
+  Id object_id=NO_ID;
   Space *space=NULL;
 
   if(!game)
@@ -131,7 +131,7 @@ void game_actions_take(Game *game, char *obj_name){
     return;
 
   /*Obtener el id del objeto*/
-  if(object_id = game_get_object_id(game, obj_name) == NO_ID)
+  if((object_id = game_get_object_id(game, obj_name)) == NO_ID)
     return ;
 
   /*Obtener el TAD del espacio que está player*/

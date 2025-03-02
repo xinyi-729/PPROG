@@ -15,7 +15,6 @@
 #include "space.h" 
 #include "types.h"
 #include "player.h"
-#include "object.h"
 
 #define MAX_SPACES 100
 #define ID_PLAYER 729

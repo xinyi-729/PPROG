@@ -123,7 +123,7 @@ Bool set_is_empty(Set *set){
 
 Bool set_is_full(Set *set){
 
-    if(set->n_ids >= MAX_SET)
+    if(set->n_ids >= MAX_OBJECTS)
         return TRUE;
 
     return FALSE;
