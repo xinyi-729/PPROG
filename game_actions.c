@@ -29,14 +29,13 @@ void game_actions_back(Game *game);
 
 /**New functions take/drop */
 
-void game_actions_take(Game *game, char *obj_name);
-void game_actions_drop(Game *game, char *obj_name);
+void game_actions_take(Game *game);
+void game_actions_drop(Game *game);
 
 /*-----------------------------------------------------------------------------------------------------*/
 
 /* Implementacion de funciones de la interfaz */
-/**---Por ahora le añado un campo char *obj_name, luego ya veré qué hacer con él */
-Status game_actions_update(Game *game, Command *command, char *obj_name) {
+Status game_actions_update(Game *game, Command *command) {
   CommandCode cmd;
 
   game_set_last_command(game, command);
@@ -61,11 +60,11 @@ Status game_actions_update(Game *game, Command *command, char *obj_name) {
       break;
     
     case TAKE:
-      game_actions_take(game, obj_name);
+      game_actions_take(game);
       break;
 
     case DROP:
-      game_actions_drop(game, obj_name);
+      game_actions_drop(game);
       break; 
 
     default:
@@ -119,10 +118,11 @@ void game_actions_back(Game *game) {
 }
 /*------------------------------------------------------------------------------*/
 
-void game_actions_take(Game *game, char *obj_name){
+void game_actions_take(Game *game){
   Id player_space_id= NO_ID;
   Id object_id=NO_ID;
   Space *space=NULL;
+  Command *cmd = NULL;
 
   if(!game)
     return;
@@ -131,8 +131,12 @@ void game_actions_take(Game *game, char *obj_name){
   if(player_space_id == NO_ID)
     return;
 
+  /*Obtener el ultimo comando*/
+  if(!(cmd = game_get_last_command(game)))
+    return;
+
   /*Obtener el id del objeto*/
-  if((object_id = game_get_object_id(game, obj_name)) == NO_ID)
+  if((object_id = game_get_object_id(game, command_get_argument(cmd))) == NO_ID)
     return ;
 
   /*Obtener el TAD del espacio que está player*/
@@ -150,15 +154,14 @@ void game_actions_take(Game *game, char *obj_name){
 
   /*Ahora, toca guardar el object en el jugador*/  
   if(player_set_object(game_get_player(game), object_id) == ERROR)
-  return;
-
+    return;
 
   return;
 }
 
 /*------------------------------------------------------------------------------*/
-
-void game_actions_drop(Game *game, char *obj_name){
+/*pOR AHORAdrop no necesita el cmd porq el jugador solo coge 1 objeto*/
+void game_actions_drop(Game *game){
   Id player_space_id=NO_ID;
   Id object_id=NO_ID;
   Space *space=NULL;

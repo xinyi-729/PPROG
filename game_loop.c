@@ -73,7 +73,7 @@ void game_loop_run(Game *game, Graphic_engine *gengine) {
   while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE)) {
     graphic_engine_paint_game(gengine, game);
     command_get_user_input(last_cmd);
-    game_actions_update(game, last_cmd,obj_name);
+    game_actions_update(game, last_cmd);
   }
 
 }

@@ -27,6 +27,8 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  */
 struct _Command {
   CommandCode code; /*!< Name of the command */
+  char *argument;
+  
 };
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
  /** command_create reserva memoria para un nuevo comando
@@ -72,6 +74,23 @@ CommandCode command_get_code(Command* command) {
   }
   return command->code;
 }
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
+Status command_set_argument(Command *command, char *argument){
+  if(!command)
+    return ERROR;
+
+  command->argument = argument;
+
+  return OK;
+}
+
+char *command_get_argument(Command *cmd){
+  if(!cmd)
+    return NULL;
+
+  return cmd->argument;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
 
 Status command_get_user_input(Command* command) {

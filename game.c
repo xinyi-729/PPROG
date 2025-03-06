@@ -120,25 +120,29 @@ Status game_set_player_location(Game *game, Id id) {
 
 /*-----------------------------------------------------------------------------------------------------*/
  
-// Id game_get_object_location(Game *game, char *obj) { 
-//   int i,j;
-//   Id obj_id;
+Id game_get_object_location(Game *game, Id obj_id) {
+  int i,j;
+  Set *set =NULL;
 
-//   if(!game || !obj)
-//     return NO_ID;
+  if(!game)
+    return NO_ID;
 
-//   obj_id = game_get_object_id(game,obj);
+  /*hacer set de obj y ver en los set de cada espacio, buscar el espacio q está el objz*/
 
-//   for(i=0; i<game->n_spaces; i++){
-//     for(j=0; j<set_get_n_ids(space_get_set(game->spaces[i])); j++){
-//       if(obj_id == space_get_object_id(game->spaces[i], object_get_id(game->object[i])))
-//         return space_get_id(game->spaces[i]);
-//     }
+  for(i=0; i<game->n_spaces; i++){
+    set = space_get_set(game->spaces[i]);
+    for(j=0; j<set_get_n_ids(set); j++){
+      /***??? */
+      set_get_id(set, obj_id);
 
-//   }
+      if(obj_id == space_get_object_id(game->spaces[i], object_get_id(game->object[i])))
+        return space_get_id(game->spaces[i]);
+    }
 
-//   return NO_ID;
-// }
+  }
+
+  return NO_ID;
+}
 
 // Status game_set_object_location(Game *game, Id id_space) {
 
@@ -240,4 +244,5 @@ Id game_get_object_id(Game *game, char *obj_name){
     }
   }
 
+  return NO_ID;
 }

@@ -21,6 +21,7 @@ typedef enum { CMDS, CMDL } CommandType;
 typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, TAKE, DROP } CommandCode;
 
 typedef struct _Command Command;
+
 /**
  * @brief Crea un nuevo comando
  * 
@@ -70,5 +71,9 @@ CommandCode command_get_code(Command* command);
  * @return OK si el input es válido, ERROR en caso contrario
  */
 Status command_get_user_input(Command* command);
+
+/*Nuevas*/
+Status command_set_argument(Command *command, char *argument);
+char *command_get_argument(Command *cmd);
 
 #endif
