@@ -163,7 +163,7 @@ Bool space_has_object(Space *space, Id id){
   return FALSE;
 
 }
-/*----------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 
 Status space_add_object(Space *space, Id id){
   if(!space || id== NO_ID){
@@ -198,6 +198,7 @@ Set *space_get_set(Space *space){
 
 Status space_print(Space* space) {
   Id idaux = NO_ID;
+  int i;
 
   /* Error Control */
   if (!space) {
@@ -205,7 +206,12 @@ Status space_print(Space* space) {
   }
 
   /* 1. Print the id and the name of the space */
-  fprintf(stdout, "--> Space (Id: %ld; Name: %s; Set: %ld)\n", space->id, space->name, space->objects);
+  fprintf(stdout, "--> Space (Id: %ld; Name: %s; Objects(set): ", space->id, space->name);
+  for(i=0; i<set_get_n_ids(space->objects); i++){/*Modifiqué esto*/
+    set_print(space->objects);
+  }
+  fprintf(stdout, "\n");
+
 
   /* 2. For each direction, print its link */
   idaux = space_get_north(space);

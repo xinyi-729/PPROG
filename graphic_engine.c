@@ -80,6 +80,20 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   char str[255];
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+/* ANÑADÍ ESTO, NO SE SI ESTÁ BIEN*/
+  Command *cmd=NULL;
+  char *name_obj;
+  Id obj_id;
+
+  if(!game || !ge)
+    return;
+
+  if((cmd = game_get_last_command(game)) == NULL)
+    return;
+
+  name_obj = command_get_argument(cmd);
+  obj_id = game_get_object_id(game, name_obj);
+/*HASTA AQUÍ*/
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -88,7 +102,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
 
-    if (game_get_object_location(game) == id_back)
+    if (game_get_object_location(game, obj_id) == id_back)
       obj = '*';
     else
       obj = ' ';
@@ -104,7 +118,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       screen_area_puts(ge->map, str);
     }
 
-    if (game_get_object_location(game) == id_act)
+    if (game_get_object_location(game, obj_id) == id_act)
       obj = '*';
     else
       obj = ' ';
@@ -120,7 +134,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       screen_area_puts(ge->map, str);
     }
 
-    if (game_get_object_location(game) == id_next)
+    if (game_get_object_location(game, obj_id) == id_next)
       obj = '*';
     else
       obj = ' ';
@@ -139,7 +153,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
    /* Pintar en el area de descripcion */
   screen_area_clear(ge->descript);
-  if ((obj_loc = game_get_object_location(game)) != NO_ID) {
+  if ((obj_loc = game_get_object_location(game, obj_id)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
   }

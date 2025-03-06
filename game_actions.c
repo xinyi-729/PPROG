@@ -117,7 +117,7 @@ void game_actions_back(Game *game) {
   return;
 }
 /*------------------------------------------------------------------------------*/
-
+/*modificado*/
 void game_actions_take(Game *game){
   Id player_space_id= NO_ID;
   Id object_id=NO_ID;
@@ -160,7 +160,7 @@ void game_actions_take(Game *game){
 }
 
 /*------------------------------------------------------------------------------*/
-/*pOR AHORAdrop no necesita el cmd porq el jugador solo coge 1 objeto*/
+/*modificando*/
 void game_actions_drop(Game *game){
   Id player_space_id=NO_ID;
   Id object_id=NO_ID;
@@ -174,18 +174,18 @@ void game_actions_drop(Game *game){
   if(player_space_id == NO_ID)  
     return;
 
-  /*Conseguir el espacio*/
+  /*Conseguir el espacio que está el jugador*/
   space = game_get_space(game, player_space_id);
   if(!space)
     return;
   
   /*Comprobar si el player tenga el object*/
   object_id =player_get_object(game_get_player(game));
-  if(!object_id)
+  if(object_id == NO_ID)
     return;
 
-  /*Llamamos a space_del_obj para eliminar de este espacio*/
-  if(space_del_object(space, object_id) == ERROR)
+  /*Llamamos a space_add_obj para que aparezca en este espacio*/
+  if(space_add_object(space, object_id) == ERROR)
     return;
 
   /*Ahora, borrarlo del jugador*/

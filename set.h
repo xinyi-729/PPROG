@@ -23,7 +23,7 @@ Status set_add(Set *set, Id id);
 Status set_del(Set *set, Id id);
 Bool set_has(Set *set, Id id);
 
-Status print(Set *set);
+Status set_print(Set *set);
 
 
 #endif

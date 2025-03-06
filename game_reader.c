@@ -25,7 +25,6 @@ Status game_create_from_file(Game *game, char *filename) {
 
   /* El jugador y el objeto estan en el primer espacio */
   game_set_player_location(game, game_get_space_id_at(game, 0));
-  game_set_object_location(game, game_get_space_id_at(game, 0));
 
   return OK;
 }
@@ -75,6 +74,56 @@ Status game_load_spaces(Game *game, char *filename) {
         space_set_south(space, south);
         space_set_west(space, west);
         game_add_space(game, space);
+      }
+    }
+  }
+
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
+}
+
+/*---------------------------------------------------------------------*/
+Status game_load_objects(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char obj_name[WORD_SIZE] = "";
+  char *toks = NULL;
+  Id id = NO_ID, location = NO_ID;
+  Object *object = NULL;
+  Status status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#o:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(obj_name, toks);
+      toks = strtok(NULL, "|");
+      location = atol(toks);
+#ifdef DEBUG
+      printf("Leido: %ld|%s|%ld\n", id, obj_name, location);
+#endif
+      /* Creamos el objeto a partir del fichero */
+      object = object_create(id);
+      if (object != NULL) {
+        object_set_name(object, obj_name);
+        game_add_object(game, object);
+        game_set_object_location(game, location);
+
       }
     }
   }

@@ -121,36 +121,51 @@ Status game_set_player_location(Game *game, Id id) {
 /*-----------------------------------------------------------------------------------------------------*/
  
 Id game_get_object_location(Game *game, Id obj_id) {
-  int i,j;
-  Set *set =NULL;
+  int i;
 
-  if(!game)
+  if(!game || obj_id ==NO_ID)
     return NO_ID;
 
   /*hacer set de obj y ver en los set de cada espacio, buscar el espacio q está el objz*/
 
   for(i=0; i<game->n_spaces; i++){
-    set = space_get_set(game->spaces[i]);
-    for(j=0; j<set_get_n_ids(set); j++){
-      /***??? */
-      set_get_id(set, obj_id);
-
-      if(obj_id == space_get_object_id(game->spaces[i], object_get_id(game->object[i])))
-        return space_get_id(game->spaces[i]);
+    /*si el objeto está en este espacio, devolvemos el id de este espacio*/
+    if( space_has_object(game->spaces[i], obj_id) == TRUE){
+     return space_get_id(game->spaces[i]);
     }
-
+  /*si no, seguimos buscando en el siguiente espacio*/
   }
 
   return NO_ID;
 }
-
+/*HAY Q CAMBIAR EL SET_OBJ_LOC!!!!*/
+/*aquí, el campo de Id puede ser o de espacio(para load) o de objeto (para drop)*/
 // Status game_set_object_location(Game *game, Id id_space) {
+//   Command *cmd=NULL;
+//   char *nombre_obj=NULL;
+//   Id obj_id;
+//   // Space *s=NULL;/*SI dejo el space, qué pasa si quiero set_obj en el jugador?*/
 
 //   if (!game) {
 //     return ERROR;
 //   }
+//   /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
+//   cmd = game_get_last_command(game);
+//   if(!cmd)
+//     return ERROR;
 
-//   if(space_set_object_id(game_get_space(game, id_space), object_get_id(game->object)) == ERROR){
+//   /*conseguir el nombre del objeto que quiero drop*/
+//   nombre_obj = command_get_argument(cmd);
+//   if(!nombre_obj)
+//     return ERROR;
+
+//   obj_id = game_get_object_id(game, nombre_obj);
+//   if( obj_id == NO_ID){
+//     return ERROR;
+//   }
+
+
+//   if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
 //     return ERROR;
 //   }
 
@@ -221,6 +236,16 @@ Id game_get_space_id_at(Game *game, int position) {
   }
 
   return space_get_id(game->spaces[position]);
+}
+/*NUEVA*/
+Status game_add_object(Game *game, Object *obj){
+  if(!game || !obj || game->n_objects >= MAX_OBJECTS)
+    return ERROR;
+
+  game->object[game->n_objects] = obj;
+  game->n_objects++;
+
+  return OK;
 }
 
 /*-------------------------------------------------*/

@@ -26,6 +26,8 @@ Set *set_create(){
 
     s->n_ids = 0;
     s->ids = NULL;
+
+    return s;
 }
 
 Status set_destroy(Set *set){
@@ -89,7 +91,6 @@ Status set_del(Set *set, Id id){
 
     for (i=0; i<set->n_ids; i++){
         if(set->ids[i] == id){
-            set->ids[i] == NO_ID;
             /*mover el ultimo al hueco*/
             set->ids[i] = set->ids[set->n_ids-1];
             set->n_ids -= 1;
@@ -129,8 +130,8 @@ Bool set_is_full(Set *set){
     return FALSE;
 }
 
-/*************** */
-Status print(Set *set){
+/*-------------------------------------------------------------*/
+Status set_print(Set *set){
     int i;
 
     if(!set)

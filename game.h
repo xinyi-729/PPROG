@@ -108,6 +108,9 @@ Bool game_get_finished(Game *game);
  */
 Status game_set_finished(Game *game, Bool finished);
 
+Id game_get_object_location(Game *game, Id obj_id);
+Status game_set_object_location(Game *game, Id id_space);
+
 /**
  * @brief Imprime el estado actual del juego 
  * @author Xinyi Huang y Lucia Ordovas
@@ -121,7 +124,7 @@ Id game_get_space_id_at(Game *game, int position);
 Status game_add_space(Game *game, Space *space);
 
 Player *game_get_player(Game *game);
-
+Status game_add_object(Game *game, Object *obj);
 Id game_get_object_id(Game *game, char *obj_name);
 
 
