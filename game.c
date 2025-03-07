@@ -10,9 +10,7 @@
 
 #include "game.h"
 #include "player.h"
-
 #include "set.h"
-#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -120,53 +118,77 @@ Status game_set_player_location(Game *game, Id id) {
 
 /*-----------------------------------------------------------------------------------------------------*/
  
-Id game_get_object_location(Game *game, Id obj_id) {
+// Id game_get_object_location(Game *game, Id obj_id) {
+//   int i;
+
+//   if(!game || obj_id ==NO_ID)
+//     return NO_ID;
+
+//   /*hacer set de obj y ver en los set de cada espacio, buscar el espacio q está el objz*/
+
+//   for(i=0; i<game->n_spaces; i++){
+//     /*si el objeto está en este espacio, devolvemos el id de este espacio*/
+//     if( space_has_object(game->spaces[i], obj_id) == TRUE){
+//      return space_get_id(game->spaces[i]);
+//     }
+//   /*si no, seguimos buscando en el siguiente espacio*/
+//   }
+
+//   return NO_ID;
+// }
+
+// /*aquí, el campo de Id puede ser o de espacio(para load) o de objeto (para drop)*/
+// Status game_set_object_location(Game *game, Id id_space) {
+//   Command *cmd=NULL;
+//   char *nombre_obj=NULL;
+//   Id obj_id;
+
+//   if (!game) {
+//     return ERROR;
+//   }
+//   /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
+//   cmd = game_get_last_command(game);
+//   if(!cmd)
+//     return ERROR;
+
+//   /*conseguir el nombre del objeto que quiero drop*/
+//   nombre_obj = command_get_argument(cmd);
+//   if(!nombre_obj)
+//     return ERROR;
+
+//   obj_id = game_get_object_id(game, nombre_obj);
+//   if( obj_id == NO_ID){
+//     return ERROR;
+//   }
+
+
+//   if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
+//     return ERROR;
+//   }
+
+//   return OK;
+// }
+/*NUEVAS*/
+Object *game_get_object(Game *game, Id id){
   int i;
 
-  if(!game || obj_id ==NO_ID)
-    return NO_ID;
+  if(!game || id ==NO_ID)
+    return NULL;
 
-  /*hacer set de obj y ver en los set de cada espacio, buscar el espacio q está el objz*/
-
-  for(i=0; i<game->n_spaces; i++){
-    /*si el objeto está en este espacio, devolvemos el id de este espacio*/
-    if( space_has_object(game->spaces[i], obj_id) == TRUE){
-     return space_get_id(game->spaces[i]);
-    }
-  /*si no, seguimos buscando en el siguiente espacio*/
+  for(i=0; i<game->n_objects; i++){
+    if(id == object_get_id(game->object[i]))
+      return game->object[i];
   }
 
-  return NO_ID;
+  return NULL;
 }
 
-/*aquí, el campo de Id puede ser o de espacio(para load) o de objeto (para drop)*/
-Status game_set_object_location(Game *game, Id id_space) {
-  Command *cmd=NULL;
-  char *nombre_obj=NULL;
-  Id obj_id;
-
-  if (!game) {
-    return ERROR;
-  }
-  /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
-  cmd = game_get_last_command(game);
-  if(!cmd)
+Status game_set_object(Game *game, Object *obj){
+  if(!game || !obj || game->n_objects >= MAX_OBJECTS)
     return ERROR;
 
-  /*conseguir el nombre del objeto que quiero drop*/
-  nombre_obj = command_get_argument(cmd);
-  if(!nombre_obj)
-    return ERROR;
-
-  obj_id = game_get_object_id(game, nombre_obj);
-  if( obj_id == NO_ID){
-    return ERROR;
-  }
-
-
-  if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
-    return ERROR;
-  }
+  game->object[game->n_objects] = obj;
+  game->n_objects++;
 
   return OK;
 }
@@ -189,6 +211,13 @@ Status game_set_finished(Game *game, Bool finished) {
   game->finished = finished;
 
   return OK;
+}
+
+int game_get_n_obj(Game *game){
+  if(!game)
+    return -1;
+
+  return game->n_objects;
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -236,16 +265,7 @@ Id game_get_space_id_at(Game *game, int position) {
 
   return space_get_id(game->spaces[position]);
 }
-/*NUEVA*/
-Status game_add_object(Game *game, Object *obj){
-  if(!game || !obj || game->n_objects >= MAX_OBJECTS)
-    return ERROR;
 
-  game->object[game->n_objects] = obj;
-  game->n_objects++;
-
-  return OK;
-}
 
 /*-------------------------------------------------*/
 /*FUNCIONES NUEVAS*/

@@ -13,12 +13,13 @@
 
 #include "command.h"
 #include "space.h" 
+#include "object.h"
 #include "types.h"
 #include "player.h"
 
 #define MAX_SPACES 100
 #define ID_PLAYER 729
-#define ID_OBJECT 407
+
 
 /*-----------------------------------------------------------------------------------------------------*/
 typedef struct _Game Game;
@@ -108,8 +109,8 @@ Bool game_get_finished(Game *game);
  */
 Status game_set_finished(Game *game, Bool finished);
 
-Id game_get_object_location(Game *game, Id obj_id);
-Status game_set_object_location(Game *game, Id id_space);
+// Id game_get_object_location(Game *game, Id obj_id);
+// Status game_set_object_location(Game *game, Id id_space);
 
 /**
  * @brief Imprime el estado actual del juego 
@@ -124,8 +125,11 @@ Id game_get_space_id_at(Game *game, int position);
 Status game_add_space(Game *game, Space *space);
 
 Player *game_get_player(Game *game);
-Status game_add_object(Game *game, Object *obj);
+
 Id game_get_object_id(Game *game, char *obj_name);
+int game_get_n_obj(Game *game);
+Object *game_get_object(Game *game, Id id);
+Status game_set_object(Game *game, Object *obj);
 
 
 #endif

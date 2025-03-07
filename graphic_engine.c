@@ -80,22 +80,23 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   char str[255];
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+  Command *cmd=NULL;
   // char character_message[]=game_actions_chat(game);
 
 /* ANÑADÍ ESTO, NO SE SI ESTÁ BIEN*/
-  Command *cmd=NULL;
-  char *name_obj;
-  Id obj_id;
 
-  if(!game || !ge)
-    return;
+//   char *name_obj;
+//   Id obj_id;
 
-  if((cmd = game_get_last_command(game)) == NULL)
-    return;
+//   if(!game || !ge)
+//     return;
 
-  name_obj = command_get_argument(cmd);
-  obj_id = game_get_object_id(game, name_obj);
-/*HASTA AQUÍ*/
+//   if((cmd = game_get_last_command(game)) == NULL)
+//     return;
+
+//   name_obj = command_get_argument(cmd);
+//   obj_id = game_get_object_id(game, name_obj);
+// /*HASTA AQUÍ*/
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);

@@ -19,12 +19,18 @@ Status game_create_from_file(Game *game, char *filename) {
     return ERROR;
   }
 
-  if (game_load_spaces(game, filename) == ERROR) {
+  if (game_load_spaces(game, filename) == ERROR ) {
     return ERROR;
   }
 
-  /* El jugador y el objeto estan en el primer espacio */
+  if (game_load_objects(game, filename) == ERROR ) {
+    return ERROR;
+  }
+
+
+  /* El jugador estan en el primer espacio */
   game_set_player_location(game, game_get_space_id_at(game, 0));
+
 
   return OK;
 }
@@ -100,7 +106,7 @@ Status game_load_objects(Game *game, char *filename) {
   if (!filename) {
     return ERROR;
   }
-
+printf("Entro en load_obj!\n");
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
@@ -121,8 +127,8 @@ Status game_load_objects(Game *game, char *filename) {
       object = object_create(id);
       if (object != NULL) {
         object_set_name(object, obj_name);
-        game_add_object(game, object);
-        game_set_object_location(game, location);
+        space_add_object(game_get_space(game,location), id);
+        game_set_object(game, object);
 
       }
     }
