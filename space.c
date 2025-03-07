@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define GDESC_LINES 5
+
 /*-----------------------------------------------------------------------------------------------------*/
 /**
  * @brief Space
@@ -27,6 +29,8 @@ struct _Space {
   Id east;                  /*!< Id del espacio al este */
   Id west;                  /*!< Id del espacio al oeste */
   Set *objects;
+  Id id_character;
+  char gdesc[GDESC_LINES][9+1]; /* Descripcion grafica del espacio */
 };
 
  /** space_create reserva memoria para un nuevo espacio
@@ -52,6 +56,11 @@ Space* space_create(Id id) {
   newSpace->west = NO_ID;
 
   newSpace->objects = set_create();
+  newSpace->id_character=NO_ID;
+
+  for (int i = 0; i < GDESC_LINES; i++) {
+    strcpy(newSpace->gdesc[i], "         ");
+  }
 
   return newSpace;
 }
@@ -61,6 +70,7 @@ Status space_destroy(Space* space) {
     return ERROR;
   }
 
+  set_destroy(space->objects);
   free(space);
   space = NULL;
   return OK;
@@ -195,6 +205,47 @@ Set *space_get_set(Space *space){
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
+Status space_set_character_id(Space *space, Id id){
+  if(!space||id==NO_ID){
+    return ERROR;
+  }
+
+  space->id_character=id;
+  return OK;
+}
+
+Id space_get_character_id(Space *space){
+  if(!space){
+    return ERROR;
+  }
+
+  return space->id_character;
+}
+
+/*--------------------------------------------------------------------------------------------------------*/
+Status space_set_gdesc(Space* space, char **gdesc){
+  int i;
+
+  if(!space||!*gdesc){
+    return ERROR;
+  }
+
+  for(i=0 ; i<GDESC_LINES; i++){
+    if(!strcpy(space->gdesc[i],gdesc[i])){
+      return ERROR;
+    }
+  }
+}
+
+const char* space_get_gdesc(Space* space, int line){
+  if(!space){
+    return NULL;
+  }
+
+  return space->gdesc[line];
+}
+
+/*--------------------------------------------------------------------------------------------------------*/
 
 Status space_print(Space* space) {
   Id idaux = NO_ID;
@@ -239,5 +290,10 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
+    /* Imprimir la descripcion grafica */
+    for (int i = 0; i < GDESC_LINES; i++) {
+      fprintf(stdout, "%s\n", space->gdesc[i]);
+    }
+  
   return OK;
 }

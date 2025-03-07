@@ -100,6 +100,14 @@ Status player_set_object(Player* player, Id value);
 Id player_get_object(Player* player);
 
 /**
+ * @brief Decrece la salud en una unidad
+ * @author Lucia Ordovas
+ *
+ * @param player un puntero al jugador
+ * @return OK, ERROR
+ */
+Status player_decrease_health(Player *player);
+/**
  * @brief Imprime la informacion del jugador
  * @author Lucia Ordovas
  *

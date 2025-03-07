@@ -153,6 +153,18 @@ long character_get_health(Player *player){
 
   return player->health;
 }
+/*-----------------------------------------------------------------------------------------------------*/
+Status player_decrease_health(Player *player) {
+  /* Cde */
+  if (!player || player->health <= 0) {
+    return ERROR;
+  }
+
+  player->health--;
+
+  return OK;
+}
+
 
 /*-----------------------------------------------------------------------------------------------------*/
 Status player_print(Player* player) {
@@ -162,7 +174,7 @@ Status player_print(Player* player) {
   }
 
   /* Mostramos el nombre, ubicacion y objeto del jugador */
-  fprintf(stdout, "--> Player (Id: %ld; Name: %s; Location: %ld; Object: %ld)\n", player->id, player->name, player->location, player->object);
+  fprintf(stdout, "--> Player (Id: %ld; Name: %s; Location: %ld; Object: %ld, Health: %ld)\n", player->id, player->name, player->location, player->object, player->health);
 
   return OK;
 }

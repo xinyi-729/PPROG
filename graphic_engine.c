@@ -80,6 +80,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   char str[255];
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+  char character_message[]=game_actions_chat(game);
+
 /* ANÑADÍ ESTO, NO SE SI ESTÁ BIEN*/
   Command *cmd=NULL;
   char *name_obj;
@@ -160,6 +162,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   else{
     sprintf(str, "The player has the object");
     screen_area_puts(ge->descript, str);
+  }
+
+  /* Mostrar el mensaje del personaje si existe */
+  if (strlen(character_message) > 0) {
+    screen_area_puts(ge->descript, character_message);
+    character_message[0] = '\0'; /* Limpiar el mensaje después de mostrarlo */ 
   }
 
    /* Pintar en el area de banner */
