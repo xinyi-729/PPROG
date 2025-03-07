@@ -117,7 +117,6 @@ void game_actions_back(Game *game) {
   return;
 }
 /*------------------------------------------------------------------------------*/
-/*modificado*/
 void game_actions_take(Game *game){
   Id player_space_id= NO_ID;
   Id object_id=NO_ID;

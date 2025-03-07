@@ -138,39 +138,38 @@ Id game_get_object_location(Game *game, Id obj_id) {
 
   return NO_ID;
 }
-/*HAY Q CAMBIAR EL SET_OBJ_LOC!!!!*/
+
 /*aquí, el campo de Id puede ser o de espacio(para load) o de objeto (para drop)*/
-// Status game_set_object_location(Game *game, Id id_space) {
-//   Command *cmd=NULL;
-//   char *nombre_obj=NULL;
-//   Id obj_id;
-//   // Space *s=NULL;/*SI dejo el space, qué pasa si quiero set_obj en el jugador?*/
+Status game_set_object_location(Game *game, Id id_space) {
+  Command *cmd=NULL;
+  char *nombre_obj=NULL;
+  Id obj_id;
 
-//   if (!game) {
-//     return ERROR;
-//   }
-//   /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
-//   cmd = game_get_last_command(game);
-//   if(!cmd)
-//     return ERROR;
+  if (!game) {
+    return ERROR;
+  }
+  /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
+  cmd = game_get_last_command(game);
+  if(!cmd)
+    return ERROR;
 
-//   /*conseguir el nombre del objeto que quiero drop*/
-//   nombre_obj = command_get_argument(cmd);
-//   if(!nombre_obj)
-//     return ERROR;
+  /*conseguir el nombre del objeto que quiero drop*/
+  nombre_obj = command_get_argument(cmd);
+  if(!nombre_obj)
+    return ERROR;
 
-//   obj_id = game_get_object_id(game, nombre_obj);
-//   if( obj_id == NO_ID){
-//     return ERROR;
-//   }
+  obj_id = game_get_object_id(game, nombre_obj);
+  if( obj_id == NO_ID){
+    return ERROR;
+  }
 
 
-//   if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
-//     return ERROR;
-//   }
+  if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
+    return ERROR;
+  }
 
-//   return OK;
-// }
+  return OK;
+}
 
 /*-----------------------------------------------------------------------------------------------------*/
 

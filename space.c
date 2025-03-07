@@ -235,6 +235,7 @@ Status space_set_gdesc(Space* space, char **gdesc){
       return ERROR;
     }
   }
+  return OK;
 }
 
 const char* space_get_gdesc(Space* space, int line){
