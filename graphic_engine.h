@@ -13,6 +13,11 @@
 
 #include "game.h"
 
+/**
+ * @brief Graphic_engine
+ *
+ * Esta estructura alamcena todas las informationes de la estructura del juego
+ */
 typedef struct _Graphic_engine Graphic_engine;
 
 /**
@@ -39,6 +44,8 @@ void graphic_engine_destroy(Graphic_engine *ge);
  * @param game Puntero a la estructura del juego
  */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game);
+
+
 
 
 #endif

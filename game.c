@@ -10,7 +10,6 @@
 
 #include "game.h"
 #include "player.h"
-#include "set.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -118,17 +117,15 @@ Status game_set_player_location(Game *game, Id id) {
 
 /*-----------------------------------------------------------------------------------------------------*/
  
-// Id game_get_object_location(Game *game, Id obj_id) {
+// Id game_get_object_location(Game *game, Id id_obj) {
 //   int i;
 
-//   if(!game || obj_id ==NO_ID)
+//   if(!game )
 //     return NO_ID;
-
-//   /*hacer set de obj y ver en los set de cada espacio, buscar el espacio q está el objz*/
 
 //   for(i=0; i<game->n_spaces; i++){
 //     /*si el objeto está en este espacio, devolvemos el id de este espacio*/
-//     if( space_has_object(game->spaces[i], obj_id) == TRUE){
+//     if( space_has_object(game->spaces[i], id_obj) == TRUE){
 //      return space_get_id(game->spaces[i]);
 //     }
 //   /*si no, seguimos buscando en el siguiente espacio*/
@@ -183,7 +180,7 @@ Object *game_get_object(Game *game, Id id){
   return NULL;
 }
 
-Status game_set_object(Game *game, Object *obj){
+Status game_add_object(Game *game, Object *obj){
   if(!game || !obj || game->n_objects >= MAX_OBJECTS)
     return ERROR;
 
@@ -191,6 +188,14 @@ Status game_set_object(Game *game, Object *obj){
   game->n_objects++;
 
   return OK;
+}
+
+Id game_get_object_id_at(Game *game, int position) {
+  if (position < 0 || position >= game->n_objects) {
+    return NO_ID;
+  }
+
+  return object_get_id(game->object[position]);
 }
 
 /*-----------------------------------------------------------------------------------------------------*/

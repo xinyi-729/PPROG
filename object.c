@@ -78,7 +78,7 @@ Status object_set_name(Object *obj, char *name){
     return OK;
 }
 
-const char* object_get_name(Object* obj){
+char* object_get_name(Object* obj){
     if(!obj)
         return NULL;
 

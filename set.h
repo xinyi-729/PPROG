@@ -12,8 +12,8 @@ Set *set_create();
 
 Status set_destroy(Set *set);
 
-
-Id set_get_id(Set *set, Id id);
+/*Returna el id en la posicion x (un numero entero de la lista)*/
+Id set_get_id(Set *set, int pos);
 
 int set_get_n_ids(Set *set);
 

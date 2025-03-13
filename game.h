@@ -120,6 +120,8 @@ Status game_set_finished(Game *game, Bool finished);
  */
 void game_print(Game *game);
 
+
+// Id game_get_object_location(Game *game,Id id_obj);
 /*-----------------------------------------------------------------------------------------------------*/
 Id game_get_space_id_at(Game *game, int position);
 Status game_add_space(Game *game, Space *space);
@@ -129,7 +131,8 @@ Player *game_get_player(Game *game);
 Id game_get_object_id(Game *game, char *obj_name);
 int game_get_n_obj(Game *game);
 Object *game_get_object(Game *game, Id id);
-Status game_set_object(Game *game, Object *obj);
+Status game_add_object(Game *game, Object *obj);
 
+Id game_get_object_id_at(Game *game, int position) ;
 
 #endif

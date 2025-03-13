@@ -13,6 +13,18 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * @brief La función lee el fichero .dat y crea el juego con los espacios (el numero de espacio, longitud, anchura, etc) según puesto en el fichero.dat
+ * @author XINYI HUANG y Lucia Ordovas
+ *
+ * @param game un puntero al Game
+ * @param filename un puntero al string que debe recibir la función
+ * @return OK en caso de éxito y ERROR en caso de errores
+ */
+Status game_load_spaces(Game *game, char *filename);
+
+Status game_load_objects(Game *game, char *filename);
+
 /*-----------------------------------------------------------------------------------------------------*/
 Status game_create_from_file(Game *game, char *filename) {
   if (game_create(game) == ERROR) {
@@ -106,7 +118,7 @@ Status game_load_objects(Game *game, char *filename) {
   if (!filename) {
     return ERROR;
   }
-printf("Entro en load_obj!\n");
+
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
@@ -128,7 +140,7 @@ printf("Entro en load_obj!\n");
       if (object != NULL) {
         object_set_name(object, obj_name);
         space_add_object(game_get_space(game,location), id);
-        game_set_object(game, object);
+        game_add_object(game, object);
 
       }
     }

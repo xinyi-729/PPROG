@@ -44,6 +44,7 @@ Command* command_create() {
 
    /* Inicializacion de un comando vacio */
   newCommand->code = NO_CMD;
+  newCommand->argument = NULL;
 
   return newCommand;
 }
@@ -94,22 +95,29 @@ char *command_get_argument(Command *cmd){
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
 
 Status command_get_user_input(Command* command) {
-  char input[CMD_LENGHT] = "", *token = NULL;
+  char input[CMD_LENGHT] = "", *token = NULL, *argum=NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
+  // char argum[128] = "";
 
   if (!command) {
     return ERROR;
   }
-
+  /*se puede hacer así? el 1º es hasta espacio y 2º hasta \n*/
   if (fgets(input, CMD_LENGHT, stdin)) {
     token = strtok(input, " \n");
     if (!token) {
-      return command_set_code(command, UNKNOWN);
+      command_set_code(command, UNKNOWN);
     }
+    token = strtok(input, "\n");
 
+    if(argum){
+      command_set_argument(command, argum);/**revisar */
+    }
+    
+  
     cmd = UNKNOWN;
-    while (cmd == UNKNOWN && i < N_CMD) {
+    while (cmd == UNKNOWN && i < N_CMD) {/*qué está haciendo este while??*/
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {

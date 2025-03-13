@@ -122,6 +122,7 @@ void game_actions_take(Game *game){
   Id object_id=NO_ID;
   Space *space=NULL;
   Command *cmd = NULL;
+  //Si tiene algo no puede coger otra cosa
 
   if(!game)
     return;

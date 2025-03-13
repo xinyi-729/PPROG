@@ -143,6 +143,12 @@ typedef struct _Space Space;
  Status space_del_object(Space *space, Id id);
  Status space_add_object(Space *space, Id id);
  Set *space_get_set(Space *space);
+ Status space_set_gdesc(Space* space, char *str, int pos);
+ char* space_get_gdesc(Space* space, int line);
+ Id space_get_objetc_id_at(Space *space, int pos);
+
+
+
 //  /**
 //   * @brief Establece el id del objeto que hay en el espacio
 //   * @author Xinyi Huang y Lucia Ordovas
@@ -171,5 +177,7 @@ typedef struct _Space Space;
   * @return OK, si todo sale bien, o ERROR si hubo algun problema
   */
  Status space_print(Space* space);
+
+ 
 
 #endif

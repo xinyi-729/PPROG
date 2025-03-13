@@ -1,23 +1,22 @@
 /**
- * @brief Implementa un motor grafico textual
+ * @brief It implements a textual graphic engine
  *
  * @file graphic_engine.c
- * @author Xinyi Huang y Lucia Ordovas
+ * @author Profesores PPROG
  * @version 0
- * @date 30-01-2025
+ * @date 27-01-2025
  * @copyright GNU Public License
  */
 
- /*------------------------------------------------------------*/
 #include "graphic_engine.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "command.h"
 #include "libscreen.h"
 #include "space.h"
 #include "types.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-
 
 #define WIDTH_MAP 48
 #define WIDTH_DES 29
@@ -26,16 +25,11 @@
 #define HEIGHT_BAN 1
 #define HEIGHT_HLP 2
 #define HEIGHT_FDB 3
-/*------------------------------------------------------------*/
-/**
- * @brief Estructura de datos que representa el motor gráfico
- * @author Xinyi Huang y Lucia Ordovas
- */
+
 struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
-/*------------------------------------------------------------*/
 Graphic_engine *graphic_engine_create() {
   static Graphic_engine *ge = NULL;
 
@@ -58,7 +52,6 @@ Graphic_engine *graphic_engine_create() {
   return ge;
 }
 
-/*------------------------------------------------------------*/
 void graphic_engine_destroy(Graphic_engine *ge) {
   if (!ge) return;
 
@@ -71,32 +64,13 @@ void graphic_engine_destroy(Graphic_engine *ge) {
   screen_destroy();
   free(ge);
 }
-
-/*------------------------------------------------------------*/
+/*******************************************************************************************************************++ */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
-  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
+  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID, id_east=NO_ID, id_west=NO_ID;
   Space *space_act = NULL;
-  char obj = '\0';
   char str[255];
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
-  Command *cmd=NULL;
-  // char character_message[]=game_actions_chat(game);
-
-/* ANÑADÍ ESTO, NO SE SI ESTÁ BIEN*/
-
-//   char *name_obj;
-//   Id obj_id;
-
-//   if(!game || !ge)
-//     return;
-
-//   if((cmd = game_get_last_command(game)) == NULL)
-//     return;
-
-//   name_obj = command_get_argument(cmd);
-//   obj_id = game_get_object_id(game, name_obj);
-// /*HASTA AQUÍ*/
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -104,89 +78,175 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     space_act = game_get_space(game, id_act);
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
-
-    if (game_get_object_location(game, obj_id) == id_back)
-      obj = '*';
-    else
-      obj = ' ';
+    id_east = space_get_east(space_act);
+    id_west = space_get_west(space_act);
 
     if (id_back != NO_ID) {
-      sprintf(str, "  |         %2d|", (int)id_back);
+      sprintf(str, "  |            %2d|", (int)id_back);
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |     %c     |", obj);
+      // sprintf(str, "  |     %c     |", obj);
+      sprintf(str, "  |               |");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
+      sprintf(str, "  +---------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "        ^");
-      screen_area_puts(ge->map, str);
-    }
-
-    if (game_get_object_location(game, obj_id) == id_act)
-      obj = '*';
-    else
-      obj = ' ';
-
-    if (id_act != NO_ID) {
-      sprintf(str, "  +-----------+");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  | m0^     %2d|", (int)id_act);
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  |     %c     |", obj);
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
+      sprintf(str, "         ^");
       screen_area_puts(ge->map, str);
     }
 
-    if (game_get_object_location(game, obj_id) == id_next)
-      obj = '*';
-    else
-      obj = ' ';
+    if(id_act != NO_ID){
+      graphic_eng_paint_space(ge, game);
+    }
+
+    // if (id_act != NO_ID) {
+    //   sprintf(str, "  +-----------+");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str, "  | m0^     %2d|", (int)id_act);
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str, "  |     %c     |", obj);
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str, "  +-----------+");
+    //   screen_area_puts(ge->map, str);
+    // }
+
 
     if (id_next != NO_ID) {
-      sprintf(str, "        v");
+      sprintf(str, "          v");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
+      sprintf(str, "%20s"," +-----------");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |         %2d|", (int)id_next);
+      sprintf(str, "%20s"," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |     %c     |", obj);
+      sprintf(str, "%20s"," |           ");
       screen_area_puts(ge->map, str);
+      sprintf(str, "%20s",">|           ");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "%20s"," |           ");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "%20s"," |           ");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "%20s"," |           ");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "%20s"," +-----------");
+      screen_area_puts(ge->map, str);      screen_area_puts(ge->map, str);
+    }
+
+    /*Cómo hago para q salga en la parte izq/derecha?*/
+    if(id_east != NO_ID){
+      sprintf(str, "")
     }
   }
 
-   /* Pintar en el area de descripcion */
+  /* Paint in the description area */
   screen_area_clear(ge->descript);
-  if ((obj_loc = game_get_object_location(game, obj_id)) != NO_ID) {
+  if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
   }
-  else{
-    sprintf(str, "The player has the object");
-    screen_area_puts(ge->descript, str);
-  }
 
-  // /* Mostrar el mensaje del personaje si existe */
-  // if (strlen(character_message) > 0) {
-  //   screen_area_puts(ge->descript, character_message);
-  //   character_message[0] = '\0'; /* Limpiar el mensaje después de mostrarlo */ 
-  // }
-
-   /* Pintar en el area de banner */
+  /* Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");
 
-   /* Pintar en el area de ayuda */
+  /* Paint in the help area */
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     next or n, back or b, exit or e, take or t, drop or d");
+  sprintf(str, "     next or n, back or b, exit or e");
   screen_area_puts(ge->help, str);
 
-   /* Pintar en el area de retroalimentacion */
+  /* Paint in the feedback area */
   last_cmd = command_get_code(game_get_last_command(game));
   sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   screen_area_puts(ge->feedback, str);
 
-   /* Mostrar en la terminal */
+  /* Dump to the terminal */
   screen_paint();
   printf("prompt:> ");
 }
+
+void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
+  Player *player= NULL;
+  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID, obj_id_i;
+  char all_obj[128]="", one_obj[128]="", str[255];
+  Space *space_act;
+  int n_obj, i;
+  char *aux_obname=NULL, *aux_gdesc=NULL;
+  Object *ob=NULL;
+  char str_space[5][10];
+
+
+  player = game_get_player(game);
+
+  id_act = game_get_player_location(game);
+  if(id_act != NO_ID){
+    space_act = game_get_space(game, id_act);
+    /*si printeo solo una casilla, no me hace falta back next? lo puedo hacer desde el grande, no?*/
+    id_back = space_get_north(space_act);
+    id_next = space_get_south(space_act);
+
+    n_obj = set_get_n_ids(space_get_set(space_act));
+
+    /*conseguir las 5 lineas del espacio*/
+    for(i=0; i<5; i++){
+      aux_gdesc = space_get_gdesc(space_act, i);
+      strcpy(str_space[i], aux_gdesc);
+    }
+    
+    /*En all_obj está guardado todos los nombres de objetos
+      En str_space las 5 lineas de descripciones*/
+    
+    /*printear una casilla*/
+    sprintf(str, "  +---------------+");
+    screen_area_puts(ge->map, str);
+    sprintf(str, "  | m0^        %2d|", (int) id_act);
+    screen_area_puts(ge->map, str);
+    for(i=0; i<5; i++){
+      sprintf(str, "  |%s|", str_space[i]);
+      screen_area_puts(ge->map, str);
+    }
+    /*printear objetos*/
+    if(n_obj> 0){
+      /*guarda de objetos*/
+      for(i=0; i<n_obj; i++){
+        /*Obtengo el id del objeto en la posicion 0,1,2,3,...*/
+        obj_id_i = space_get_objetc_id_at(space_act, i);
+
+        /*Con el id obtengo el objeto * */
+        ob = game_get_object(game, obj_id_i);
+        aux_obname = object_get_name(ob);
+
+        sprintf(one_obj, "%s ", aux_obname);
+        strcat(all_obj, aux_obname);
+      }
+      
+      sprintf(str, "  |%s  |", all_obj);/*ya veré si hace falta hacerla bonita*/
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  +---------------+");
+      screen_area_puts(ge->map, str);
+    }
+    else{
+      sprintf(str, "  |               |");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  +---------------+");
+      screen_area_puts(ge->map, str);
+
+    }
+
+  }
+
+}
+
+// void graphic_engine_print_obj(Graphic_engine *ge, Game *game){
+//   Id id_act;
+//   int n_obj;
+//   Space *space_act;
+
+//   if(!ge || !game)
+//     return;
+
+//   id_act = game_get_player_location(game);
+
+//   space_act = game_get_space(game, id_act);
+  
+//   n_obj = set_get_n_ids(space_get_set(space_act));
+
+// }

@@ -69,7 +69,7 @@ Status object_print(Object* obj);
  * @param obj puntero a Object
  * @return Un puntero al nombre de tal objeto. En casos de errores, devuelve NULL.
  */
-const char* object_get_name(Object* obj);
+char* object_get_name(Object* obj);
 
 
 #endif

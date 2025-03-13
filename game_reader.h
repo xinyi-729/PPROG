@@ -23,17 +23,7 @@
  */
 Status game_create_from_file(Game *game, char *filename);
 
-/**
- * @brief La función lee el fichero .dat y crea el juego con los espacios (el numero de espacio, longitud, anchura, etc) según puesto en el fichero.dat
- * @author XINYI HUANG y Lucia Ordovas
- *
- * @param game un puntero al Game
- * @param filename un puntero al string que debe recibir la función
- * @return OK en caso de éxito y ERROR en caso de errores
- */
-Status game_load_spaces(Game *game, char *filename);
 
-Status game_load_objects(Game *game, char *filename);
 
 
 #endif

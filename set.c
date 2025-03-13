@@ -41,19 +41,11 @@ Status set_destroy(Set *set){
     return OK;
 }
 
-/*Recibiría un Id para buscar el id q quiere no?*/
-Id set_get_id(Set *set, Id id){
-    int i;
-
+Id set_get_id(Set *set, int pos){
     if(!set)
         return NO_ID;
 
-    for(i=0; i<set->n_ids; i++){
-        if(set->ids[i] == id)
-            return set->ids[i];
-    }
-
-    return NO_ID;
+    return set->ids[pos];
 }
 
 

@@ -30,7 +30,7 @@ struct _Space {
   Id west;                  /*!< Id del espacio al oeste */
   Set *objects;
   Id id_character;
-  char gdesc[GDESC_LINES][9+1]; /* Descripcion grafica del espacio */
+  char gdesc[GDESC_LINES][10]; /* Descripcion grafica del espacio */
 };
 
  /** space_create reserva memoria para un nuevo espacio
@@ -223,28 +223,25 @@ Id space_get_character_id(Space *space){
 }
 
 /*--------------------------------------------------------------------------------------------------------*/
-Status space_set_gdesc(Space* space, char **gdesc){
-  int i;
+Status space_set_gdesc(Space* space, char *str, int pos){
 
-  if(!space||!*gdesc){
+  if(!space||!str){
     return ERROR;
   }
 
-  for(i=0 ; i<GDESC_LINES; i++){
-    if(!strcpy(space->gdesc[i],gdesc[i])){
-      return ERROR;
-    }
-  }
+  strcpy(space->gdesc[pos], str);
+
   return OK;
 }
 
-const char* space_get_gdesc(Space* space, int line){
+char* space_get_gdesc(Space* space, int line){
   if(!space){
     return NULL;
   }
 
   return space->gdesc[line];
 }
+
 
 /*--------------------------------------------------------------------------------------------------------*/
 
@@ -297,4 +294,22 @@ Status space_print(Space* space) {
     }
   
   return OK;
+}
+
+Id space_get_objetc_id_at(Space *space, int pos){
+  Set *set=NULL;
+
+  if(!space || pos<0){
+    return NO_ID;
+  }
+
+  set = space_get_set(space);
+  if(!set)
+    return NO_ID;
+
+  if(pos >= set_get_n_ids(set))
+    return NO_ID;
+
+
+  return set_get_id(set, pos);
 }
