@@ -50,3 +50,5 @@ space_test.o: space_test.c space_test.h space.h test.h
 clean:
 	@echo "Cleaning all..."
 	rm *.o -f anthill
+	rm -f test
+	
