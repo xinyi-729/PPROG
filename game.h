@@ -182,7 +182,7 @@ Player *game_get_player(Game *game);
 int game_get_n_obj(Game *game);
 
 
-// Object *game_get_object(Game *game, Id id);
+Object *game_get_object(Game *game, Id id);
 
  /**
   * @brief Obtiene el personaje en un espacio específico

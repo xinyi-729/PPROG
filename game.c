@@ -197,7 +197,7 @@ Id game_get_object_id(Game *game, char *obj_name){
 
   /*Busca en la lista de objetos, si lo encuentra, retorna su id*/
   for(i=0; i<game->n_objects; i++){
-    if(object_get_name(game->object[i]) == obj_name){
+    if(strcmp(object_get_name(game->object[i]), obj_name) == 0){
       return object_get_id(game->object[i]);
     }
   }
@@ -231,19 +231,19 @@ int game_get_n_obj(Game *game){
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
-// Object *game_get_object(Game *game, Id id){
-//   int i;
+Object *game_get_object(Game *game, Id id){
+  int i;
 
-//   if(!game || id ==NO_ID)
-//     return NULL;
+  if(!game || id ==NO_ID)
+    return NULL;
 
-//   for(i=0; i<game->n_objects; i++){
-//     if(id == object_get_id(game->object[i]))
-//       return game->object[i];
-//   }
+  for(i=0; i<game->n_objects; i++){
+    if(id == object_get_id(game->object[i]))
+      return game->object[i];
+  }
 
-//   return NULL;
-// }
+  return NULL;
+}
 Character * game_get_character_in_space(Game *game, Id space_id){
   int character_id;
 
