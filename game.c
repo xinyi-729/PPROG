@@ -114,40 +114,6 @@ Status game_set_player_location(Game *game, Id id) {
 
 /*-----------------------------------------------------------------------------------------------------*/
 
-Object *game_get_object(Game *game, Id id){
-  int i;
-
-  if(!game || id ==NO_ID)
-    return NULL;
-
-  for(i=0; i<game->n_objects; i++){
-    if(id == object_get_id(game->object[i]))
-      return game->object[i];
-  }
-
-  return NULL;
-}
-
-Status game_add_object(Game *game, Object *obj){
-  if(!game || !obj || game->n_objects >= MAX_OBJECTS)
-    return ERROR;
-
-  game->object[game->n_objects] = obj;
-  game->n_objects++;
-
-  return OK;
-}
-
-Id game_get_object_id_at(Game *game, int position) {
-  if (position < 0 || position >= game->n_objects) {
-    return NO_ID;
-  }
-
-  return object_get_id(game->object[position]);
-}
-
-/*-----------------------------------------------------------------------------------------------------*/
-
 Command* game_get_last_command(Game *game) { return game->last_cmd; }
 
 Status game_set_last_command(Game *game, Command *command) {
@@ -166,12 +132,6 @@ Status game_set_finished(Game *game, Bool finished) {
   return OK;
 }
 
-int game_get_n_obj(Game *game){
-  if(!game)
-    return -1;
-
-  return game->n_objects;
-}
 /*-----------------------------------------------------------------------------------------------------*/
 
 void game_print(Game *game) {
@@ -195,10 +155,17 @@ void game_print(Game *game) {
   for(i=0; i<game->n_objects;i++){
     object_print(game->object[i]);
   }
-   /* printf("No se ha asignado un objeto.\n");*/
   
 }
 /*-----------------------------------------------------------------------------------------------------*/
+
+Id game_get_space_id_at(Game *game, int position) {
+  if (position < 0 || position >= game->n_spaces) {
+    return NO_ID;
+  }
+
+  return space_get_id(game->spaces[position]);
+}
 
 Status game_add_space(Game *game, Space *space) {
   if ((space == NULL) || (game->n_spaces >= MAX_SPACES)) {
@@ -210,23 +177,16 @@ Status game_add_space(Game *game, Space *space) {
 
   return OK;
 }
+/*-----------------------------------------------------------------------------------------------------*/
 
-Id game_get_space_id_at(Game *game, int position) {
-  if (position < 0 || position >= game->n_spaces) {
-    return NO_ID;
-  }
+Status game_add_object(Game *game, Object *obj){
+  if(!game || !obj || game->n_objects >= MAX_OBJECTS)
+    return ERROR;
 
-  return space_get_id(game->spaces[position]);
-}
+  game->object[game->n_objects] = obj;
+  game->n_objects++;
 
-
-/*-------------------------------------------------*/
-/*FUNCIONES NUEVAS*/
-Player* game_get_player(Game *game){
-  if(!game)
-    return NULL;
-
-  return game->player;
+  return OK;
 }
 
 Id game_get_object_id(Game *game, char *obj_name){
@@ -243,3 +203,43 @@ Id game_get_object_id(Game *game, char *obj_name){
 
   return NO_ID;
 }
+
+// Id game_get_object_id_at(Game *game, int position) {
+//   if (position < 0 || position >= game->n_objects) {
+//     return NO_ID;
+//   }
+
+//   return object_get_id(game->object[position]);
+// }
+/*-----------------------------------------------------------------------------------------------------*/
+
+Player* game_get_player(Game *game){
+  if(!game)
+    return NULL;
+
+  return game->player;
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+int game_get_n_obj(Game *game){
+  if(!game)
+    return -1;
+
+  return game->n_objects;
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+// Object *game_get_object(Game *game, Id id){
+//   int i;
+
+//   if(!game || id ==NO_ID)
+//     return NULL;
+
+//   for(i=0; i<game->n_objects; i++){
+//     if(id == object_get_id(game->object[i]))
+//       return game->object[i];
+//   }
+
+//   return NULL;
+// }

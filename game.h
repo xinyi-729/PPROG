@@ -109,9 +109,6 @@ Bool game_get_finished(Game *game);
  */
 Status game_set_finished(Game *game, Bool finished);
 
-// Id game_get_object_location(Game *game, Id obj_id);
-// Status game_set_object_location(Game *game, Id id_space);
-
 /**
  * @brief Imprime el estado actual del juego 
  * @author Xinyi Huang y Lucia Ordovas
@@ -120,19 +117,70 @@ Status game_set_finished(Game *game, Bool finished);
  */
 void game_print(Game *game);
 
-
-// Id game_get_object_location(Game *game,Id id_obj);
 /*-----------------------------------------------------------------------------------------------------*/
+
+ /**
+  * @brief Obtiene el ID del espacio en una posición específica
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @param position Posición del espacio en la lista
+  * @return ID del espacio en la posición especificada
+  */
 Id game_get_space_id_at(Game *game, int position);
+
+ /**
+  * @brief Añade un espacio al juego
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @param space Puntero al espacio a añadir
+  * @return OK si se añadió correctamente, ERROR en caso contrario
+  */
 Status game_add_space(Game *game, Space *space);
 
-Player *game_get_player(Game *game);
-
-Id game_get_object_id(Game *game, char *obj_name);
-int game_get_n_obj(Game *game);
-Object *game_get_object(Game *game, Id id);
+ /**
+  * @brief Añade un objeto al juego
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @param obj Puntero al objeto a añadir
+  * @return OK si se añadió correctamente, ERROR en caso contrario
+  */
 Status game_add_object(Game *game, Object *obj);
 
-Id game_get_object_id_at(Game *game, int position) ;
+
+// Id game_get_object_id_at(Game *game, int position) ;
+ /**
+  * @brief Obtiene el ID de un objeto a partir de su nombre
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @param obj_name Nombre del objeto
+  * @return ID del objeto o NO_ID si no se encuentra
+  */
+Id game_get_object_id(Game *game, char *obj_name);
+
+  /**
+  * @brief Obtiene el jugador del juego
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @return Puntero al jugador
+  */
+Player *game_get_player(Game *game);
+
+/**
+ * @brief Obtiene el número de objetos que hay en el juego
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param game puntero al juego
+ * @return devuelve el número de objetos que hay en el juego
+ */
+int game_get_n_obj(Game *game);
+
+
+// Object *game_get_object(Game *game, Id id);
+
 
 #endif

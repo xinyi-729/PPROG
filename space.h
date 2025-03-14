@@ -139,19 +139,19 @@ typedef struct _Space Space;
   */
  Id space_get_west(Space* space);
 
-/**
-  * @brief Comprueba si el espacio tiene un objeto o no
-  * @author Xinyi Huang
-  *
-  * @param space un puntero al espacio
-  * @param id el id del objeto
-  * @return TRUE si el espacio tiene el objeto, FALSE en caso contrario
-  */
+ /**
+   * @brief Verifica si un espacio contiene un objeto específico
+   * @author Xinyi Huang y Lucia Ordovas
+   *
+   * @param space un puntero al espacio
+   * @param id el id del objeto a verificar
+   * @return TRUE si el objeto está presente, FALSE en caso contrario
+   */
  Bool space_has_object(Space *space, Id id);
 
  /**
  * @brief Añade un objeto al espacio
- * @author Xinyi Huang
+ * @author Xinyi Huang y Lucio Ordovas
  *
  * @param space un puntero a espacio
  * @param id variable tipo Id, identificador del objeto
@@ -160,48 +160,82 @@ typedef struct _Space Space;
 Status space_add_object(Space *space, Id id);       
 
 /**
- * @brief Elimina un objeto del espacio.
- * @author Xinyi Huang
+ * @brief Elimina un objeto específico del espacio
+ * @author Xinyi Huang y Lucia Ordovas
  *
- * @param space un puntero a espacio
- * @param id variable tipo Id, identificador del objeto
- * @return OK, si todo fue bien o ERROR si hubo algún problema
+ * @param space un puntero al espacio
+ * @param id el id del objeto a eliminar
+ * @return OK, si todo sale bien, o ERROR si hubo algun problema
  */
 Status space_del_object(Space *space, Id id);
 
 /**
  * @brief Consigue el set del espacio
- * @author Xinyi Huang
+ * @author Xinyi Huang y Lucia Ordovas
  *
  * @param space un puntero a espacio
  * @return Devuleve un puntero a set del espacio pasado
  */
 Set *space_get_set(Space *space);
 
-/**
- * @brief Consigue el id del personaje 
- * @author Xinyi Huang
- *
- * @param space un puntero a espacio
- * @return Devuleve un puntero a set del espacio pasado
+ /**
+ * @brief Establece el id del personaje que hay en el espacio
+ * 
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param space un puntero al espacio
+ * @param id el id del personaje
+ * @return OK, si todo sale bien, o ERROR si hubo algun problema
  */
 Status space_set_character_id(Space *space, Id id);
+
+ /**
+ * @brief Obtiene el id del personaje que hay en el espacio
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param space un puntero al espacio
+ * @return el id del personaje en el espacio, NO_ID si no se encuentra
+ */
 Id space_get_character_id(Space *space);
 
+/**
+ * @brief Establece la descripción gráfica del espacio
+ * @author Xinyi Huang y Lucia Ordovas
+ *
+ * @param space un puntero al espacio
+ * @param gdesc una matriz de cadenas de texto con la descripción gráfica
+ * @return OK, si todo sale bien, o ERROR si hubo algun problema
+ */
 Status space_set_gdesc(Space* space, char *str, int pos);
+
+/**
+* @brief Obtiene la descripción gráfica del espacio
+* @author Xinyi Huang y Lucia Ordovas
+*
+* @param space un puntero al espacio
+* @param line la línea de la descripción gráfica a obtener
+* @return una puntero a cadena de texto con la descripción gráfica de la línea especificada. Si va mal, retorna NULL
+*/
 char* space_get_gdesc(Space* space, int line);
 
  
  /**
-  * @brief Imprime la informacion del espacio
-  * @author Xinyi Huang y Lucia Ordovas
-  *
-  * Esta funcion muestra el id y el nombre del espacio, los espacios que lo rodean y si tiene un objeto o no.
-  * @param space un puntero al espacio
-  * @return OK, si todo sale bien, o ERROR si hubo algun problema
-  */
+ * @brief Imprime la informacion del espacio
+ * @author Xinyi Huang y Lucia Ordovas
+ * Esta funcion muestra el id y el nombre del espacio, los espacios que lo rodean y si tiene un objeto o no.
+ * @param space un puntero al espacio
+ * @return OK, si todo sale bien, o ERROR si hubo algun problema
+ */
  Status space_print(Space* space);
 
+/**
+ * @brief Obtiene el id del objeto en el espacio en la posicion pos
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param space un puntero al espacio
+ * @param pos la posición del objeto que quiera
+ * @return Id de ese objeto en caso de que lo encuentre. NO_ID si no lo hay
+ */
  Id space_get_objetc_id_at(Space *space, int pos); 
 
 #endif
