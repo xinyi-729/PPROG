@@ -176,7 +176,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       // }
 
       sprintf(str, "               |%s|",all_name);/*cadena para objetos*/ /*NO TOCAR!!!!!*/
-      sprintf(string[4], "               +------------------+");
+      sprintf(string[4], "     asd          +------------------+");
 
       if(id_west != NO_ID){
         memcpy(string[0]+9,"  --+",strlen("  --+"));

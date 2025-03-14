@@ -138,35 +138,59 @@ typedef struct _Space Space;
   * @return el numero de id del espacio ubicado al oeste
   */
  Id space_get_west(Space* space);
- 
+
+/**
+  * @brief Comprueba si el espacio tiene un objeto o no
+  * @author Xinyi Huang
+  *
+  * @param space un puntero al espacio
+  * @param id el id del objeto
+  * @return TRUE si el espacio tiene el objeto, FALSE en caso contrario
+  */
  Bool space_has_object(Space *space, Id id);
- Status space_del_object(Space *space, Id id);
- Status space_add_object(Space *space, Id id);
- Set *space_get_set(Space *space);
- Status space_set_gdesc(Space* space, char *str, int pos);
- char* space_get_gdesc(Space* space, int line);
- Id space_get_objetc_id_at(Space *space, int pos);
 
+ /**
+ * @brief Añade un objeto al espacio
+ * @author Xinyi Huang
+ *
+ * @param space un puntero a espacio
+ * @param id variable tipo Id, identificador del objeto
+ * @return OK, si todo fue bien o ERROR si hubo algún problema
+ */
+Status space_add_object(Space *space, Id id);       
 
+/**
+ * @brief Elimina un objeto del espacio.
+ * @author Xinyi Huang
+ *
+ * @param space un puntero a espacio
+ * @param id variable tipo Id, identificador del objeto
+ * @return OK, si todo fue bien o ERROR si hubo algún problema
+ */
+Status space_del_object(Space *space, Id id);
 
-//  /**
-//   * @brief Establece el id del objeto que hay en el espacio
-//   * @author Xinyi Huang y Lucia Ordovas
-//   *
-//   * @param space un puntero al espacio
-//   * @param value el id del objeto
-//   * @return OK, si todo sale bien, o ERROR si hubo algun problema
-//   */
-//  Status space_set_object_id(Space* space, Id id_object);
- 
-//  /**
-//   * @brief Obtiene el id del objeto que hay en el espacio
-//   * @author Xinyi Huang y Lucia Ordovas
-//   *
-//   * @param space un puntero al espacio
-//   * @return el id del espacio
-//   */
-//  Id space_get_object_id(Space* space, Id id_object);
+/**
+ * @brief Consigue el set del espacio
+ * @author Xinyi Huang
+ *
+ * @param space un puntero a espacio
+ * @return Devuleve un puntero a set del espacio pasado
+ */
+Set *space_get_set(Space *space);
+
+/**
+ * @brief Consigue el id del personaje 
+ * @author Xinyi Huang
+ *
+ * @param space un puntero a espacio
+ * @return Devuleve un puntero a set del espacio pasado
+ */
+Status space_set_character_id(Space *space, Id id);
+Id space_get_character_id(Space *space);
+
+Status space_set_gdesc(Space* space, char *str, int pos);
+char* space_get_gdesc(Space* space, int line);
+
  
  /**
   * @brief Imprime la informacion del espacio
@@ -178,6 +202,6 @@ typedef struct _Space Space;
   */
  Status space_print(Space* space);
 
- 
+ Id space_get_objetc_id_at(Space *space, int pos); 
 
 #endif

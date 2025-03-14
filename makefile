@@ -7,6 +7,9 @@ all: anthill
 anthill: game_loop.o game.o command.o game_actions.o graphic_engine.o space.o game_reader.o player.o object.o set.o
 	$(CC) -o $@ $^ $(CLIB)
 
+test: space_test.o space.o set.o
+	$(CC) -o $@ $^ $(CLIB)
+
 #######################################################
 command.o: command.c command.h types.h
 	$(CC) $(CFLAGS) -c $<
@@ -37,6 +40,11 @@ space.o: space.c space.h types.h set.h
 
 set.o: set.c set.h types.h
 	$(CC) $(CFLAGS) -c $<
+
+##########################################
+space_test.o: space_test.c space_test.h space.h test.h
+	$(CC) $(CFLAGS) -c $<
+
 
 ###############################
 clean:

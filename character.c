@@ -18,7 +18,7 @@
   
  /*-----------------------------------------------------------------------------------------------------*/
  /**
-   * @brief Caracter
+   * @brief Character
    *
    * Esta estructura almacena toda la informacion sobre el caracter
  */
@@ -91,7 +91,7 @@
      return OK;
    }
    
-   const char* character_get_name(Character* character) {
+    char* character_get_name(Character* character) {
      /* Control de errores */
      if (!character) {
        return NULL;
@@ -184,7 +184,7 @@
  
  
    /*-----------------------------------------------------------------------------------------------------*/
-   Status character_player_print(Character *character) {
+   Status character_print(Character *character) {
      /* Control de errores */
      if (!character||!character->message) {
        return ERROR;

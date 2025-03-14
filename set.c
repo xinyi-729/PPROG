@@ -24,9 +24,13 @@ Set *set_create(){
     if(!s)
         return NULL;
 
+    s->ids = (Id*) malloc(MAX_OBJECTS * sizeof(Id));
+    if(!s->ids){
+        free(s);
+        return NULL;
+    }
+    
     s->n_ids = 0;
-    s->ids = NULL;
-
     return s;
 }
 
@@ -65,13 +69,12 @@ Status set_add(Set *set, Id id){
     if(set_has(set, id) == TRUE)
         return OK;
 
+
     set->ids[set->n_ids] = id;
     set->n_ids += 1;
-
     return OK;
 }
 
-/*Para esto sí q necesita el id del objeto q quiere quitar*/
 Status set_del(Set *set, Id id){
     int i;
 
@@ -79,7 +82,7 @@ Status set_del(Set *set, Id id){
         return ERROR;
 
     if(set_is_empty(set) == TRUE)
-        return OK;
+        return ERROR;
 
     for (i=0; i<set->n_ids; i++){
         if(set->ids[i] == id){
@@ -93,7 +96,6 @@ Status set_del(Set *set, Id id){
     return OK;
 }
 
-/*No se si comprobar errores por aquí tiene sentido o no. Parece ser que no*/
 Bool set_has(Set *set, Id id){
     int i;
 
@@ -106,7 +108,7 @@ Bool set_has(Set *set, Id id){
 
     return FALSE;
 }
-/*NO ESTOY SEGURO DE Q ES ASÍ*/
+
 Bool set_is_empty(Set *set){
     if(set->n_ids == 0)
         return TRUE;

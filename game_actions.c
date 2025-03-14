@@ -27,10 +27,13 @@ void game_actions_next(Game *game);
 
 void game_actions_back(Game *game);
 
-/**New functions take/drop */
-
 void game_actions_take(Game *game);
+
 void game_actions_drop(Game *game);
+
+void game_actions_left(Game *game);
+
+void game_actions_right(Game *game);
 
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -65,6 +68,14 @@ Status game_actions_update(Game *game, Command *command) {
 
     case DROP:
       game_actions_drop(game);
+      break; 
+
+    case LEFT:
+      game_actions_left(game);
+      break; 
+
+    case RIGHT:
+      game_actions_right(game);
       break; 
 
     default:
@@ -191,6 +202,41 @@ void game_actions_drop(Game *game){
   /*Ahora, borrarlo del jugador*/
   if(player_set_object(game_get_player(game), NO_ID) == ERROR)
     return;
+
+  return;
+}
+/*------------------------------------------------------------------------------*/
+
+void game_actions_left(Game *game){
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if(space_id == NO_ID)
+    return ;
+
+  current_id = space_get_west(game_get_space(game, space_id));
+  if(current_id == NO_ID)
+    return ;
+  
+  game_set_player_location(game, current_id);
+
+  return;
+}
+
+void game_actions_right(Game *game){
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if(space_id == NO_ID)
+    return ;
+
+  current_id = space_get_east(game_get_space(game, space_id));
+  if(current_id == NO_ID)
+    return ;
+  
+  game_set_player_location(game, current_id);
 
   return;
 }
