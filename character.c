@@ -1,5 +1,5 @@
 /**
- * @brief Implementa el modulo del caracter
+ * @brief Implementa el modulo del cHaracter
  *
  * @file character.c
  * @author Lucia Ordovas
@@ -18,7 +18,7 @@
   
  /*-----------------------------------------------------------------------------------------------------*/
  /**
-   * @brief Character
+   * @brief Caracter
    *
    * Esta estructura almacena toda la informacion sobre el caracter
  */
@@ -79,7 +79,7 @@
    }
    
    /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_name(Character* character, char* name) {
+   Status character_set_name(Character* character, const char* name) {
      /*Cde*/
      if (!character || !name) {
        return ERROR;
@@ -91,7 +91,7 @@
      return OK;
    }
    
-    char* character_get_name(Character* character) {
+   const char* character_get_name(Character* character) {
      /* Control de errores */
      if (!character) {
        return NULL;
@@ -141,6 +141,18 @@
  
      return character->health;
    }
+   
+   /*-----------------------------------------------------------------------------------------------------*/
+   Status character_decrease_health(Character *character) {
+     /* Cde */
+     if (!character|| character->health <= 0) {
+       return ERROR;
+     }
+   
+     character->health--;
+   
+     return OK;
+   }
  
    /*-----------------------------------------------------------------------------------------------------*/
    Status character_set_is_friendly(Character *character, Bool value){
@@ -186,14 +198,14 @@
    /*-----------------------------------------------------------------------------------------------------*/
    Status character_print(Character *character) {
      /* Control de errores */
-     if (!character||!character->message) {
+     if (!character) {
        return ERROR;
      }
    
      /* Mostramos el id, nombre, descripcion, salud, si es amigo y mensaje */
      fprintf(stdout, "--> Character (Id: %ld; Name: %s; Graphic description:%s; Health: %ld; ", character->id, character->name, character->gdesc, character->health);
      
-     if(character_get_is_friendly(character)==TRUE){
+     if(character_get_is_friendly(character) == TRUE){
        fprintf(stdout, "Friendly:yes; ");
      }
      else{

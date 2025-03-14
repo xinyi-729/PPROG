@@ -1,22 +1,50 @@
+/**
+ * @brief Implementa el módulo conjutno
+ *
+ * @file set.c
+ * @author XINYI HUANG
+ * @version 0
+ * @date ACTUALIZADO 14-03-2025
+ * @copyright GNU Public License
+ */
+
 #include "set.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/**
+ * @brief Set
+ *
+  * Esta estructura almacena la informacion del conjunto Set.
+ */
 struct _Set{
     Id *ids;
     int n_ids;
 };
-/********FUNCIONES PRIVADOS********************** */
 
+/*----------FUNCIONES PRIVADAS------*/
 
-
+/**
+ * @brief Verifica si el conjunto esta vacío
+ * @author Xinyi Huang y Lucia Ordovas
+ *
+ * @param set Puntero al conjunto
+ * @return TRUE si el conjunto esta vacío, FALSE en caso contrario
+ */
 Bool set_is_empty(Set *set);
 
+/**
+ * @brief Verifica si el conjunto esta lleno
+ * @author Xinyi Huang y Lucia Ordovas
+ *
+ * @param set Puntero al conjunto
+ * @return TRUE si el conjunto esta lleno, FALSE en caso contrario
+ */
 Bool set_is_full(Set *set);
-/******************************** */
+/*----------------------------------*/
 
-/*Recibe un número de ids para iniciazar?*/
 Set *set_create(){
     Set *s=NULL;
 
@@ -44,7 +72,7 @@ Status set_destroy(Set *set){
     free(set);
     return OK;
 }
-
+/*-------------------------------------------------------------*/
 Id set_get_id(Set *set, int pos){
     if(!set)
         return NO_ID;
@@ -60,7 +88,7 @@ int set_get_n_ids(Set *set){
     return set->n_ids;
 }
 
-
+/*-------------------------------------------------------------*/
 Status set_add(Set *set, Id id){
 
     if(!set)
@@ -95,7 +123,7 @@ Status set_del(Set *set, Id id){
         
     return OK;
 }
-
+/*-------------------------------------------------------------*/
 Bool set_has(Set *set, Id id){
     int i;
 
@@ -105,21 +133,6 @@ Bool set_has(Set *set, Id id){
             return TRUE;
         }
     }
-
-    return FALSE;
-}
-
-Bool set_is_empty(Set *set){
-    if(set->n_ids == 0)
-        return TRUE;
-
-    return FALSE;
-}
-
-Bool set_is_full(Set *set){
-
-    if(set->n_ids >= MAX_OBJECTS)
-        return TRUE;
 
     return FALSE;
 }
@@ -138,4 +151,19 @@ Status set_print(Set *set){
     fprintf(stdout, "\n]; Num_ids: %d)\n", set->n_ids);
 
     return OK;
+}
+/*---------------IMPLEMENTACION FUNCIONES PRIVADAS-------------------*/
+Bool set_is_empty(Set *set){
+    if(set->n_ids == 0)
+        return TRUE;
+
+    return FALSE;
+}
+
+Bool set_is_full(Set *set){
+
+    if(set->n_ids >= MAX_OBJECTS)
+        return TRUE;
+
+    return FALSE;
 }

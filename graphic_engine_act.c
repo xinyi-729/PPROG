@@ -108,31 +108,31 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     //   screen_area_puts(ge->map, str);
     // }
 
+ /*Cómo hago para q salga en la parte izq/derecha?*/
 
-    if (id_next != NO_ID) {
+    if (id_east != NO_ID) {
       sprintf(str, "          v");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," +-----------");
+      sprintf(str," +-----------");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," |           ");
+      sprintf(str," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," |           ");
+      sprintf(str," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s",">|           ");
+      sprintf(str,">|           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," |           ");
+      sprintf(str," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," |           ");
+      sprintf(str," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," |           ");
+      sprintf(str," |           ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "%20s"," +-----------");
-      screen_area_puts(ge->map, str);      screen_area_puts(ge->map, str);
+      sprintf(str," +-----------");
+      screen_area_puts(ge->map, str);
     }
 
-    /*Cómo hago para q salga en la parte izq/derecha?*/
-    if(id_east != NO_ID){
-      sprintf(str, "")
+    if(id_west != NO_ID){
+
     }
   }
 
@@ -173,16 +173,17 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
   Object *ob=NULL;
   char str_space[5][10];
 
-
+  /*Parece ser q no sirve*/
   player = game_get_player(game);
 
   id_act = game_get_player_location(game);
   if(id_act != NO_ID){
     space_act = game_get_space(game, id_act);
     /*si printeo solo una casilla, no me hace falta back next? lo puedo hacer desde el grande, no?*/
-    id_back = space_get_north(space_act);
-    id_next = space_get_south(space_act);
+    // id_back = space_get_north(space_act);
+    // id_next = space_get_south(space_act);
 
+    /*Consigo primero el numero de objetos que hay en el espacio actual*/
     n_obj = set_get_n_ids(space_get_set(space_act));
 
     /*conseguir las 5 lineas del espacio*/
@@ -194,7 +195,7 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
     /*En all_obj está guardado todos los nombres de objetos
       En str_space las 5 lineas de descripciones*/
     
-    /*printear una casilla*/
+    /*printear una casilla donde se situa el jugador*/
     sprintf(str, "  +---------------+");
     screen_area_puts(ge->map, str);
     sprintf(str, "  | m0^        %2d|", (int) id_act);
@@ -203,9 +204,10 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
       sprintf(str, "  |%s|", str_space[i]);
       screen_area_puts(ge->map, str);
     }
+
     /*printear objetos*/
     if(n_obj> 0){
-      /*guarda de objetos*/
+      /*Guardo el nombre de los objetos obtenidos en all_obj usando strcat, que concadena */
       for(i=0; i<n_obj; i++){
         /*Obtengo el id del objeto en la posicion 0,1,2,3,...*/
         obj_id_i = space_get_objetc_id_at(space_act, i);
@@ -218,7 +220,8 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
         strcat(all_obj, aux_obname);
       }
       
-      sprintf(str, "  |%s  |", all_obj);/*ya veré si hace falta hacerla bonita*/
+      /*Imprime todos los objetos que haya*/
+      sprintf(str, "  |%s  |", all_obj);/*ya veré si da tiempo de hacerla bonita */
       screen_area_puts(ge->map, str);
       sprintf(str, "  +---------------+");
       screen_area_puts(ge->map, str);
@@ -235,6 +238,8 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
 
 }
 
+/*Sugerencia: funcion equivalente a lo de arriba pero más generalizado*/
+/*No se cómo hacerlo*/
 // void graphic_engine_print_obj(Graphic_engine *ge, Game *game){
 //   Id id_act;
 //   int n_obj;

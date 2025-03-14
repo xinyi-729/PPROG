@@ -11,6 +11,7 @@
 #include "game_actions.h"
 #include "space.h"
 #include "player.h"
+#include "character.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,6 +35,10 @@ void game_actions_drop(Game *game);
 void game_actions_left(Game *game);
 
 void game_actions_right(Game *game);
+
+void game_actions_attack(Game *game);
+
+char* game_actions_chat(Game *game);
 
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -76,6 +81,14 @@ Status game_actions_update(Game *game, Command *command) {
 
     case RIGHT:
       game_actions_right(game);
+      break; 
+
+    case ATTACK:
+      game_actions_attack(game);
+      break; 
+
+    case CHAT:
+      game_actions_chat(game);
       break; 
 
     default:
@@ -240,3 +253,51 @@ void game_actions_right(Game *game){
 
   return;
 }
+/*------------------------------------------------------------------------------*/
+
+void game_actions_attack(Game *game){
+  Id player_space_id = NO_ID;
+  Character *character = NULL;
+  Player *player = NULL;
+  int random_number; 
+
+  if (!game) return;
+
+  /* Veo en que espacio esta el player del juego */
+  player_space_id = game_get_player_location(game);
+  if (player_space_id == NO_ID) return;
+
+  /* Obtengo el character que esta en ese espacio */
+  character = game_get_character_in_space(game, player_space_id);
+  if (!character || character_get_is_friendly(character)) 
+    return; /* Solamente ataca si no es amigo */
+
+  /* Obtengo al player */
+  player = game_get_player(game);
+  if (!player) return;
+
+  if (character_get_health(character) == 0) return;
+  
+  /* Genero numero aleatorio */
+  srand(time(NULL));
+  random_number = rand() % 10;
+
+  /* Si el numero generado esta entre 0 y 4 gana el adversario */
+  if (random_number < 5) {
+    /* El player pierde 1 punto de vida */
+    player_decrease_health(player);
+
+    /* Si no le quedan corazones ha perdido */
+    if (player_get_health(player) == 0) {
+      game_set_finished(game, TRUE);
+    }
+   else if (random_number > 4 && random_number < 10){
+     /* Si esta entre 5 y 9 gana el player */
+     character_decrease_health(character);
+   }
+   } else {
+    return;
+   }
+}
+
+char* game_actions_chat(Game *game);

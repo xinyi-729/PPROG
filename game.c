@@ -10,6 +10,7 @@
 
 #include "game.h"
 #include "player.h"
+#include "character.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,12 +32,8 @@
   Bool finished;
   
 };
-/*-----------------------------------------------------------------------------------------------------*/
-
 
 /*-----------------------------------------------------------------------------------------------------*/
- /* Funciones de la interfaz implementadas */
-
 Game* game_create() {
   Game *game=NULL;
   int i;
@@ -116,56 +113,7 @@ Status game_set_player_location(Game *game, Id id) {
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
- 
-// Id game_get_object_location(Game *game, Id id_obj) {
-//   int i;
 
-//   if(!game )
-//     return NO_ID;
-
-//   for(i=0; i<game->n_spaces; i++){
-//     /*si el objeto está en este espacio, devolvemos el id de este espacio*/
-//     if( space_has_object(game->spaces[i], id_obj) == TRUE){
-//      return space_get_id(game->spaces[i]);
-//     }
-//   /*si no, seguimos buscando en el siguiente espacio*/
-//   }
-
-//   return NO_ID;
-// }
-
-// /*aquí, el campo de Id puede ser o de espacio(para load) o de objeto (para drop)*/
-// Status game_set_object_location(Game *game, Id id_space) {
-//   Command *cmd=NULL;
-//   char *nombre_obj=NULL;
-//   Id obj_id;
-
-//   if (!game) {
-//     return ERROR;
-//   }
-//   /*NO ESTOY SEGURO SI UTILIZAR ESTO*/
-//   cmd = game_get_last_command(game);
-//   if(!cmd)
-//     return ERROR;
-
-//   /*conseguir el nombre del objeto que quiero drop*/
-//   nombre_obj = command_get_argument(cmd);
-//   if(!nombre_obj)
-//     return ERROR;
-
-//   obj_id = game_get_object_id(game, nombre_obj);
-//   if( obj_id == NO_ID){
-//     return ERROR;
-//   }
-
-
-//   if(space_add_object(game_get_space(game, id_space), obj_id) == ERROR){
-//     return ERROR;
-//   }
-
-//   return OK;
-// }
-/*NUEVAS*/
 Object *game_get_object(Game *game, Id id){
   int i;
 

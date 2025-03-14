@@ -25,7 +25,7 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*!< Nombre del jugador */
   Id location;              /* Ubicacion del jugador */
   Id object;                /* Que objeto tiene el jugador */
-  Id health;
+  Id health;                /* Puntos de vida del jugador */    
 };
 
 /*-----------------------------------------------------------------------------------------------------*/
@@ -49,10 +49,10 @@ Player* player_create(Id id) {
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
   newPlayer->object = NO_ID;
+  newPlayer->health = INIT_HEALTH;
 
   return newPlayer;
 }
-
 Status player_destroy(Player* player) {
   /*Cde*/
   if (!player) {
@@ -134,7 +134,7 @@ Id player_get_location(Player* player) {
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
-Status character_set_health(Player *player, long value){
+Status player_set_health(Player *player, long value){
   /* Cde */
   if(!player||value<0){
     return ERROR;
@@ -145,7 +145,7 @@ Status character_set_health(Player *player, long value){
   return OK;
 }
 
-long character_get_health(Player *player){
+long player_get_health(Player *player){
   /* Cde */
   if(!player||player->health<0){
     return -1;
@@ -153,6 +153,7 @@ long character_get_health(Player *player){
 
   return player->health;
 }
+
 /*-----------------------------------------------------------------------------------------------------*/
 Status player_decrease_health(Player *player) {
   /* Cde */
@@ -164,7 +165,6 @@ Status player_decrease_health(Player *player) {
 
   return OK;
 }
-
 
 /*-----------------------------------------------------------------------------------------------------*/
 Status player_print(Player* player) {

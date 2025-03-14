@@ -13,6 +13,8 @@
 
 #include "types.h"
 
+#define INIT_HEALTH 15
+
 typedef struct _Player Player;
 
 /**
@@ -100,14 +102,6 @@ Status player_set_object(Player* player, Id value);
 Id player_get_object(Player* player);
 
 /**
- * @brief Decrece la salud en una unidad
- * @author Lucia Ordovas
- *
- * @param player un puntero al jugador
- * @return OK, ERROR
- */
-Status player_decrease_health(Player *player);
-/**
  * @brief Imprime la informacion del jugador
  * @author Lucia Ordovas
  *
@@ -116,5 +110,33 @@ Status player_decrease_health(Player *player);
  * @return OK, si todo va bien o ERROR si hubo algun problema
  */
 Status player_print(Player* player);
+
+/**
+ * @brief Establece la salud del jugador
+ * @author Lucia Ordovas
+ * 
+ * @param player un puntero al jugador
+ * @param value el valor de la salud a establecer
+ * @return OK, si todo va bien o ERROR si hubo algun problema
+ */
+Status player_set_health(Player *player, long value);
+
+/**
+ * @brief Obtiene la salud del jugador
+ * @author Lucia Ordovas
+ * 
+ * @param player un puntero al jugador
+ * @return el valor de la salud del jugador
+ */
+long player_get_health(Player *player);
+
+/**
+ * @brief Decrece la salud en una unidad
+ * @author Lucia Ordovas
+ *
+ * @param player un puntero al jugador
+ * @return OK, ERROR
+ */
+Status player_decrease_health(Player *player);
 
 #endif

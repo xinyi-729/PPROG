@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "game_reader.h": "c",
-    "graphic_engine.h": "c"
+    "graphic_engine.h": "c",
+    "string.h": "c"
   }
 }
