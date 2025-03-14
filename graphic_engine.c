@@ -30,6 +30,9 @@ struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
+void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id);
+
+/*--------------------------------------------------------------------- */
 Graphic_engine *graphic_engine_create() {
   static Graphic_engine *ge = NULL;
 
@@ -81,59 +84,91 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_east = space_get_east(space_act);
     id_west = space_get_west(space_act);
 
-    if (id_back != NO_ID) {
-      sprintf(str, "  |            %2d|", (int)id_back);
-      screen_area_puts(ge->map, str);
-      // sprintf(str, "  |     %c     |", obj);
-      sprintf(str, "  |               |");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  +---------------+");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "         ^");
-      screen_area_puts(ge->map, str);
+    // if (id_back != NO_ID) {
+    //   sprintf(str, "  |               |");
+    //   screen_area_puts(ge->map, str);
+    //   // sprintf(str, "  |     %c     |", obj);
+    //   sprintf(str, "  |               |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str, "  +---------------+");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str, "         ^");
+    //   screen_area_puts(ge->map, str);
+    // }
+    if(id_back != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_back);
     }
 
     if(id_act != NO_ID){
-      graphic_eng_paint_space(ge, game);
+      graphic_eng_paint_space(ge, game, id_act);
     }
 
-    // if (id_act != NO_ID) {
-    //   sprintf(str, "  +-----------+");
+    // if (id_next != NO_ID) {
+    //   sprintf(str, "          v");
     //   screen_area_puts(ge->map, str);
-    //   sprintf(str, "  | m0^     %2d|", (int)id_act);
+    //   sprintf(str, "  +---------------+");
     //   screen_area_puts(ge->map, str);
-    //   sprintf(str, "  |     %c     |", obj);
+    //   sprintf(str, "  |            %2d|", (int)id_back);
     //   screen_area_puts(ge->map, str);
-    //   sprintf(str, "  +-----------+");
+    //   // sprintf(str, "  |     %c     |", obj);
+    //   sprintf(str, "  |               |");
+    //   screen_area_puts(ge->map, str);
+
+    // }
+    if(id_next != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_next);
+    }
+
+    if(id_west != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_west);
+    }
+    
+    if(id_east != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_east);
+    }
+
+
+
+
+    // if (id_east != NO_ID) {
+
+    //   sprintf(str," +-----------");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," |           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," |           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,">|           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," |           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," |           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," |           ");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," +-----------");
     //   screen_area_puts(ge->map, str);
     // }
 
- /*Cómo hago para q salga en la parte izq/derecha?*/
+    // if(id_west != NO_ID){
 
-    if (id_east != NO_ID) {
-      sprintf(str, "          v");
-      screen_area_puts(ge->map, str);
-      sprintf(str," +-----------");
-      screen_area_puts(ge->map, str);
-      sprintf(str," |           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str," |           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str,">|           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str," |           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str," |           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str," |           ");
-      screen_area_puts(ge->map, str);
-      sprintf(str," +-----------");
-      screen_area_puts(ge->map, str);
-    }
-
-    if(id_west != NO_ID){
-
-    }
+    //   sprintf(str," -----------+");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |<");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str,"            |");
+    //   screen_area_puts(ge->map, str);
+    //   sprintf(str," -----------+");
+    //   screen_area_puts(ge->map, str);
+    // }
   }
 
   /* Paint in the description area */
@@ -163,9 +198,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   printf("prompt:> ");
 }
 
-void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
+void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id){
   Player *player= NULL;
-  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID, obj_id_i;
+  Id id_act = NO_ID, obj_loc = NO_ID, obj_id_i=NO_ID, pla_id=NO_ID;
   char all_obj[128]="", one_obj[128]="", str[255];
   Space *space_act;
   int n_obj, i;
@@ -175,15 +210,11 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
 
   /*Parece ser q no sirve*/
   player = game_get_player(game);
-
   id_act = game_get_player_location(game);
-  if(id_act != NO_ID){
-    space_act = game_get_space(game, id_act);
-    /*si printeo solo una casilla, no me hace falta back next? lo puedo hacer desde el grande, no?*/
-    // id_back = space_get_north(space_act);
-    // id_next = space_get_south(space_act);
 
-    /*Consigo primero el numero de objetos que hay en el espacio actual*/
+  if(id_act != NO_ID){
+
+    space_act = game_get_space(game, id_act);
     n_obj = set_get_n_ids(space_get_set(space_act));
 
     /*conseguir las 5 lineas del espacio*/
@@ -198,10 +229,16 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game){
     /*printear una casilla donde se situa el jugador*/
     sprintf(str, "  +---------------+");
     screen_area_puts(ge->map, str);
-    sprintf(str, "  | m0^        %2d|", (int) id_act);
-    screen_area_puts(ge->map, str);
+    if(id == id_act){
+      sprintf(str, "  | m0^        %2d|", (int) id_act);
+      screen_area_puts(ge->map, str);
+    }
+    else{
+      sprintf(str, "  |            %2d|", (int) id_act);
+      screen_area_puts(ge->map, str);
+    }
     for(i=0; i<5; i++){
-      sprintf(str, "  |%s|", str_space[i]);
+      sprintf(str, "  |%s    |", str_space[i]);
       screen_area_puts(ge->map, str);
     }
 

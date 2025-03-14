@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* Funciones privadas*/
@@ -300,4 +301,20 @@ void game_actions_attack(Game *game){
    }
 }
 
-char* game_actions_chat(Game *game);
+char* game_actions_chat(Game *game){
+  Id player_space_id;
+  Character *character = NULL;
+
+  if (!game) return NULL;
+
+  /* Veo en que espacio esta el player del juego */
+  player_space_id = game_get_player_location(game);
+  if (player_space_id == NO_ID) return NULL;
+
+  /* Obtengo el character que esta en ese espacio */
+  character = game_get_character_in_space(game, player_space_id);
+  if (!character || !character_get_is_friendly(character)) return NULL; /* Solamente habla si es amigo */
+
+  /* Retornamos lo que dice el caracter para imprimirlo en graphic_engine en la descripcion del juego */
+  return character_get_message(character);
+}

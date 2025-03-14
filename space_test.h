@@ -84,7 +84,7 @@
  void test1_space_get_west();
  void test2_space_get_west();
 
- /********** */
+/*--------LAS AJUSTADAS---------------------------*/
 void test1_space_add_object();
 void test2_space_add_object();
 
@@ -117,7 +117,5 @@ void test2_space_get_objetc_id_at();
 
 
 
-
- 
  #endif
  

@@ -10,7 +10,6 @@
 
 #include "game.h"
 #include "player.h"
-#include "character.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +29,8 @@
   int n_spaces;
   Command *last_cmd;
   Bool finished;
+  Character *character[MAX_CHARACTERS];
+  int n_characters;
   
 };
 
@@ -243,3 +244,37 @@ int game_get_n_obj(Game *game){
 
 //   return NULL;
 // }
+Character * game_get_character_in_space(Game *game, Id space_id){
+  int character_id;
+
+  if(!game || space_id == NO_ID){
+    return NULL;
+  }
+
+  /* Primero encuentro el TAD del espacio con ese ID */
+  for(int i=0; i<game->n_spaces; i++){
+    if(space_get_id(game->spaces[i]) == space_id){
+      character_id = space_get_character_id(game->spaces[i]);
+      if(character_id == NO_ID){
+        return NULL;
+      }
+
+      /* Ahora encuentro el TAD del character con el ID que busco */
+      for(int j=0; j<MAX_CHARACTERS; j++){
+        if(character_get_id(game->character[j]) == character_id){
+          return game->character[j];
+        }
+      }
+    }
+  }
+  
+  return NULL;
+}
+
+/*---------------------------------------------------------------------------*/
+char * game_get_message(Game *game){
+  if(!game) return NULL;
+
+  return character_get_message(game_get_character_in_space(game,game_get_player_location(game)));
+}
+

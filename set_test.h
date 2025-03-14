@@ -37,20 +37,22 @@
   * @post Output==ERROR
   */
  void test2_set_add();
+
+ void test3_set_add() ;
  
  /**
   * @test Test function for set_remove
   * @pre Set pointer and element to remove
   * @post Output==OK 
   */
- void test1_set_remove();
+ void test1_set_del();
  
  /**
   * @test Test function for set_remove
   * @pre Set pointer = NULL
   * @post Output==ERROR
   */
- void test2_set_remove();
+ void test2_set_del();
  
  /**
   * @test Test function for set_get_id
@@ -66,60 +68,47 @@
   */
  void test2_set_get_id();
  
- /**
-  * @test Test function for set_get_size
-  * @pre Set pointer
-  * @post Output==Set size
-  */
- void test1_set_get_size();
- 
- /**
-  * @test Test function for set_get_size
-  * @pre Set pointer = NULL
-  * @post Output==-1
-  */
- void test2_set_get_size();
- 
- /**
-  * @test Test function for set_contains
-  * @pre Set pointer and element to check
-  * @post Output==TRUE
-  */
- void test1_set_contains();
- 
- /**
-  * @test Test function for set_contains
-  * @pre Set pointer = NULL
-  * @post Output==FALSE
-  */
- void test2_set_contains();
- 
- /**
-  * @test Test function for set_is_empty
+  /**
+  * @test Test function for set_has
   * @pre Set pointer
   * @post Output==TRUE
   */
- void test1_set_is_empty();
- 
- /**
-  * @test Test function for set_is_empty
+ void test1_set_has();
+
+  /**
+  * @test Test function for set_has
   * @pre Set pointer with elements
   * @post Output==FALSE
   */
- void test2_set_is_empty();
+ void test2_set_has();
+
+//  /**
+//   * @test Test function for set_is_empty
+//   * @pre Set pointer
+//   * @post Output==TRUE
+//   */
+//  void test1_set_is_empty();
  
- /**
-  * @test Test function for set_destroy
-  * @pre Set pointer
-  * @post Output==OK
-  */
- void test1_set_destroy();
+//  /**
+//   * @test Test function for set_is_empty
+//   * @pre Set pointer with elements
+//   * @post Output==FALSE
+//   */
+//  void test2_set_is_empty();
  
- /**
-  * @test Test function for set_destroy
-  * @pre Set pointer = NULL
-  * @post Output==ERROR
+  /**
+  * @test Test function for set_get_n_ids
+  * @pre Set pointer with elements
+  * @post Output==ID
   */
- void test2_set_destroy();
+ void test1_set_get_n_ids();
+
+   /**
+  * @test Test function for set_get_n_ids
+  * @pre Set pointer with elements
+  * @post Output==NO_ID
+  */
+ void test2_set_get_n_ids();
+
  
  #endif

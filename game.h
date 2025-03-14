@@ -16,9 +16,11 @@
 #include "object.h"
 #include "types.h"
 #include "player.h"
+#include "character.h"
 
 #define MAX_SPACES 100
 #define ID_PLAYER 729
+#define MAX_CHARACTERS 100
 
 
 /*-----------------------------------------------------------------------------------------------------*/
@@ -181,6 +183,25 @@ int game_get_n_obj(Game *game);
 
 
 // Object *game_get_object(Game *game, Id id);
+
+ /**
+  * @brief Obtiene el personaje en un espacio específico
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @param space_id ID del espacio
+  * @return Puntero al personaje en el espacio, NULL si no hay personaje o si hay un error
+  */
+ Character *game_get_character_in_space(Game *game, Id space_id);
+ 
+ /**
+  * @brief Obtiene el mensaje del character en el espacio 
+  * @author Xinyi Huang y Lucia Ordovas
+  *
+  * @param game Puntero al juego
+  * @return Mensaje del character
+  */
+ char * game_get_message(Game *game);
 
 
 #endif

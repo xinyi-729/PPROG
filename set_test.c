@@ -39,23 +39,25 @@
        printf("Error: unknown test %d\t", test);
        exit(EXIT_SUCCESS);
      }
-   }
+   } 
  
    if (all || test == 1) test1_set_create();
    if (all || test == 2) test2_set_create();
    if (all || test == 3) test1_set_add();
    if (all || test == 4) test2_set_add();
-   if (all || test == 5) test1_set_del();
-   if (all || test == 6) test2_set_del();
-   if (all || test == 7) test1_set_get_id();
-   if (all || test == 8) test2_set_get_id();
-   if (all || test == 11) test1_set_has();
-   if (all || test == 12) test2_set_has();
-   if (all || test == 13) test1_set_is_empty();
-   if (all || test == 14) test2_set_is_empty();
-   if (all || test == 15) test1_set_destroy();
-   if (all || test == 16) test2_set_destroy();
- 
+   if (all || test == 5) test3_set_add();
+   if (all || test == 6) test1_set_get_n_ids();
+   if (all || test == 7) test2_set_get_n_ids();
+   if (all || test == 8) test1_set_del();
+   if (all || test == 9) test2_set_del();
+   if (all || test == 10) test1_set_get_id();
+   if (all || test == 11) test2_set_get_id();
+   if (all || test == 12) test1_set_has();
+   if (all || test == 13) test2_set_has();
+  //  if (all || test == 14) test1_set_is_empty();
+  //  if (all || test == 15) test2_set_is_empty();
+
+
    PRINT_PASSED_PERCENTAGE;
  
    return 1;
@@ -69,19 +71,40 @@
  
  void test2_set_create() {
    Set *set = set_create();
-   PRINT_TEST_RESULT(set_get_size(set) == 0);
+   PRINT_TEST_RESULT(set_get_n_ids(set) == 0);
    set_destroy(set);
  }
- 
+
  void test1_set_add() {
-   Set *set = set_create();
-   PRINT_TEST_RESULT(set_add(set, 1) == OK);
-   set_destroy(set);
+  Set *set = set_create();
+  PRINT_TEST_RESULT(set_add(set, 1) == OK);
+  set_destroy(set);
+}
+
+void test2_set_add() {
+  Set *set = NULL;
+  PRINT_TEST_RESULT(set_add(set, 1) == ERROR);
+}
+
+void test3_set_add() {
+  Set *set = set_create();
+  set_add(set, 1);
+  PRINT_TEST_RESULT(set_add(set, 1) == OK);
+  set_destroy(set);
+}
+
+void test1_set_get_n_ids(){
+  Set *s = set_create();
+  PRINT_TEST_RESULT(set_get_n_ids(s) == 0);
+  set_destroy(s);
  }
- 
- void test2_set_add() {
-   Set *set = NULL;
-   PRINT_TEST_RESULT(set_add(set, 1) == ERROR);
+
+void test2_set_get_n_ids(){
+  Set *s = set_create();
+  set_add(s,100);
+  set_add(s, 101);
+  PRINT_TEST_RESULT(set_get_n_ids(s) == 2);
+  set_destroy(s);
  }
  
  void test1_set_del() {
@@ -91,7 +114,7 @@
    set_destroy(set);
  }
  
- void test2_set_deel() {
+ void test2_set_del() {
    Set *set = NULL;
    PRINT_TEST_RESULT(set_del(set, 1) == ERROR);
  }
@@ -104,7 +127,7 @@
  }
  
  void test2_set_get_id() {
-   Set *set = NULL;
+   Set *set =NULL;
    PRINT_TEST_RESULT(set_get_id(set, 0) == NO_ID);
  }
  
@@ -116,29 +139,21 @@
  }
  
  void test2_set_has() {
-   Set *set = NULL;
-   PRINT_TEST_RESULT(set_has(set, 1) == FALSE);
- }
- 
- void test1_set_is_empty() {
-   Set *set = set_create();
-   PRINT_TEST_RESULT(set_is_empty(set) == TRUE);
-   set_destroy(set);
- }
- 
- void test2_set_is_empty() {
    Set *set = set_create();
    set_add(set, 1);
-   PRINT_TEST_RESULT(set_is_empty(set) == FALSE);
-   set_destroy(set);
+   PRINT_TEST_RESULT(set_has(set, 13) == FALSE);
  }
  
- void test1_set_destroy() {
-   Set *set = set_create();
-   PRINT_TEST_RESULT(set_destroy(set) == OK);
- }
+//  void test1_set_is_empty() {
+//    Set *set = set_create();
+//    PRINT_TEST_RESULT(set_is_empty(set) == TRUE);
+//    set_destroy(set);
+//  }
  
- void test2_set_destroy() {
-   Set *set = NULL;
-   PRINT_TEST_RESULT(set_destroy(set) == ERROR);
- }
+//  void test2_set_is_empty() {
+//    Set *set = set_create();
+//    set_add(set, 1);
+//    PRINT_TEST_RESULT(set_is_empty(set) == FALSE);
+//    set_destroy(set);
+//  }
+
