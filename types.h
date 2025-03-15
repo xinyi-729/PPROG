@@ -13,6 +13,8 @@
 
 #define WORD_SIZE 1000
 #define NO_ID -1
+#define NUM_DESC_R 5
+#define NUM_DESC_C 10
 typedef long Id;
 
 typedef enum { FALSE, TRUE } Bool;

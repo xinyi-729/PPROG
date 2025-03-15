@@ -17,6 +17,9 @@ test_space: space_test.o space.o set.o
 test_set: set_test.o set.o
 	$(CC) -o $@ $^ $(CLIB)
 
+test_character: character_test.o character.o
+	$(CC) -o $@ $^ $(CLIB)
+
 #######################################################
 command.o: command.c command.h types.h
 	$(CC) $(CFLAGS) -c $<
@@ -58,9 +61,12 @@ space_test.o: space_test.c space_test.h space.h test.h
 set_test.o: set_test.c set_test.h set.h
 	$(CC) $(CFLAGS) -c $<
 
+character_test.o: character_test.c character_test.h character.h
+	$(CC) $(CFLAGS) -c $<
+
 ###############################
 clean:
 	@echo "Cleaning all..."
 	rm *.o -f anthill
-	rm -f test_set test_space
+	rm -f test_set test_space test_character
 	

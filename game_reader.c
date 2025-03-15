@@ -53,10 +53,12 @@ Status game_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
+  char **gdesc=NULL;
   char *toks = NULL;
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space *space = NULL;
   Status status = OK;
+  int i,j;
 
   if (!filename) {
     return ERROR;
@@ -66,6 +68,26 @@ Status game_load_spaces(Game *game, char *filename) {
   if (file == NULL) {
     return ERROR;
   }
+
+  gdesc = (char **) malloc(NUM_DESC_R * sizeof(char*));
+  if(!gdesc){
+    fclose(file);
+    return ERROR;
+  }
+
+  for(i=0; i<NUM_DESC_C; i++){
+    gdesc[i] = (char*) malloc(NUM_DESC_C * sizeof(char));
+    if(!gdesc[i]){
+      for(j=0; j<NUM_DESC_C;j++){
+        free(gdesc[i]);
+        
+      }
+      free(gdesc);
+      fclose(file);
+      return ERROR;
+    }
+  }
+
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
@@ -81,8 +103,21 @@ Status game_load_spaces(Game *game, char *filename) {
       south = atol(toks);
       toks = strtok(NULL, "|");
       west = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc[0], toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc[1], toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc[2], toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc[3], toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc[4], toks);
+
+
+
 #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s\n", id, name, north, east, south, west, gdesc[0]) ;
 #endif
       space = space_create(id);
       if (space != NULL) {
@@ -91,6 +126,9 @@ Status game_load_spaces(Game *game, char *filename) {
         space_set_east(space, east);
         space_set_south(space, south);
         space_set_west(space, west);
+        for(i=0; i<NUM_DESC_R;i++){
+          space_set_gdesc(space, gdesc[i], i);
+        }
         game_add_space(game, space);
       }
     }
@@ -141,7 +179,6 @@ Status game_load_objects(Game *game, char *filename) {
         object_set_name(object, obj_name);
         space_add_object(game_get_space(game,location), id);
         game_add_object(game, object);
-
       }
     }
   }

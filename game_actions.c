@@ -21,24 +21,94 @@
 /*-----------------------------------------------------------------------------------------------------*/
 /* Funciones privadas*/
 
+/**
+ * @brief No hace nada al recibir algo no definido
+ * @author Profesores PPROG
+ *
+ * @param game un puntero a game
+ * @return nada ya que es void
+ */
 void game_actions_unknown(Game *game);
 
+/**
+ * @brief Sale del juego
+ * @author Profesores PPROG
+ *
+ * @param game un puntero a game
+ * @return nada ya que es void
+ */
 void game_actions_exit(Game *game);
 
+/**
+ * @brief Mueve al jugador abajo
+ * @author Profesores PPROG
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_next(Game *game);
 
+/**
+ * @brief Mueve al jugador arriba
+ * @author Profesores PPROG
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_back(Game *game);
 
+/**
+ * @brief Hace que el jugador tome el objeto (si está en el espacio)
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_take(Game *game);
 
+/**
+ * @brief Hace que el jugador tire el objeto (si lo tiene)
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_drop(Game *game);
 
+/**
+ * @brief Hace que el jugador vaya hacia la izquierda
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_left(Game *game);
 
+/**
+ * @brief Hace que el jugador vaya hacia la derecha
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_right(Game *game);
 
+/**
+ * @brief Hace que el jugador ataque
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 void game_actions_attack(Game *game);
 
+/**
+ * @brief Hace que el jugador se comunique
+ * @author Xinyi Huang
+ *
+ * @param game un puntero a game
+ * @return OK si todo fue bien o ERROR si hubo algún problema
+ */
 char* game_actions_chat(Game *game);
 
 /*-----------------------------------------------------------------------------------------------------*/
@@ -290,6 +360,7 @@ void game_actions_attack(Game *game){
 
     /* Si no le quedan corazones ha perdido */
     if (player_get_health(player) == 0) {
+      printf("\nGAME OVER, player DEAD\n");
       game_set_finished(game, TRUE);
     }
    else if (random_number > 4 && random_number < 10){

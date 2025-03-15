@@ -19,10 +19,10 @@
 #include "space.h"
 #include "types.h"
 
-#define WIDTH_MAP 60
-#define WIDTH_DES 35
+#define WIDTH_MAP 67
+#define WIDTH_DES 40
 #define WIDTH_BAN 23
-#define HEIGHT_MAP 20
+#define HEIGHT_MAP 25
 #define HEIGHT_BAN 1
 #define HEIGHT_HLP 3
 #define HEIGHT_FDB 3
@@ -88,8 +88,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_east = space_get_east(space_act);
     id_west = space_get_west(space_act);
 
+    printf("id_back: %ld\n", id_back);
     if(id_back != NO_ID) {
       graphic_eng_paint_space(ge, game, id_back);
+      sprintf(str, "                          ^");
+      screen_area_puts(ge->map, str);
     }
 
     if(id_act != NO_ID){
@@ -97,10 +100,26 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     }
 
     if(id_next != NO_ID) {
+      sprintf(str, "                          v");
+      screen_area_puts(ge->map, str);
       graphic_eng_paint_space(ge, game, id_next);
     }
 
     if(id_west != NO_ID) {
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
+      // sprintf(str, "|  ");
+      // screen_area_puts(ge->map, str);
       graphic_eng_paint_space(ge, game, id_west);
     }
 
@@ -114,12 +133,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_clear(ge->descript);
   get_all_obj_name(game, space_act,all_obj);
 
-  sprintf(str, "  Object: \n");
+  sprintf(str, "  Object: ");
   screen_area_puts(ge->descript, str);
 
   token = strtok(all_obj, " ");
   while(token != NULL){
-    sprintf(str, "   %s: %ld\n", token, game_get_object_id(game, token));
+    sprintf(str, "   %s: %ld", token, game_get_object_id(game, token));
     screen_area_puts(ge->descript, str);
     token = strtok(NULL, " ");/*siguiente nombre*/
   }
@@ -150,16 +169,16 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id){
   Space *space_act;
   int n_obj, i;
   char *aux_gdesc=NULL;
-  char str_space[5][10];
+  char str_space[NUM_DESC_R][NUM_DESC_C];
 
   id_act = game_get_player_location(game);
 
   if(id_act != NO_ID){
 
-    space_act = game_get_space(game, id_act);
+    space_act = game_get_space(game, id);
 
     /*conseguir las 5 lineas del espacio*/
-    for(i=0; i<5; i++){
+    for(i=0; i<NUM_DESC_R; i++){
       aux_gdesc = space_get_gdesc(space_act, i);
       strcpy(str_space[i], aux_gdesc);
     }
@@ -167,20 +186,20 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id){
     /*En all_obj está guardado todos los nombres de objetos
       En str_space las 5 lineas de descripciones*/
     
-    sprintf(str, "  +---------------+");
+    sprintf(str, "                  +---------------+");
     screen_area_puts(ge->map, str);
 
     if(id == id_act){
-      sprintf(str, "  | m0^        %2d|", (int) id_act);
+      sprintf(str, "                  | m0^        %3d|", (int) id);
       screen_area_puts(ge->map, str);
     }
     else{
-      sprintf(str, "  |            %2d|", (int) id_act);
+      sprintf(str, "                  |            %3d|", (int) id);
       screen_area_puts(ge->map, str);
     }
 
-    for(i=0; i<5; i++){
-      sprintf(str, "  |%s    |", str_space[i]);
+    for(i=0; i<NUM_DESC_R; i++){
+      sprintf(str, "                  |%s      |", str_space[i]);
       screen_area_puts(ge->map, str);
     }
 
@@ -192,15 +211,15 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id){
         printf("error en all_obj\n");
       }    
       /*Imprime todos los objetos que haya*/
-      sprintf(str, "  |%s  |", all_obj);/*ya veré si da tiempo de hacerla bonita */
+      sprintf(str, "                  |%s  |", all_obj);/*ya veré si da tiempo de hacerla bonita */
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +---------------+");
+      sprintf(str, "                  +---------------+");
       screen_area_puts(ge->map, str);
     }
     else{
-      sprintf(str, "  |               |");
+      sprintf(str, "                  |               |");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +---------------+");
+      sprintf(str, "                  +---------------+");
       screen_area_puts(ge->map, str);
 
     }
