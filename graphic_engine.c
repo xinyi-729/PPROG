@@ -95,36 +95,23 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       screen_area_puts(ge->map, str);
     }
 
+    if(id_west != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_west);
+    }   
+
     if(id_act != NO_ID){
       graphic_eng_paint_space(ge, game, id_act);
     }
+
+    if(id_east != NO_ID) {
+      graphic_eng_paint_space(ge, game, id_east);
+    }
+
 
     if(id_next != NO_ID) {
       sprintf(str, "                          v");
       screen_area_puts(ge->map, str);
       graphic_eng_paint_space(ge, game, id_next);
-    }
-
-    if(id_west != NO_ID) {
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      // sprintf(str, "|  ");
-      // screen_area_puts(ge->map, str);
-      graphic_eng_paint_space(ge, game, id_west);
-    }
-
-    if(id_east != NO_ID) {
-      graphic_eng_paint_space(ge, game, id_east);
     }
 
   }
@@ -142,6 +129,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     screen_area_puts(ge->descript, str);
     token = strtok(NULL, " ");/*siguiente nombre*/
   }
+
+  sprintf(str, "  Player location: %ld", id_act);
+  screen_area_puts(ge->descript, str);
+
 
   /* Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");
@@ -172,6 +163,7 @@ void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id){
   char str_space[NUM_DESC_R][NUM_DESC_C];
 
   id_act = game_get_player_location(game);
+  printf("id_act:%ld, id: %ld\n", id_act, id);
 
   if(id_act != NO_ID){
 

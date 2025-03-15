@@ -23,6 +23,14 @@
  */
 Status game_load_spaces(Game *game, char *filename);
 
+/**
+ * @brief Carga los objetos del fichero de datos
+ * @author XINYI HUANG y Lucia Ordovas
+ * 
+ * @param game un puntero a game
+ * @param filename una cadena de caracteres (nombre del archivo a leer)
+ * @return OK, si todo fue bien o ERROR si hubo algún problema
+ */
 Status game_load_objects(Game *game, char *filename);
 
 /*-----------------------------------------------------------------------------------------------------*/
