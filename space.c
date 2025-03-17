@@ -216,7 +216,7 @@ Status space_set_character_id(Space *space, Id id){
 
 Id space_get_character_id(Space *space){
   if(!space){
-    return ERROR;
+    return NO_ID;
   }
 
   return space->id_character;

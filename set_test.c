@@ -54,9 +54,6 @@
    if (all || test == 11) test2_set_get_id();
    if (all || test == 12) test1_set_has();
    if (all || test == 13) test2_set_has();
-  //  if (all || test == 14) test1_set_is_empty();
-  //  if (all || test == 15) test2_set_is_empty();
-
 
    PRINT_PASSED_PERCENTAGE;
  
@@ -144,16 +141,3 @@ void test2_set_get_n_ids(){
    PRINT_TEST_RESULT(set_has(set, 13) == FALSE);
  }
  
-//  void test1_set_is_empty() {
-//    Set *set = set_create();
-//    PRINT_TEST_RESULT(set_is_empty(set) == TRUE);
-//    set_destroy(set);
-//  }
- 
-//  void test2_set_is_empty() {
-//    Set *set = set_create();
-//    set_add(set, 1);
-//    PRINT_TEST_RESULT(set_is_empty(set) == FALSE);
-//    set_destroy(set);
-//  }
-

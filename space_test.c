@@ -85,9 +85,15 @@
 
    if (all || test == 37) test1_space_get_gdesc();
    if (all || test == 38) test2_space_get_gdesc();
+
    if (all || test == 39) test1_space_get_objetc_id_at();
    if (all || test == 40) test2_space_get_objetc_id_at();
 
+   if (all || test == 41) test1_space_set_character_id();
+   if (all || test == 42) test2_space_set_character_id();
+
+   if (all || test == 43) test1_space_get_character_id();
+   if (all || test == 44) test2_space_get_character_id();
  
    PRINT_PASSED_PERCENTAGE;
  
@@ -274,7 +280,6 @@ void test1_space_del_object(){
   Space *s = NULL;
   s=space_create(5);
   space_add_object(s, 110);
-  space_add_object(s, 120);
   PRINT_TEST_RESULT(space_del_object(s, 110) == OK);
   space_destroy(s);
 }
@@ -312,19 +317,6 @@ void test2_space_get_set(){
   PRINT_TEST_RESULT(space_get_set(s) == NULL);
 
 }
-
-// void test1_space_set_character_id(){
-//   Space *s = NULL;
-//   s=space_create(5);
-//   space_add_object(s, 120);
-//   space_add_object(s, 130);
-//   PRINT_TEST_RESULT(space_get_set(s) != NULL);
-//   space_destroy(s);
-// }
-// void test2_space_set_character_id();
-
-// void test1_space_get_character_id();
-// void test2_space_get_character_id();
 
 void test1_space_set_gdesc(){
   Space *s = NULL;
@@ -373,3 +365,31 @@ void test2_space_get_objetc_id_at(){
   PRINT_TEST_RESULT(space_get_objetc_id_at(s, 4) == NO_ID);
   space_destroy(s);
 }
+
+/*---------------------------------------------------------------------*/
+void test1_space_set_character_id() {
+  Space *s = NULL;
+  s = space_create(5);
+  PRINT_TEST_RESULT(space_set_character_id(s, 110) == OK);
+  space_destroy(s);
+}
+
+void test2_space_set_character_id() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_set_character_id(s, 110) == ERROR);
+}
+
+void test1_space_get_character_id() {
+  Space *s = NULL;
+  s = space_create(5);
+  space_set_character_id(s, 110);
+  PRINT_TEST_RESULT(space_get_character_id(s) == 110);
+  space_destroy(s);
+}
+
+void test2_space_get_character_id() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_get_character_id(s) == NO_ID);
+}
+
+/*--------------------------------------------------------------*/

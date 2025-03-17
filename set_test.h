@@ -81,20 +81,6 @@
   * @post Output==FALSE
   */
  void test2_set_has();
-
-//  /**
-//   * @test Test function for set_is_empty
-//   * @pre Set pointer
-//   * @post Output==TRUE
-//   */
-//  void test1_set_is_empty();
- 
-//  /**
-//   * @test Test function for set_is_empty
-//   * @pre Set pointer with elements
-//   * @post Output==FALSE
-//   */
-//  void test2_set_is_empty();
  
   /**
   * @test Test function for set_get_n_ids
