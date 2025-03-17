@@ -64,12 +64,18 @@ Status game_destroy(Game *game) {
 
   for (i = 0; i < game->n_spaces; i++) {
     space_destroy(game->spaces[i]);
+    
+  }
+
+  for (i = 0; i < game->n_objects; i++) {
     object_destroy(game->object[i]);
+    
   }
 
   player_destroy(game->player);
 
   command_destroy(game->last_cmd);
+  free(game);
 
   return OK;
 }

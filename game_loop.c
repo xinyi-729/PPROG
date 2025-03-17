@@ -49,6 +49,7 @@ int main(int argc, char *argv[]) {
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   if (game_create_from_file(game, file_name) == ERROR) {
     fprintf(stderr, "Error while initializing game.\n");
+    game_destroy(game);
     return 1;
   }
 

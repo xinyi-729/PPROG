@@ -61,12 +61,12 @@ Status game_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
-  char **gdesc=NULL;
+  char gdesc[5][10];
   char *toks = NULL;
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space *space = NULL;
   Status status = OK;
-  int i,j;
+  int i;
 
   if (!filename) {
     return ERROR;
@@ -75,25 +75,6 @@ Status game_load_spaces(Game *game, char *filename) {
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
-  }
-
-  gdesc = (char **) malloc(NUM_DESC_R * sizeof(char*));
-  if(!gdesc){
-    fclose(file);
-    return ERROR;
-  }
-
-  for(i=0; i<NUM_DESC_C; i++){
-    gdesc[i] = (char*) malloc(NUM_DESC_C * sizeof(char));
-    if(!gdesc[i]){
-      for(j=0; j<NUM_DESC_C;j++){
-        free(gdesc[i]);
-        
-      }
-      free(gdesc);
-      fclose(file);
-      return ERROR;
-    }
   }
 
 
@@ -125,7 +106,7 @@ Status game_load_spaces(Game *game, char *filename) {
 
 
 #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s\n", id, name, north, east, south, west, gdesc[0]) ;
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s|%s|%s|%s|%s\n", id, name, north, east, south, west, gdesc[0], gdesc[1],gdesc[2], gdesc[3], gdesc[4]) ;
 #endif
       space = space_create(id);
       if (space != NULL) {
