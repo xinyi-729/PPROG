@@ -166,9 +166,11 @@ Status game_load_objects(Game *game, char *filename) {
       object = object_create(id);
       if (object != NULL) {
         object_set_name(object, obj_name);
+        object_set_location(object, location);
         space_add_object(game_get_space(game,location), id);
         game_add_object(game, object);
       }
+
     }
   }
 

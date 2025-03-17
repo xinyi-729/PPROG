@@ -71,5 +71,24 @@ Status object_print(Object* obj);
  */
 char* object_get_name(Object* obj);
 
+/**
+ * @brief Deja el objeto en un espacio definido
+ * @author XINYI HUANG
+ *
+ * @param obj puntero a Object
+ * @param location Id del espacio que quiere dejar el objeto
+ * @return OK en caso de éxito y ERROR si algo salió mal
+ */
+Status object_set_location(Object *obj, Id location);
+
+/**
+ * @brief Consigue la locacion del objeto
+ * @author XINYI HUANG
+ *
+ * @param obj puntero a Object
+ * @return En caso de éxito devuelve el id de este objeto, en otros casos devuelve NO_ID
+ */
+Id object_get_location(Object *obj);
+
 
 #endif

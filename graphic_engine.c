@@ -130,8 +130,22 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     token = strtok(NULL, " ");/*siguiente nombre*/
   }
 
+  sprintf(str, "            ");
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "            ");
+  screen_area_puts(ge->descript, str);
+
   sprintf(str, "  Player location: %ld", id_act);
   screen_area_puts(ge->descript, str);
+
+  sprintf(str, "            ");
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "            ");
+  screen_area_puts(ge->descript, str);
+
+  sprintf(str, "  Characters: ");
+  screen_area_puts(ge->descript, str);
+  /**COSASDLJAWDUAHDAOHDW */
 
 
   /* Paint in the banner area */

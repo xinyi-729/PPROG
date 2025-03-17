@@ -39,7 +39,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {
  */
 struct _Command {
   CommandCode code; /*!< Name of the command */
-  char *argument;
+  char argument[WORD_SIZE+1];
   
 };
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
@@ -56,7 +56,7 @@ Command* command_create() {
 
    /* Inicializacion de un comando vacio */
   newCommand->code = NO_CMD;
-  newCommand->argument = NULL;
+
 
   return newCommand;
 }
@@ -92,7 +92,7 @@ Status command_set_argument(Command *command, char *argument){
   if(!command)
     return ERROR;
 
-  command->argument = argument;
+  strcpy(command->argument, argument);
 
   return OK;
 }
@@ -107,7 +107,7 @@ char *command_get_argument(Command *cmd){
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
 
 Status command_get_user_input(Command* command) {
-  char input[CMD_LENGHT] = "", *token = NULL, *argum=NULL;
+  char input[CMD_LENGHT] = "", *token = NULL, *token2=NULL, argum[128] = "";
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
   // char argum[128] = "";
@@ -121,15 +121,15 @@ Status command_get_user_input(Command* command) {
     if (!token) {
       command_set_code(command, UNKNOWN);
     }
-    token = strtok(input, "\n");
 
-    if(argum){
-      command_set_argument(command, argum);/**revisar */
+    token2 = strtok(NULL, "\n");
+    if(token2 != NULL){
+      strcpy(argum, token2);
+      command_set_argument(command, argum);
     }
-    
-  
+
     cmd = UNKNOWN;
-    while (cmd == UNKNOWN && i < N_CMD) {/*qué está haciendo este while??*/
+    while (cmd == UNKNOWN && i < N_CMD) {
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {

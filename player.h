@@ -139,4 +139,13 @@ long player_get_health(Player *player);
  */
 Status player_decrease_health(Player *player);
 
+/**
+ * @brief Comprueba si el jugador tiene el objeto
+ * @author XINYI HUANG
+ *
+ * @param player un puntero al jugador
+ * @return TRUE si lo tiene, FALSE si no
+ */
+Bool player_has_object(Player *player);
+
 #endif

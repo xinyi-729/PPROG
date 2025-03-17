@@ -217,6 +217,7 @@ void game_actions_take(Game *game){
   Id object_id=NO_ID;
   Space *space=NULL;
   Command *cmd = NULL;
+  char *name_obj=NULL;
   //Si tiene algo no puede coger otra cosa
 
   if(!game)
@@ -226,13 +227,19 @@ void game_actions_take(Game *game){
   if(player_space_id == NO_ID)
     return;
 
+  /*Comprobamos que el jugador ya tiene objeto o no */
+  if(player_has_object(game_get_player(game)) == TRUE)
+    return;
+
   /*Obtener el ultimo comando*/
   if(!(cmd = game_get_last_command(game)))
     return;
 
+  name_obj = command_get_argument(cmd);
+
   /*Obtener el id del objeto*/
-  if((object_id = game_get_object_id(game, command_get_argument(cmd))) == NO_ID)
-    return ;
+  if((object_id = game_get_object_id(game, name_obj)) == NO_ID){
+    return ;}
 
   /*Obtener el TAD del espacio que está player*/
   space = game_get_space(game, player_space_id);
@@ -240,22 +247,25 @@ void game_actions_take(Game *game){
     return;
 
   /*Comprobar que si este espacio hay ese objeto*/
-  if(space_has_object(space, object_id) == FALSE)
+  if(space_has_object(space, object_id) == FALSE){
+    return;
+  }
+
+  /*Ahora, toca guardar el object en el jugador*/  
+  if(player_set_object(game_get_player(game), object_id) == ERROR)
     return;
 
   /*Como ya hicimos take, el objeto desaparece de ese espacio llamando a space_del_object*/
   if(space_del_object(space, object_id) == ERROR)
     return;
 
-  /*Ahora, toca guardar el object en el jugador*/  
-  if(player_set_object(game_get_player(game), object_id) == ERROR)
+  if(object_set_location(game_get_object(game, object_id), IN_PLAYER) == ERROR)
     return;
 
   return;
 }
 
 /*------------------------------------------------------------------------------*/
-/*modificando*/
 void game_actions_drop(Game *game){
   Id player_space_id=NO_ID;
   Id object_id=NO_ID;

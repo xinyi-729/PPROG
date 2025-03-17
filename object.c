@@ -24,6 +24,7 @@ struct _Object
 {
     Id id;                          /*!< Identificador del objeto*/
     char name[WORD_SIZE+1];         /*!< Nombre del objeto*/
+    Id location;
 };
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -41,7 +42,8 @@ Object *object_create(Id id){
 
     /*Inicializar valores vacías*/
     obj->id = id;
-    obj->name[0]='\0'; 
+    obj->name[0]='\0';
+    obj->location = NO_ID;
 
     return obj;
 }
@@ -94,6 +96,21 @@ Status object_print(Object *obj){
     fprintf(stdout, "---> Object (Id: %ld; Name: %s)\n", obj->id, obj->name);
 
     return OK;
+}
+
+Status object_set_location(Object *obj, Id location){
+    if(!obj)
+        return ERROR;
+
+    obj->location = location;
+
+    return OK;
+}
+Id object_get_location(Object *obj){
+    if(!obj)
+        return NO_ID;
+
+    return obj->location;
 }
 
 

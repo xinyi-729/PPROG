@@ -274,6 +274,7 @@ void test1_space_del_object(){
   Space *s = NULL;
   s=space_create(5);
   space_add_object(s, 110);
+  space_add_object(s, 120);
   PRINT_TEST_RESULT(space_del_object(s, 110) == OK);
   space_destroy(s);
 }

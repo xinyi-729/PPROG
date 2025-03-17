@@ -20,6 +20,7 @@
 
 #define MAX_SPACES 100
 #define ID_PLAYER 729
+#define IN_PLAYER 407
 #define MAX_CHARACTERS 100
 
 

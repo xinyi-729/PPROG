@@ -178,3 +178,15 @@ Status player_print(Player* player) {
 
   return OK;
 }
+
+Bool player_has_object(Player *player){
+
+  if(!player)
+    return TRUE;
+
+  if(player->object != NO_ID)
+    return TRUE;
+  else 
+    return FALSE;
+
+}

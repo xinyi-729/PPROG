@@ -45,6 +45,9 @@ Game* game_create() {
 
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
+  }
+
+  for (i = 0; i < MAX_OBJECTS; i++) {
     game->object[i] = NULL; /*Poner los punteros a NULL*/
   }
 
@@ -198,16 +201,17 @@ Status game_add_object(Game *game, Object *obj){
 
 Id game_get_object_id(Game *game, char *obj_name){
   int i;
+  char *n=NULL;
   if(!game || !obj_name)
     return NO_ID;
 
   /*Busca en la lista de objetos, si lo encuentra, retorna su id*/
   for(i=0; i<game->n_objects; i++){
-    if(strcmp(object_get_name(game->object[i]), obj_name) == 0){
+    n= object_get_name(game->object[i]);
+    if(strcmp(n, obj_name) == 0){
       return object_get_id(game->object[i]);
     }
   }
-
   return NO_ID;
 }
 
