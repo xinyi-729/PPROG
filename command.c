@@ -110,12 +110,11 @@ Status command_get_user_input(Command* command) {
   char input[CMD_LENGHT] = "", *token = NULL, *token2=NULL, argum[128] = "";
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
-  // char argum[128] = "";
 
   if (!command) {
     return ERROR;
   }
-  /*se puede hacer así? el 1º es hasta espacio y 2º hasta \n*/
+  
   if (fgets(input, CMD_LENGHT, stdin)) {
     token = strtok(input, " \n");
     if (!token) {

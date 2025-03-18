@@ -37,6 +37,7 @@ struct _Space {
   *  e inicializa sus miembros
   */
 Space* space_create(Id id) {
+  int i;
   Space* newSpace = NULL;
 
   /* Error control */
@@ -58,7 +59,7 @@ Space* space_create(Id id) {
   newSpace->objects = set_create();
   newSpace->id_character=NO_ID;
 
-  for (int i = 0; i < GDESC_LINES; i++) {
+  for (i = 0; i < GDESC_LINES; i++) {
     strcpy(newSpace->gdesc[i], "         ");
   }
 
@@ -289,7 +290,7 @@ Status space_print(Space* space) {
   }
 
     /* Imprimir la descripcion grafica */
-    for (int i = 0; i < GDESC_LINES; i++) {
+    for (i = 0; i < GDESC_LINES; i++) {
       fprintf(stdout, "%s\n", space->gdesc[i]);
     }
   

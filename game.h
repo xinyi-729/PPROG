@@ -19,9 +19,12 @@
 #include "character.h"
 
 #define MAX_SPACES 100
-#define ID_PLAYER 729
-#define IN_PLAYER 407
 #define MAX_CHARACTERS 100
+
+#define PLAYER_ID 729
+#define CHARACTER_ID 999
+#define IN_PLAYER 407
+
 
 
 /*-----------------------------------------------------------------------------------------------------*/
@@ -152,8 +155,6 @@ Status game_add_space(Game *game, Space *space);
   */
 Status game_add_object(Game *game, Object *obj);
 
-
-// Id game_get_object_id_at(Game *game, int position) ;
  /**
   * @brief Obtiene el ID de un objeto a partir de su nombre
   * @author Xinyi Huang y Lucia Ordovas

@@ -72,8 +72,25 @@ CommandCode command_get_code(Command* command);
  */
 Status command_get_user_input(Command* command);
 
-/*Nuevas*/
+/**
+ * @brief Asigna el argumento 
+ * 
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param command Puntero al comando
+ * @param argument argumento
+ * @return OK si el input es válido, ERROR en caso contrario
+ */
 Status command_set_argument(Command *command, char *argument);
+
+/**
+ * @brief Obtiene el argumento
+ * 
+ * @author Xinyi Huang y Lucia Ordovas
+ * 
+ * @param command Puntero al comando
+ * @return argumento
+ */
 char *command_get_argument(Command *cmd);
 
 #endif

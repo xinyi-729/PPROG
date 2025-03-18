@@ -218,7 +218,6 @@ void game_actions_take(Game *game){
   Space *space=NULL;
   Command *cmd = NULL;
   char *name_obj=NULL;
-  //Si tiene algo no puede coger otra cosa
 
   if(!game)
     return;
@@ -360,7 +359,6 @@ void game_actions_attack(Game *game){
   if (character_get_health(character) == 0) return;
   
   /* Genero numero aleatorio */
-  srand(time(NULL));
   random_number = rand() % 10;
 
   /* Si el numero generado esta entre 0 y 4 gana el adversario */

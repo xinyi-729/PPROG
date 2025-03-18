@@ -15,6 +15,7 @@
 #include "game_actions.h"
 #include "graphic_engine.h"
 #include "game_reader.h"
+#include "time.h"
 
 /*-------------------------------------------------------------------------------*/
 
@@ -28,6 +29,9 @@ void game_loop_cleanup(Game *game, Graphic_engine *gengine);
 int main(int argc, char *argv[]) {
   Game *game=NULL;
   Graphic_engine *gengine;
+
+  /* Generacion de semilla en game_loop para que solo se genere una vez durante el juego */
+  srand(time(NULL));
 
   if (argc < 2) {
     fprintf(stderr, "Use: %s <game_data_file>\n", argv[0]);

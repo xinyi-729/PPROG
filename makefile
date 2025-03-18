@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS = -Wall -pedantic -g -DDEBUG
+CFLAGS = -Wall -pedantic -g -DDEBUG -ansi
 CLIB = -lscreen -L.
 
 ##hay q volverle a añadir el -ansi, lo quité para usar //

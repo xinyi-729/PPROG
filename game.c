@@ -51,9 +51,14 @@ Game* game_create() {
     game->object[i] = NULL; /*Poner los punteros a NULL*/
   }
 
+  for (i = 0; i < MAX_CHARACTERS; i++) {
+    game->character[i] = NULL;
+  }
+
   game->n_spaces = 0;
   game->n_objects = 0;
-  game->player = player_create(ID_PLAYER);
+  game->n_characters = 0;
+  game->player = player_create(PLAYER_ID);
   game->last_cmd = command_create();
   game->finished = FALSE;
 
@@ -215,13 +220,6 @@ Id game_get_object_id(Game *game, char *obj_name){
   return NO_ID;
 }
 
-// Id game_get_object_id_at(Game *game, int position) {
-//   if (position < 0 || position >= game->n_objects) {
-//     return NO_ID;
-//   }
-
-//   return object_get_id(game->object[position]);
-// }
 /*-----------------------------------------------------------------------------------------------------*/
 
 Player* game_get_player(Game *game){
@@ -255,14 +253,14 @@ Object *game_get_object(Game *game, Id id){
   return NULL;
 }
 Character * game_get_character_in_space(Game *game, Id space_id){
-  int character_id;
+  int character_id, i,j;
 
   if(!game || space_id == NO_ID){
     return NULL;
   }
 
   /* Primero encuentro el TAD del espacio con ese ID */
-  for(int i=0; i<game->n_spaces; i++){
+  for(i=0; i<game->n_spaces; i++){
     if(space_get_id(game->spaces[i]) == space_id){
       character_id = space_get_character_id(game->spaces[i]);
       if(character_id == NO_ID){
@@ -270,7 +268,7 @@ Character * game_get_character_in_space(Game *game, Id space_id){
       }
 
       /* Ahora encuentro el TAD del character con el ID que busco */
-      for(int j=0; j<MAX_CHARACTERS; j++){
+      for(j=0; j<MAX_CHARACTERS; j++){
         if(character_get_id(game->character[j]) == character_id){
           return game->character[j];
         }
