@@ -1,94 +1,107 @@
 /**
- * @brief Define la interfaz del modulo del objeto
+ * @brief It defines the object module interface
  *
  * @file object.h
- * @author XINYI HUANG
- * @version 0
- * @date 31-01-2025
+ * @author Alejandro Fernández
+ * @version 1
+ * @date 13-02-2025
  * @copyright GNU Public License
- */
+*/
 
 
-#ifndef OBJECT_H
+#ifndef OBJECT_H  
 #define OBJECT_H
 
+/** @brief Object
+ * This struct stores all the information related to a object.
+*/
+
 #include "types.h"
+
+
+/**
+ * @brief Object
+ *
+ * This struct stores all the information related to a object.
+*/
 
 typedef struct _Object Object;
 
 /**
- * @brief Crea un objeto con el id dado
- * @author XINYI HUANG
+ * @brief It creates a new object
+ * @author Alejandro Fernández
  *
- * @param id identificación del objeto
- * @return un objeto con sus valores de inicio
+ * @param id the id number of the new object
+ * @return a new object initialized
  */
-Object* object_create(Id id);
+Object* object_create (Id id);
 
 /**
- * @brief Destruye el objeto liberando la memoria
- * @author XINYI HUANG
+ * @brief It destroys an object, freeing the allocated memory
+ * @author Alejandro Fernández
  *
- * @param obj puntero a Object, el objeto que queremos destruir
- * @return OK en caso de éxito y ERROR si algo salió mal
+ * @param object a pointer to the object
+ * @return nothing
  */
-Status object_destroy(Object *obj);
+void object_destroy (Object* object);
 
 /**
- * @brief Consigue el identificador del objeto
- * @author XINYI HUANG
+ * @brief It gets the id from a object
+ * @author Alejandro Fernández
  *
- * @param obj puntero a Object, que queremos saber su identificador
- * @return En caso de éxito devuelve el id de este objeto, en otros casos devuelve NO_ID
+ * @param object a pointer to the object
+ * @return the object id
  */
-Id object_get_id(Object *obj);
+Id object_get_id(Object* object);
+
+
 
 /**
- * @brief Asignar al oobjeto el nombre dado como argumento
- * @author XINYI HUANG
+ * @brief It gets the name from an object
+ * @author Alejandro Fernández
  *
- * @param obj puntero a Object, que queremos ponerle el nombre
- * @param name puntero a un string, el nombre que queremos asignar al objeto
- * @return OK en caso de éxito y ERROR si algo salió mal
+ * @param object a pointer to the object
+ * @return the object name in a string
  */
-Status object_set_name(Object *obj, char *name);
+char* object_get_name(Object* object);
+
 
 /**
- * @brief Printea el objeto en el juego (su estructura, nombre, id, etc)
- * @author XINYI HUANG
+ * @brief It sets the name to an object
+ * @author Alejandro Fernández
  *
- * @param obj puntero a Object
- * @return OK en caso de éxito y ERROR si algo salió mal
+ * @param object a pointer to the object
+ * @param  name the new object name
+ * @return  OK, if everything goes well or ERROR if there was some mistake
  */
-Status object_print(Object* obj);
+Status object_set_name(Object* object, char* name);
 
 /**
- * @brief Consigue el nombre del objeto 
- * @author XINYI HUANG
+ * @brief It prints the information of an object
+ * @author Alejandro Fernández
  *
- * @param obj puntero a Object
- * @return Un puntero al nombre de tal objeto. En casos de errores, devuelve NULL.
+ * @param  object a pointer to the object
+ * @return  OK, if everything goes well or ERROR if there was some mistake
  */
-char* object_get_name(Object* obj);
+Status object_print(const Object* object);
 
 /**
- * @brief Deja el objeto en un espacio definido
- * @author XINYI HUANG
+ * @brief It sets the description of the object
+ * @author LUCÍA ORDOVÁS
  *
- * @param obj puntero a Object
- * @param location Id del espacio que quiere dejar el objeto
- * @return OK en caso de éxito y ERROR si algo salió mal
+ * @param obj pointer to object
+ * @param description the description of the object
+ * @return OK in case of success of ERROR in case of error
  */
-Status object_set_location(Object *obj, Id location);
+Status object_set_description(Object *obj, char *description);
 
 /**
- * @brief Consigue la locacion del objeto
- * @author XINYI HUANG
+ * @brief It gets the description of the object
+ * @author LUCÍA ORDOVÁS
  *
- * @param obj puntero a Object
- * @return En caso de éxito devuelve el id de este objeto, en otros casos devuelve NO_ID
+ * @param obj pointer to object
+ * @return the description of the object
  */
-Id object_get_location(Object *obj);
-
+char *object_get_description(Object *obj);
 
 #endif

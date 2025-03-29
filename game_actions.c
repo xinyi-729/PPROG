@@ -1,10 +1,10 @@
 /**
- * @brief Define la interfaz de actualización del juego a traves de las acciones del usuario
+ * @brief It implements the game update through user actions
  *
- * @file game_actions.c
- * @author Xinyi Huang y Lucia Ordovas
- * @version 0
- * @date 30-01-2025
+ * @file game.c
+ * @author Profesores PPROG
+ * @version 1
+ * @date 13-02-2025
  * @copyright GNU Public License
  */
 
@@ -16,384 +16,548 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-
-/*-----------------------------------------------------------------------------------------------------*/
-/* Funciones privadas*/
 
 /**
- * @brief No hace nada al recibir algo no definido
- * @author Profesores PPROG
- *
- * @param game un puntero a game
- * @return nada ya que es void
- */
+   Private functions
+*/
+
 void game_actions_unknown(Game *game);
 
-/**
- * @brief Sale del juego
- * @author Profesores PPROG
- *
- * @param game un puntero a game
- * @return nada ya que es void
- */
 void game_actions_exit(Game *game);
 
 /**
- * @brief Mueve al jugador abajo
- * @author Profesores PPROG
+ * @brief It take an especific object in the same space
+ * @author Alejandro Fernández
  *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
+ * @param game a pointer to the game
+ * @return OK if everything goes well or ERROR if there was some mistake
  */
-void game_actions_next(Game *game);
+Status game_actions_take(Game *game);
 
 /**
- * @brief Mueve al jugador arriba
- * @author Profesores PPROG
+ * @brief It drops the object to the actual space
+ * @author Alejandro Fernández
  *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
+ * @param game a pointer to the game
+ * @return OK if everything goes well or ERROR if there was some mistake
  */
-void game_actions_back(Game *game);
+Status game_actions_drop(Game *game);
 
 /**
- * @brief Hace que el jugador tome el objeto (si está en el espacio)
- * @author Xinyi Huang
+ * @brief It attacks an enemy character
+ * @author David Buendía
  *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
+ * @param game a pointer to the game
+ * @return OK if everything goes well or ERROR if there was some mistake
  */
-void game_actions_take(Game *game);
+Status game_actions_attack(Game *game);
 
 /**
- * @brief Hace que el jugador tire el objeto (si lo tiene)
- * @author Xinyi Huang
+ * @brief It chats with a friendly character
+ * @author David Buendía
  *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
+ * @param game a pointer to the game
+ * @return OK if everything goes well or ERROR if there was some mistake
  */
-void game_actions_drop(Game *game);
+Status game_actions_chat(Game *game);
 
 /**
- * @brief Hace que el jugador vaya hacia la izquierda
- * @author Xinyi Huang
+ * @brief It inspects a specific object from the description
+ * @author Lucía Ordovás
  *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
+ * @param game a pointer to the game
+ * @return OK if everything goes well or ERROR if there was some mistake
  */
-void game_actions_left(Game *game);
+char* game_actions_inspect(Game *game);
 
-/**
- * @brief Hace que el jugador vaya hacia la derecha
- * @author Xinyi Huang
- *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
- */
-void game_actions_right(Game *game);
 
-/**
- * @brief Hace que el jugador ataque
- * @author Xinyi Huang
- *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
- */
-void game_actions_attack(Game *game);
 
-/**
- * @brief Hace que el jugador se comunique
- * @author Xinyi Huang
- *
- * @param game un puntero a game
- * @return OK si todo fue bien o ERROR si hubo algún problema
- */
-char* game_actions_chat(Game *game);
+void game_actions_move(Game *game);
 
-/*-----------------------------------------------------------------------------------------------------*/
-
-/* Implementacion de funciones de la interfaz */
-Status game_actions_update(Game *game, Command *command) {
+Status game_actions_update(Game *game, Command *command)
+{
   CommandCode cmd;
 
   game_set_last_command(game, command);
 
   cmd = command_get_code(command);
 
-  switch (cmd) {
-    case UNKNOWN:
-      game_actions_unknown(game);
-      break;
+  switch (cmd)
+  {
+  case UNKNOWN:
+    game_actions_unknown(game);
+    break;
 
-    case EXIT:
-      game_actions_exit(game);
-      break;
+  case EXIT:
+    game_actions_exit(game);
+    break;
 
-    case NEXT:
-      game_actions_next(game);
-      break;
+  case MOVE:
+    game_actions_move(game);
+    break;
 
-    case BACK:
-      game_actions_back(game);
-      break;
-    
-    case TAKE:
-      game_actions_take(game);
-      break;
+  case TAKE:
+    game_actions_take(game);
+    break;
 
-    case DROP:
-      game_actions_drop(game);
-      break; 
+  case DROP:
+    game_actions_drop(game);
+    break;
 
-    case LEFT:
-      game_actions_left(game);
-      break; 
+  case ATTACK:
+    game_actions_attack(game);
 
-    case RIGHT:
-      game_actions_right(game);
-      break; 
+  case CHAT:
+    game_actions_chat(game);
+    break;
 
-    case ATTACK:
-      game_actions_attack(game);
-      break; 
-
-    case CHAT:
-      game_actions_chat(game);
-      break; 
-
-    default:
-      break;
+  case INSPECT:
+    game_actions_inspect(game);
+    break;
+  
+  default:
+    break;
   }
 
   return OK;
 }
 
-/*-----------------------------------------------------------------------------------------------------*/
-/* Implementacion de las funciones privadas */
+/**
+   Calls implementation for each action
 
-void game_actions_unknown(Game *game) {}
+*/
 
-void game_actions_exit(Game *game) {}
-
-void game_actions_next(Game *game) {
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = game_get_player_location(game);
-  if (space_id == NO_ID) {
-    return;
-  }
-
-  current_id = space_get_south(game_get_space(game, space_id));
-  if (current_id != NO_ID) {
-    game_set_player_location(game, current_id);
-  }
-
-  return;
+void game_actions_unknown(Game *game)
+{
+  command_set_exit(game_get_last_command(game), ERROR);
 }
 
-void game_actions_back(Game *game) {
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  /* Obtener la ubicacion del jugador */
-  space_id = game_get_player_location(game);
-  if (NO_ID == space_id) {
-    return; /* Si el jugador no está en ningún espacio, no hacemos nada */
-  }
-  
-  /* Mover al jugador a esa nueva ubicacion*/
-  current_id = space_get_north(game_get_space(game, space_id));
-  if (current_id != NO_ID) {
-    game_set_player_location(game, current_id);
-  }
-
-  return;
+void game_actions_exit(Game *game)
+{
+  command_set_exit(game_get_last_command(game), OK);
 }
-/*------------------------------------------------------------------------------*/
-void game_actions_take(Game *game){
-  Id player_space_id= NO_ID;
-  Id object_id=NO_ID;
-  Space *space=NULL;
+
+// Status game_actions_take(Game *game)
+// {
+//   int i;
+//   Command *command = NULL;
+//   Space *player_space = NULL;
+//   Player *player = NULL;
+//   Id *space_ids = NULL;
+//   char *object_name = NULL;
+//   Id object_id = NO_ID;
+
+//   command = game_get_last_command(game);
+
+//   if (command == NULL)
+//   {
+//     return ERROR;
+//   }
+
+//   if (game == NULL)
+//   {
+//     command_set_exit(command, ERROR);
+//     return ERROR;
+//   }
+
+//   object_name = command_get_object_name(command);
+
+//   if (object_name == NULL)
+//   {
+//     command_set_exit(command, ERROR);
+//     return ERROR;
+//   }
+
+//   player_space = game_get_space(game, game_get_player_location(game));
+//   if (player_space == NULL)
+//   {
+//     command_set_exit(command, ERROR);
+//     return ERROR;
+//   }
+
+//   if (set_getNumberIds(space_get_object(player_space)) == 0)
+//   {
+//     command_set_exit(command, ERROR);
+//     return ERROR;
+//   }
+
+//   player = game_get_player(game);
+//   if (player == NULL || player_get_object(player) != NO_ID)
+//   {
+//     command_set_exit(command, ERROR);
+//     return ERROR;
+//   }
+
+//   space_ids = set_getIds(space_get_object(player_space));
+//   for (i = 0; i < set_getNumberIds(space_get_object(player_space)); i++)
+//   {
+//     if (strcmp(object_name, game_get_object_name(game, space_ids[i])) == 0)
+//     {
+//       object_id = space_ids[i];
+//       if (player_set_object(player, object_id) == ERROR)
+//       {
+//         command_set_exit(command, ERROR);
+//         return ERROR;
+//       }
+
+//       if (set_del(space_get_object(player_space), object_id) == ERROR)
+//       {
+//         command_set_exit(command, ERROR);
+//         return ERROR;
+//       }
+//       command_set_exit(game_get_last_command(game), OK);
+//       return OK;
+//     }
+//   }
+//   command_set_exit(game_get_last_command(game), ERROR);
+//   return ERROR;
+// }
+
+/*PROBAR*/
+
+Status game_actions_take(Game *game)
+{
+  Id player_space_id = NO_ID;
+  Id object_id = NO_ID;
+  Space *space = NULL;
   Command *cmd = NULL;
-  char *name_obj=NULL;
+  char *name_obj = NULL;
 
-  if(!game)
-    return;
+  if (!game)
+    return ERROR;
 
   player_space_id = game_get_player_location(game);
-  if(player_space_id == NO_ID)
-    return;
+  if (player_space_id == NO_ID)
+    return ERROR;
 
-  /*Comprobamos que el jugador ya tiene objeto o no */
-  if(player_has_object(game_get_player(game)) == TRUE)
-    return;
+  if (player_backpack_is_full(game_get_player(game)) == TRUE)
+    return ERROR;
 
-  /*Obtener el ultimo comando*/
-  if(!(cmd = game_get_last_command(game)))
-    return;
+  if (!(cmd = game_get_last_command(game)))
+    return ERROR;
 
   name_obj = command_get_argument(cmd);
 
-  /*Obtener el id del objeto*/
-  if((object_id = game_get_object_id(game, name_obj)) == NO_ID){
-    return ;}
+  if (name_obj == NULL)
+  {
+    return ERROR;
+  }
 
-  /*Obtener el TAD del espacio que está player*/
+  if ((object_id = game_get_object_id(game, name_obj)) == NO_ID)
+  {
+    return ERROR;
+  }
+
   space = game_get_space(game, player_space_id);
-  if(!space)
-    return;
+  if (!space)
+    return ERROR;
 
   /*Comprobar que si este espacio hay ese objeto*/
-  if(space_has_object(space, object_id) == FALSE){
+  if (space_has_object(space, object_id) == FALSE)
+  {
+    return ERROR;
+  }
+
+  /*Ahora, toca guardar el object en el jugador*/
+  if (player_add_object(game_get_player(game), object_id) == ERROR)
+    return ERROR;
+
+  /*Como ya hicimos take, el objeto desaparece de ese espacio llamando a space_del_object*/
+  if (space_del_object(space, object_id) == ERROR)
+    return ERROR;
+
+  return OK;
+}
+
+Status game_actions_drop(Game *game)
+{
+  Space *player_space = NULL;
+  Player *player = NULL;
+  Id object_id = NO_ID;
+  Command *cmd = NULL;
+  char *name_obj = NULL;
+
+  if (game == NULL)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  player_space = game_get_space(game, game_get_player_location(game));
+  if (player_space == NULL)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  player = game_get_player(game);
+  if (player == NULL || player_backpack_is_empty(player) == TRUE)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  name_obj = command_get_argument(cmd);
+
+  if (name_obj == NULL)
+  {
+    return ERROR;
+  }
+
+  if ((object_id = game_get_object_id(game, name_obj)) == NO_ID)
+  {
+    return ERROR;
+  }
+
+  if (space_add_object(player_space, object_id) == ERROR)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  if (player_del_object(player, object_id) == ERROR)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  command_set_exit(game_get_last_command(game), OK);
+  return OK;
+}
+
+Status game_actions_attack(Game *game)
+{
+
+  Space *player_space = NULL;
+  Character *character = NULL;
+  Bool character_friend;
+  Player *player = NULL;
+
+  int character_hp;
+  int player_hp;
+
+  int variable;
+
+  if (game == NULL)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  player_space = game_get_space(game, game_get_player_location(game));
+  if (player_space == NULL)
+  {
+    return ERROR;
+  }
+
+  character = game_get_character(game, space_get_character_id(player_space));
+  if (character == NULL)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  character_hp = character_get_health(character);
+  character_friend = character_get_friend(character);
+  if (character_hp <= 0 || character_friend == TRUE)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  player = game_get_player(game);
+  if (player == NULL)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  player_hp = player_get_health(player);
+  if (player_hp <= 0)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    game_set_finished(game, TRUE);
+    return ERROR;
+  }
+
+  variable = rand() % 10;
+
+  printf("%d", variable);
+
+  if (variable <= 4)
+  {
+    if (player_set_health(player, player_hp - 1) == ERROR)
+    {
+      command_set_exit(game_get_last_command(game), OK);
+      return ERROR;
+    }
+    else
+    {
+      command_set_exit(game_get_last_command(game), OK);
+      return OK;
+    }
+  }
+  else
+  {
+    if (character_set_health(character, character_hp - 1) == ERROR)
+    {
+      command_set_exit(game_get_last_command(game), OK);
+      return ERROR;
+    }
+    else
+    {
+      command_set_exit(game_get_last_command(game), OK);
+      return OK;
+    }
+  }
+
+  if (player_get_health(player) <= 0)
+  {
+    command_set_exit(game_get_last_command(game), OK);
+    game_set_finished(game, TRUE);
+    return OK;
+  }
+
+  command_set_exit(game_get_last_command(game), OK);
+  return OK;
+}
+
+Status game_actions_chat(Game *game)
+{
+  Space *player_space = NULL;
+  Character *character = NULL;
+  Bool character_friend;
+
+  if (game == NULL)
+  {
+    return ERROR;
+  }
+
+  player_space = game_get_space(game, game_get_player_location(game));
+  if (player_space == NULL)
+  {
+    return ERROR;
+  }
+
+  character = game_get_character(game, space_get_character_id(player_space));
+  if (character == NULL || character_get_id(character) == NO_ID)
+  {
+    return ERROR;
+  }
+
+  character_friend = character_get_friend(character);
+  if (character_friend == TRUE)
+  {
+    command_set_exit(game_get_last_command(game), OK);
+    return OK;
+  }
+
+  command_set_exit(game_get_last_command(game), ERROR);
+  return ERROR;
+}
+
+char* game_actions_inspect(Game *game)
+{
+  Command *cmd = NULL;
+  char *name_obj = NULL;
+
+  if (!game)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return NULL;
+  }
+
+  /* Obtenemos el ultimo comando */
+  if (!(cmd = game_get_last_command(game)))
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return NULL;
+  }
+
+  /* Obtenemos el nombre del objeto */
+  name_obj = command_get_argument(cmd);
+  if (!name_obj)
+  {
+    command_set_exit(game_get_last_command(game), ERROR);
+    return NULL;
+  }
+
+  command_set_exit(game_get_last_command(game), OK);
+
+  /* Retornamos la descripcion del objeto a partir de su nombre */
+  return game_get_object_description(game, name_obj);
+}
+
+
+void game_actions_move(Game *game){
+  Id current_id=NO_ID;
+  Id space_id = NO_ID;
+  char *arg;
+  Direction dir=NOTKNOWN;
+
+  if(!game){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ;
+  }
+
+  space_id = game_get_player_location(game);
+  if(space_id == NO_ID){
+    command_set_exit(game_get_last_command(game), ERROR);
     return;
   }
 
-  /*Ahora, toca guardar el object en el jugador*/  
-  if(player_set_object(game_get_player(game), object_id) == ERROR)
+  if((arg = command_get_argument(game_get_last_command(game))) == NULL){
+    command_set_exit(game_get_last_command(game), ERROR);
     return;
+  }
 
-  /*Como ya hicimos take, el objeto desaparece de ese espacio llamando a space_del_object*/
-  if(space_del_object(space, object_id) == ERROR)
+  /*Para no repetir códigos...*/
+  if(strcmp(arg, "n")==0 || strcmp(arg, "north") == 0 ){
+    dir = N;
+  }
+  else if(strcmp(arg, "s")==0 || strcmp(arg, "south") == 0 ){
+    dir = S;
+  }
+  else if(strcmp(arg, "w")==0 || strcmp(arg, "west") == 0 ){
+    dir = W;
+  }
+  else if(strcmp(arg, "e")==0 || strcmp(arg, "east") == 0 ){
+    dir = E;
+  }
+
+  
+  current_id = game_get_connection(game, space_id, dir);
+  if(game_connection_is_open(game, space_id, dir) == FALSE){/*SI ESTÁ CERRADO NO PUEDES MOVERTE*/
+    command_set_exit(game_get_last_command(game), ERROR);
     return;
+  }
 
-  if(object_set_location(game_get_object(game, object_id), IN_PLAYER) == ERROR)
-    return;
+  if(current_id != NO_ID)
+    game_set_player_location(game,current_id);
 
+  command_set_exit(game_get_last_command(game), OK);
   return;
 }
 
-/*------------------------------------------------------------------------------*/
-void game_actions_drop(Game *game){
-  Id player_space_id=NO_ID;
-  Id object_id=NO_ID;
-  Space *space=NULL;
-
-  if(!game)
-    return;
-
-  /*Conseguir el id del jugador*/
-  player_space_id = game_get_player_location(game);
-  if(player_space_id == NO_ID)  
-    return;
-
-  /*Conseguir el espacio que está el jugador*/
-  space = game_get_space(game, player_space_id);
-  if(!space)
-    return;
+// void game_actions_back(Game *game)
+// {
+//   Id current_id = NO_ID;
+//   Id space_id = NO_ID;
   
-  /*Comprobar si el player tenga el object*/
-  object_id =player_get_object(game_get_player(game));
-  if(object_id == NO_ID)
-    return;
+//   space_id = game_get_player_location(game);
 
-  /*Llamamos a space_add_obj para que aparezca en este espacio*/
-  if(space_add_object(space, object_id) == ERROR)
-    return;
+//   if (NO_ID == space_id)
+//   {
+//     command_set_exit(game_get_last_command(game), ERROR);
+//     return;
+//   }
 
-  /*Ahora, borrarlo del jugador*/
-  if(player_set_object(game_get_player(game), NO_ID) == ERROR)
-    return;
+//   current_id = space_get_north(game_get_space(game, space_id));
+//   if (current_id != NO_ID)
+//   {
+//     game_set_player_location(game, current_id);
+//   }
 
-  return;
-}
-/*------------------------------------------------------------------------------*/
-
-void game_actions_left(Game *game){
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = game_get_player_location(game);
-  if(space_id == NO_ID)
-    return ;
-
-  current_id = space_get_west(game_get_space(game, space_id));
-  if(current_id == NO_ID)
-    return ;
-  
-  game_set_player_location(game, current_id);
-
-  return;
-}
-
-void game_actions_right(Game *game){
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = game_get_player_location(game);
-  if(space_id == NO_ID)
-    return ;
-
-  current_id = space_get_east(game_get_space(game, space_id));
-  if(current_id == NO_ID)
-    return ;
-  
-  game_set_player_location(game, current_id);
-
-  return;
-}
-/*------------------------------------------------------------------------------*/
-
-void game_actions_attack(Game *game){
-  Id player_space_id = NO_ID;
-  Character *character = NULL;
-  Player *player = NULL;
-  int random_number; 
-
-  if (!game) return;
-
-  /* Veo en que espacio esta el player del juego */
-  player_space_id = game_get_player_location(game);
-  if (player_space_id == NO_ID) return;
-
-  /* Obtengo el character que esta en ese espacio */
-  character = game_get_character_in_space(game, player_space_id);
-  if (!character || character_get_is_friendly(character)) 
-    return; /* Solamente ataca si no es amigo */
-
-  /* Obtengo al player */
-  player = game_get_player(game);
-  if (!player) return;
-
-  if (character_get_health(character) == 0) return;
-  
-  /* Genero numero aleatorio */
-  random_number = rand() % 10;
-
-  /* Si el numero generado esta entre 0 y 4 gana el adversario */
-  if (random_number < 5) {
-    /* El player pierde 1 punto de vida */
-    player_decrease_health(player);
-
-    /* Si no le quedan corazones ha perdido */
-    if (player_get_health(player) == 0) {
-      printf("\nGAME OVER, player DEAD\n");
-      game_set_finished(game, TRUE);
-    }
-   else if (random_number > 4 && random_number < 10){
-     /* Si esta entre 5 y 9 gana el player */
-     character_decrease_health(character);
-   }
-   } else {
-    return;
-   }
-}
-
-char* game_actions_chat(Game *game){
-  Id player_space_id;
-  Character *character = NULL;
-
-  if (!game) return NULL;
-
-  /* Veo en que espacio esta el player del juego */
-  player_space_id = game_get_player_location(game);
-  if (player_space_id == NO_ID) return NULL;
-
-  /* Obtengo el character que esta en ese espacio */
-  character = game_get_character_in_space(game, player_space_id);
-  if (!character || !character_get_is_friendly(character)) return NULL; /* Solamente habla si es amigo */
-
-  /* Retornamos lo que dice el caracter para imprimirlo en graphic_engine en la descripcion del juego */
-  return character_get_message(character);
-}
+//   command_set_exit(game_get_last_command(game), OK);
+//   return;
+// }

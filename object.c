@@ -1,118 +1,120 @@
 /**
- * @brief Implementa el módulo de objetos
+ * @brief It implements the object module
  *
  * @file object.c
- * @author XINYI HUANG
- * @version 0
- * @date 31-01-2025
+ * @author Alejandro Fernández
+ * @version 1
+ * @date 13-02-2025
  * @copyright GNU Public License
  */
-
-#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/*-----------------------------------------------------------------------------------------------------*/
-/**
- * @brief Object
- *
- * Esta estructura guarda toda la información de un objeto
- */
+#include "object.h"
+#include "types.h"
+
 struct _Object
 {
-    Id id;                          /*!< Identificador del objeto*/
-    char name[WORD_SIZE+1];         /*!< Nombre del objeto*/
-    Id location;
+  Id id;
+  char name[WORD_SIZE + 1];
+  char description[WORD_SIZE+1];
 };
-/*-----------------------------------------------------------------------------------------------------*/
 
-Object *object_create(Id id){
-    Object *obj=NULL;
+Object *object_create(Id id)
+{
 
-    /*Cde*/
-    if(id == NO_ID)
-        return NULL;
+  Object *newObject = NULL;
 
-    /*Reserva de memoria*/
-    obj = (Object*) malloc(sizeof(Object));
-    if(!obj)
-        return NULL;
+  if (id == NO_ID)
+  {
+    return NULL;
+  }
 
-    /*Inicializar valores vacías*/
-    obj->id = id;
-    obj->name[0]='\0';
-    obj->location = NO_ID;
+  newObject = (Object *)malloc(sizeof(Object));
 
-    return obj;
+  if (newObject == NULL)
+  {
+    return NULL;
+  }
+
+  newObject->id = id;
+  newObject->name[0] = '\0';
+  newObject->description[0] = '\0';
+
+  return newObject;
 }
 
-Status object_destroy(Object* obj){
-    /*Cde*/
-    if(!obj)
-        return ERROR;
-
-    free(obj);
-    obj = NULL;
-    return OK;
+void object_destroy(Object *object)
+{
+  free(object);
+  object = NULL;
 }
-/*-----------------------------------------------------------------------------------------------------*/
 
-Id object_get_id(Object *obj){
+Id object_get_id(Object *object)
+{
 
-    if(!obj)
-        return NO_ID;
+  if (!object)
+  {
+    return NO_ID;
+  }
+
+  return object->id;
+}
+
+char *object_get_name(Object *object)
+{
+
+  if (!object)
+  {
+    return NULL;
+  }
+
+  return object->name;
+}
+
+Status object_set_name(Object *object, char *name)
+{
+  if (!object || !name)
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(object->name, name))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
+Status object_print(const Object *object)
+{
+  if (!object)
+    return ERROR;
     
-    return obj->id;
-}
-/*-----------------------------------------------------------------------------------------------------*/
-
-Status object_set_name(Object *obj, char *name){
-    /*Cde*/
-    if(!obj || !name)
-        return ERROR;
-
-    /*Copiar el nombre*/
-    if(!strcpy(obj->name, name))
-        return ERROR;
-
-    return OK;
+  printf("Object ID: %ld, Name: %s\n", object->id, object->name);
+  return OK;
 }
 
-char* object_get_name(Object* obj){
-    if(!obj)
-        return NULL;
+Status object_set_description(Object *obj, char *description){
+  if(!obj ||!description){
+    return ERROR;
+  }
 
-    return obj->name;
+  if(strlen(description) > WORD_SIZE){
+    return ERROR;
+  }
+
+  strcpy(obj->description, description);
+
+  return OK;
 }
 
-/*-----------------------------------------------------------------------------------------------------*/
-Status object_print(Object *obj){
+char * object_get_description(Object *obj){
+  if(!obj){
+    return ERROR;
+  }
 
-    if(!obj)
-        return ERROR;
-
-    fprintf(stdout, "---> Object (Id: %ld; Name: %s)\n", obj->id, obj->name);
-
-    return OK;
+  return obj->description;
 }
-
-Status object_set_location(Object *obj, Id location){
-    if(!obj)
-        return ERROR;
-
-    obj->location = location;
-
-    return OK;
-}
-Id object_get_location(Object *obj){
-    if(!obj)
-        return NO_ID;
-
-    return obj->location;
-}
-
-
-
-

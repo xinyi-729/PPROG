@@ -1,10 +1,10 @@
 /**
- * @brief Define la interfaz del motor grafico textual
+ * @brief It defines the textual graphic engine interface
  *
  * @file graphic_engine.h
- * @author Xinyi Huang y Lucia Ordovas
- * @version 0
- * @date 30-01-2025
+ * @author Profesores PPROG
+ * @version 1
+ * @date 17-02-2025
  * @copyright GNU Public License
  */
 
@@ -12,40 +12,43 @@
 #define GRAPHIC_ENGINE_H
 
 #include "game.h"
+#include <stdio.h>
 
 /**
- * @brief Graphic_engine
+ * @brief Object
  *
- * Esta estructura alamcena todas las informationes de la estructura del juego
- */
+ * This struct stores all the information related to a graphic engine.
+*/
 typedef struct _Graphic_engine Graphic_engine;
 
+
 /**
- * @brief Crea e inicializa un motor gráfico
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief It creates a new graphic engine
+ * @author Profesores PPROG
  *
- * @return Puntero a la estructura Graphic_engine creada o NULL en caso de error
+ * @return a new graphic engine initialized
  */
 Graphic_engine *graphic_engine_create();
 
+
 /**
- * @brief Libera la memoria y destruye el motor gráfico
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief It destroy a graphic engine, freeing its allocated memory
+ * @author Profesores PPROG
  *
- * @param ge Puntero al motor gráfico a destruir
+ * @param ge a pointer to the graphic engine that must be destroyed
+ * @return nothing
  */
 void graphic_engine_destroy(Graphic_engine *ge);
 
+
 /**
- * @brief Muestra el mapa, la ubicación de los objetos y el jugador, e informacion adicional
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief It displays the game in the screen
+ * @author Profesores PPROG
  *
- * @param ge Puntero al motor gráfico
- * @param game Puntero a la estructura del juego
+ * @param ge a pointer to the graphic engine for reference
+ * @param game a pointer to game struct for painting the parameters
+ * @return nothing
  */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game);
-
-
-
 
 #endif

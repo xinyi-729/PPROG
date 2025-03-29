@@ -1,10 +1,10 @@
 /**
- * @brief Define la interfaz de actualización del juego
- * 
- * @file game_actions.h
- * @author Xinyi Huang y Lucia Ordovas
- * @version 0
- * @date 30-01-2025
+ * @brief It defines the game update interface
+ *
+ * @file game.h
+ * @author Profesores PPROG
+ * @version 1
+ * @date 27-01-2025
  * @copyright GNU Public License
  */
 
@@ -12,17 +12,18 @@
 #define GAME_ACTIONS_H
 
 #include "command.h"
-#include "types.h"
 #include "game.h"
+#include "types.h"
 
 /**
- * @brief Actualiza el estado del juego segun el comando recibido
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief It gets the last command, gets it code and update the game with it
+ * @author Profesores PPROG
  *
- * @param game Puntero al juego
- * @param command Puntero al comando 
- * @return OK si la actualizacion fue exitosa, ERROR en caso contrario
+ * @param game a pointer to the game and a pointer to the command
+ * @return 
  */
-Status game_actions_update(Game *game,Command *cmd);
+Status game_actions_update(Game *game, Command *cmd);
+
+
 
 #endif

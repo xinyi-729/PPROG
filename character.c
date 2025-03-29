@@ -1,218 +1,222 @@
 /**
- * @brief Implementa el modulo del cHaracter
+ * @brief It implements the character module
  *
  * @file character.c
- * @author Lucia Ordovas
- * @version 0
- * @date 31-01-2025
- * @copyright Licencia Publica GNU
+ * @author David Buendía
+ * @version 1
+ * @date 13-02-2025
+ * @copyright GNU Public License
  */
-
- #include "character.h"
 
  #include <stdio.h>
  #include <stdlib.h>
  #include <string.h>
- 
+
+ #include "character.h"
+
  #define GDESC_SIZE 6
+
+
+struct _Character
+{
+  Id id;
+  char name[WORD_SIZE + 1];
+  char gdesc[GDESC_SIZE + 1];
+  int health;
+  Bool friend;
+  char message[WORD_SIZE+1];
+};
+
+Character *character_create(Id id)
+{
+
+  Character *newcharacter = NULL;
+
+  if (id == NO_ID)
+  {
+    return NULL;
+  }
+
+  newcharacter = (Character *)malloc(sizeof(Character));
+  if (newcharacter == NULL) 
+  {
+    return NULL;
+  }
   
- /*-----------------------------------------------------------------------------------------------------*/
- /**
-   * @brief Caracter
-   *
-   * Esta estructura almacena toda la informacion sobre el caracter
- */
- struct _Character {
-     Id id;                    /* ID del caracter, unico */
-     char name[WORD_SIZE + 1]; /* Nombre del caracter */
-     char gdesc[GDESC_SIZE + 1]; /* Descripcion grafica del caracter */
-     long health; /* Numero de puntos de vida */
-     Bool friendly; /* TRUE si es amigo */
-     char message[WORD_SIZE +1]; /* Almacena un mensaje */
- };
- 
- /*-----------------------------------------------------------------------------------------------------*/
- /* Funciones implementadas*/
- 
- /* Creacion e inicializacion de un caracter */
- Character* character_create(Id id) {
-     Character* newCharacter = NULL;
-   
-     /* Control de errores de los parametros */
-     if (id == NO_ID) return NULL;
-   
-     /* Reserva de memoria dinamica */
-     newCharacter = (Character*)malloc(sizeof(Character));
-     if (newCharacter == NULL) {
-       return NULL;
-     }
-   
-     /* Inicializacion */
-     newCharacter->id = id;
-     newCharacter->name[0] = '\0';
-     newCharacter->gdesc[0] = '\0';
-     newCharacter->health=0;
-     newCharacter->friendly=TRUE;
-     newCharacter->message[0]= '\0';
-   
-     return newCharacter;
-   }
-   
-   Status character_destroy(Character* character) {
-     /*Control de errores*/
-     if (!character) {
-       return ERROR;
-     }
-   
-     free(character);
-     character = NULL;
-     return OK;
- }
-   
-   /*-----------------------------------------------------------------------------------------------------*/
-   Id character_get_id(Character* character) {
-     /* Control de errores */
-     if (!character) {
-       return NO_ID;
-     }
-     return character->id;
-   }
-   
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_name(Character* character, const char* name) {
-     /*Cde*/
-     if (!character || !name) {
-       return ERROR;
-     }
-   
-     if (!strcpy(character->name, name)) {
-       return ERROR;
-     }
-     return OK;
-   }
-   
-   const char* character_get_name(Character* character) {
-     /* Control de errores */
-     if (!character) {
-       return NULL;
-     }
-     return character->name;
-   }
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_description(Character* character, char* gdesc) {
-     /*Cde*/
-     if (!character || !gdesc) {
-       return ERROR;
-     }
-   
-     if (!strcpy(character->gdesc, gdesc)) {
-       return ERROR;
-     }
- 
-     return OK;
-   }
- 
-   const char* character_get_description(Character* character) {
-     /* Control de errores */
-     if (!character) {
-       return NULL;
-     }
- 
-     return character->gdesc;
-   }
- 
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_health(Character *character, long value){
-     /* Cde */
-     if(!character||value<0){
-       return ERROR;
-     }
- 
-     character->health=value;
- 
-     return OK;
-   }
- 
-   long character_get_health(Character *character){
-     /* Cde */
-     if(!character||character->health<0){
-       return -1;
-     }
- 
-     return character->health;
-   }
-   
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_decrease_health(Character *character) {
-     /* Cde */
-     if (!character|| character->health <= 0) {
-       return ERROR;
-     }
-   
-     character->health--;
-   
-     return OK;
-   }
- 
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_is_friendly(Character *character, Bool value){
-     if(!character){
-       return ERROR;
-     }
- 
-     character->friendly=value;
- 
-     return OK;
-   }
- 
-   Bool character_get_is_friendly(Character *character){
-     if(!character){
-       return FALSE;
-     }
- 
-     return character->friendly;
-   }
- 
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_set_message(Character *character, char *message){
-     if(!character||!message){
-       return ERROR;
-     }
- 
-     if(!strcpy(character->message,message)){
-       return ERROR;
-     }
- 
-     return OK;
-   }
- 
-   char * character_get_message(Character *character){
-     if(!character){
-       return NULL;
-     }
- 
-     return character->message;
-   }
- 
- 
-   /*-----------------------------------------------------------------------------------------------------*/
-   Status character_print(Character *character) {
-     /* Control de errores */
-     if (!character) {
-       return ERROR;
-     }
-   
-     /* Mostramos el id, nombre, descripcion, salud, si es amigo y mensaje */
-     fprintf(stdout, "--> Character (Id: %ld; Name: %s; Graphic description:%s; Health: %ld; ", character->id, character->name, character->gdesc, character->health);
-     
-     if(character_get_is_friendly(character) == TRUE){
-       fprintf(stdout, "Friendly:yes; ");
-     }
-     else{
-       fprintf(stdout, "Friendly:no; ");
-     }
-     
-     fprintf(stdout, "Message:%s \n",character->message);
-   
-     return OK;
-   }
+  newcharacter->id = id;
+  newcharacter->name[0] = '\0';
+  newcharacter->gdesc[0] = '\0';
+  newcharacter->health = 5;
+  newcharacter->message[0] = '\0';
+  newcharacter->friend = TRUE;
+
+  return newcharacter;
+}
+
+void character_destroy(Character *character)
+{
+  if(!character)
+    return;
+
+  free(character);
+  character = NULL;
+}
+
+Id character_get_id(Character *character)
+{
+
+  if (!character)
+  {
+    return NO_ID;
+  }
+
+  return character->id;
+}
+
+/*Esta funcion no se necesita porque el id es únido e inmodificable*/
+// Status character_set_id(character *character, Id id)
+// {
+//   if (!character || id == NO_ID)
+//   {
+//     return ERROR;
+//   }
+
+//   character->id = id;
+
+//   return OK;
+// }
+
+char *character_get_name(Character *character)
+{
+
+  if (!character)
+  {
+    return NULL;
+  }
+
+  return character->name;
+}
+
+Status character_set_name(Character *character, char *name)
+{
+  if (!character || !name)
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(character->name, name))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
+char *character_get_graphic_description(Character *character)
+{
+  if (character == NULL)
+  {
+    return NULL;
+  }
+
+  return character->gdesc;
+}
+
+Status character_set_graphic_description(Character *character, char *gdesc)
+{
+  if (!character || !gdesc || strlen(gdesc) > 6)/*El mayor q 6?*/
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(character->gdesc, gdesc))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
+int character_get_health(Character *character)
+{
+  if (character == NULL)
+  {
+    return -1;
+  }
+
+  return character->health;
+}
+
+Status character_set_health(Character *character, int hp)
+{
+  if (character == NULL || hp < 0)
+  {
+    return ERROR;
+  }
+
+  character->health = hp;
+  return OK;
+}
+
+Bool character_get_friend(Character *character)
+{
+  if (character == NULL)
+  {
+    return ERR;
+  }
+
+  return character->friend;
+}
+
+Status character_set_friend(Character *character, Bool typ)
+{
+  if (character == NULL)
+  {
+    return ERROR;
+  }
+
+  character->friend = typ;
+  return OK;
+}
+
+char *character_get_message(Character *character)
+{
+  if (character == NULL)
+  {
+    return NULL;
+  }
+
+  return character->message;
+}
+
+Status character_set_message(Character *character, char *msg)
+{
+  if (!character || !msg || strlen(msg) > WORD_SIZE)
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(character->message, msg))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
+Status character_print(const Character *character)
+{
+  char friend[7];
+
+  if (!character)
+    return ERROR;
+
+  if (character->friend == TRUE)
+  {
+    strcpy(friend, "Friend");
+  }
+  else
+  {
+    strcpy(friend, "Enemy");
+  }
+
+  printf("character ID: %ld, Name: %s, Graphic Description: %s, Health %d, friend: %s, Message: %s\n", character->id, character->name, character->gdesc, character->health, friend, character->message);
+  return OK;
+}

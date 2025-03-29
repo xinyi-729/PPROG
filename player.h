@@ -1,151 +1,186 @@
 /**
- * @brief Define la interfaz del modulo del jugador
+ * @brief It defines the player module interface
  *
  * @file player.h
- * @author Lucia Ordovas
- * @version 0
- * @date 31-01-2025
- * @copyright Licencia Publica GNU
- */
+ * @author David Buendía
+ * @version 1
+ * @date 13-02-2025
+ * @copyright GNU Public License
+*/
 
-#ifndef PLAYER_H
+#ifndef PLAYER_H  
 #define PLAYER_H
 
 #include "types.h"
+#include "inventory.h"
 
-#define INIT_HEALTH 15
-
+/**
+ * @brief Player
+ *
+ * This struct stores all the information of a player.
+ */
 typedef struct _Player Player;
 
 /**
- * @brief Crea un nuevo jugador, reservando memoria e inicializando sus miembros
- * @author Lucia Ordovas
+ * @brief It creates a new player
+ * @author David Buendía
  *
- * @param id el numero de identificacion para el nuevo jugador
- * @return un nuevo jugador inicializado
+ * @param id the id number of the new player
+ * @return a new player initialized
  */
-Player* player_create(Id id);
+Player* player_create (Id id);
+
 
 /**
- * @brief Destruye un jugador, liberando la memoria reservada
- * @author Lucia Ordovas
+ * @brief It destroys a player, freeing the allocated memory
+ * @author David Buendía
  *
- * @param player un puntero al jugador que debe ser destruido
- * @return OK, si todo va bien o ERROR si hubo algun problema
+ * @param player a pointer to the player
+ * @return nothing
  */
-Status player_destroy(Player* player);
+void player_destroy (Player* player);
+
 
 /**
- * @brief Obtiene el id de un jugador
- * @author Lucia Ordovas
+ * @brief It gets the id from a player
+ * @author David Buendía
  *
- * @param player un puntero al jugador
- * @return el id del jugador
+ * @param player a pointer to the player
+ * @return the player id
  */
 Id player_get_id(Player* player);
 
+
 /**
- * @brief Establece el nombre de un jugador
- * @author Lucia Ordovas
+ * @brief It gets the name from a player
+ * @author David Buendía
  *
- * @param player un puntero al jugador
- * @param name una cadena con el nombre a almacenar
- * @return OK, si todo va bien o ERROR si hubo algun problema
+ * @param player a pointer to the player
+ * @return the players name in a string
+ */
+char* player_get_name(Player* player);
+
+
+/**
+ * @brief It sets the name to a player
+ * @author David Buendía
+ *
+ * @param player a pointer to the player
+ * @param name the new players name
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status player_set_name(Player* player, char* name);
 
-/**
- * @brief Obtiene el nombre de un jugador
- * @author Lucia Ordovas
- *
- * @param player un puntero al jugador
- * @return una cadena con el nombre del jugador
- */
-const char* player_get_name(Player* player);
 
 /**
- * @brief Establece la ubicacion de un jugador
- * @author Lucia Ordovas
+ * @brief It gets the location from a player
+ * @author David Buendía
  *
- * @param player un puntero al jugador
- * @param value el numero de identificacion de la ubicacion
- * @return OK, si todo va bien o ERROR si hubo algun problema
- */
-Status player_set_location(Player* player, Id value);
-
-/**
- * @brief Obtiene la ubicacion de un jugador
- * @author Lucia Ordovas
- *
- * @param player un puntero al jugador
- * @return el id de la ubicacion
+ * @param player a pointer to the player
+ * @return the players location
  */
 Id player_get_location(Player* player);
 
+
 /**
- * @brief Establece el objeto que tiene el jugador
- * @author Lucia Ordovas
+ * @brief It sets a player a location
+ * @author David Buendía
  *
- * @param player un puntero al jugador
- * @param value el numero de identificacion del objeto
- * @return OK, si todo va bien o ERROR si hubo algun problema
+ * @param player a pointer to the player
+ * @param id the id number of the new player
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status player_set_object(Player* player, Id value);
+Status player_set_location(Player* player, Id id);
+
 
 /**
- * @brief Obtiene el objeto que tiene el jugador
- * @author Lucia Ordovas
+ * @brief It gets the health from a player
+ * @author David Buendía
  *
- * @param player un puntero al jugador
- * @return el id del objeto
+ * @param player a pointer to the player
+ * @return the players health
  */
-Id player_get_object(Player* player);
+int player_get_health(Player *player);
+
 
 /**
- * @brief Imprime la informacion del jugador
- * @author Lucia Ordovas
+ * @brief It sets a player health
+ * @author David Buendía
  *
- * Esta funcion muestra el id y el nombre del jugador, la localizacion y el objeto que porta.
- * @param player un puntero al jugador
- * @return OK, si todo va bien o ERROR si hubo algun problema
+ * @param player a pointer to the player
+ * @param hp the health of the player
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status player_print(Player* player);
+Status player_set_health(Player* player, int hp);
+
 
 /**
- * @brief Establece la salud del jugador
- * @author Lucia Ordovas
- * 
- * @param player un puntero al jugador
- * @param value el valor de la salud a establecer
- * @return OK, si todo va bien o ERROR si hubo algun problema
- */
-Status player_set_health(Player *player, long value);
-
-/**
- * @brief Obtiene la salud del jugador
- * @author Lucia Ordovas
- * 
- * @param player un puntero al jugador
- * @return el valor de la salud del jugador
- */
-long player_get_health(Player *player);
-
-/**
- * @brief Decrece la salud en una unidad
- * @author Lucia Ordovas
+ * @brief It gets the object from a player
+ * @author Alejandro Fernández
  *
- * @param player un puntero al jugador
- * @return OK, ERROR
+ * @param player a pointer to the player
+ * @return a pointer to the backpack or NULL
  */
-Status player_decrease_health(Player *player);
+Inventory *player_get_backpack(Player *player);
+
 
 /**
- * @brief Comprueba si el jugador tiene el objeto
- * @author XINYI HUANG
+ * @brief It sets an object in the backpack
+ * @author Alejandro Fernández
  *
- * @param player un puntero al jugador
- * @return TRUE si lo tiene, FALSE si no
+ * @param player a pointer to the player
+ * @param id the id number of object
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Bool player_has_object(Player *player);
+Status player_add_object(Player* player, Id id);
+
+
+/**
+ * @brief It deletes a object of the backpack
+ * @author Alejandro Fernández
+ *
+ * @param player a pointer to the player
+ * @param id the id number of the  object
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_del_object(Player *player, Id id);
+
+
+/**
+ * @brief It checks if the backpack has an object or not
+ * @author Alejandro Fernández
+ *
+ * @param player a pointer to the player
+ * @param id the id number of the new player
+ * @return TRUE or FALSE
+ */
+Bool player_has_object(Player *player, Id id);
+
+/**
+ * @brief It checks if the backpack is full or not
+ * @author Alejandro Fernández
+ *
+ * @param player a pointer to the player
+ * @return TRUE if its full or FALSE if not
+ */
+Bool player_backpack_is_full(Player *player);
+
+/**
+ * @brief It checks if the backpack is empty or not
+ * @author Alejandro Fernández
+ *
+ * @param player a pointer to the player
+ * @return TRUE if its empty or FALSE if not
+ */
+Bool player_backpack_is_empty(Player *player);
+
+/**
+ * @brief It prints the information of a player
+ * @author Alejandro Fernández
+ *
+ * @param player a pointer to the player
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_print(const Player* player);
 
 #endif
