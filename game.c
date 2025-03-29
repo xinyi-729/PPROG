@@ -363,10 +363,12 @@ Id game_get_object_id(Game *game, char *obj_name)
 
 Space *game_get_space_at(Game *game, int position)
 {
-  if (game == NULL || position < 0 || position >= game->n_objects)
+  if (game == NULL || position < 0 || position >= game->n_spaces)
   {
     return NULL;
   }
+
+
 
   return game->spaces[position];
 }

@@ -125,7 +125,7 @@ Status game_reader_load_spaces(Game *game, char *filename)
   Space *space = NULL;
   Status status = OK;
   char gdescaux[GDESC_ROWS][GDESC_COLS];
-  int i;
+  int i, k;
 
   if (!filename)
   {
@@ -183,10 +183,18 @@ Status game_reader_load_spaces(Game *game, char *filename)
         {
           space_set_gdesc(space, gdescaux[i], i);
         }
-        game_add_space(game, space);
+        if(game_add_space(game, space) == ERROR){
+          printf("EEERRRRROOOOR\n");
+        }
+        
       }
     }
   }
+
+  // for (k = 0; k < game_get_numspaces(game); k++){
+  //   printf("espacio k: %d, con id: %ld\n",k, space_get_id(game_get_space_at(game, k)));
+  // }
+
 
   if (ferror(file))
   {

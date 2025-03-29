@@ -85,7 +85,7 @@
  void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
  {
    Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID;
-   Space *space_act = NULL;
+   Space *space_act = NULL, *aux;
    char str[255], all_obj[128] = "";
    CommandCode last_cmd = UNKNOWN;
    extern char *cmd_to_str[N_CMD][N_CMDT];
@@ -133,27 +133,20 @@
 
    for (i = 0; i < game_get_numobj(game); i++)
    {
-    printf("unm_spa: %d\n", game_get_numspaces(game));
      for (j = 0; j < game_get_numspaces(game); j++)
      {
-      printf("entro en j: %d\n",j);
-      for (k = 0; k < game_get_numspaces(game); k++){
-        printf("espacio k: %d, con id: %ld\n",k, space_get_id(game_get_space_at(game, k)));
-      }
-
+      aux = game_get_space_at(game, j);
+      if(aux == NULL)
+        printf("es null\n");
        if(space_has_object(game_get_space_at(game, j), game_get_object_id_at(game, i)) == TRUE){
-        printf("saweawewewewjkl\n");
          sprintf(str, "    %s: %ld ", game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
          printf("    %s: %ld \n",  game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
 
          screen_area_puts(ge->descript, str);
-         printf("sdfghjkl\n");
 
        }
-       printf("salgo de j: %d\n",j);
 
      }
-     printf("en i \n");
 
    }
  
