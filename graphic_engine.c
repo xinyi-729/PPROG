@@ -24,7 +24,7 @@
  #define WIDTH_BAN 23
  #define HEIGHT_MAP 25
  #define HEIGHT_BAN 1
- #define HEIGHT_HLP 3
+ #define HEIGHT_HLP 4
  #define HEIGHT_FDB 3
  
  #define NUM_COLUMN_SPACE 17
@@ -84,15 +84,19 @@
  /*******************************************************************************************************************++ */
  void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
  {
-   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID;
-   Space *space_act = NULL, *aux;
+   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, backpack_obj=NO_ID;
+   Space *space_act = NULL;
    char str[255], all_obj[128] = "";
    CommandCode last_cmd = UNKNOWN;
    extern char *cmd_to_str[N_CMD][N_CMDT];
    int i, j;
    Character *character = NULL;
+   Player *player=NULL;
 
-   int k;
+
+  player = game_get_player(game);
+
+
    /* Paint the in the map area */
    screen_area_clear(ge->map);
    if ((id_act = game_get_player_location(game)) != NO_ID)
@@ -102,6 +106,7 @@
  
      id_back = game_get_connection(game, space_get_id(space_act), N);
      id_next = game_get_connection(game, space_get_id(space_act), S);
+
  
      if (id_back != NO_ID)
      {
@@ -128,6 +133,7 @@
    screen_area_clear(ge->descript);
    get_all_obj_name(game, space_act, all_obj);
  
+   /*FOR OBJECTS */
    sprintf(str, "  Objects: ");
    screen_area_puts(ge->descript, str);
 
@@ -135,26 +141,19 @@
    {
      for (j = 0; j < game_get_numspaces(game); j++)
      {
-      aux = game_get_space_at(game, j);
-      if(aux == NULL)
-        printf("es null\n");
        if(space_has_object(game_get_space_at(game, j), game_get_object_id_at(game, i)) == TRUE){
-         sprintf(str, "    %s: %ld ", game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
-         printf("    %s: %ld \n",  game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
-
+         sprintf(str, "    %s in %ld ", game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
          screen_area_puts(ge->descript, str);
-
        }
-
      }
-
    }
  
    sprintf(str, "           ");
    screen_area_puts(ge->descript, str);
    sprintf(str, "            ");
    screen_area_puts(ge->descript, str);
- 
+
+   /*FOR CHARACTERS*/
    sprintf(str, "  Characters: ");
    screen_area_puts(ge->descript, str);
  
@@ -172,25 +171,51 @@
    screen_area_puts(ge->descript, str);
    sprintf(str, "           ");
    screen_area_puts(ge->descript, str);
- 
-   sprintf(str, "  Player: %ld (%d)", id_act, player_get_health(game_get_player(game)));
+
+   /*FOR OBJECTS IN INVENTORY*/
+   sprintf(str,"  BackPack: ");
+   screen_area_puts(ge->descript, str);
+
+   for(i=0; i<inventory_get_n_obj(player_get_backpack(player)); i++){
+      backpack_obj = inventory_get_obj_id(player_get_backpack(player), i);
+      sprintf(str, "    %s", game_get_object_name(game, backpack_obj));
+      screen_area_puts(ge->descript, str);
+   }
+   sprintf(str, "           ");
+   screen_area_puts(ge->descript, str);
+   sprintf(str, "            ");
    screen_area_puts(ge->descript, str);
  
+   /*FOR PLAYER HEALTH*/
+   sprintf(str, "  Player: %ld (%d)", id_act, player_get_health(player));
+   screen_area_puts(ge->descript, str);
+ 
+
+
+
    /* Paint in the banner area */
    screen_area_puts(ge->banner, "    The anthill game ");
  
+
+
    /* Paint in the help area */
    screen_area_clear(ge->help);
    sprintf(str, " The commands you can use are:");
    screen_area_puts(ge->help, str);
-   sprintf(str, "     next or n, back or b, exit or e, left or l, right or r, take or t, drop or d, attack or a, chat or c");
+   sprintf(str, "     exit or e, take or t <name_object>, drop or d <name_object>,");
+   screen_area_puts(ge->help, str);
+   sprintf(str, "     move or m <direcction>, attack or a, chat or c");
    screen_area_puts(ge->help, str);
  
+
+
    /* Paint in the feedback area */
    last_cmd = command_get_code(game_get_last_command(game));
    sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
    screen_area_puts(ge->feedback, str);
  
+
+   
    /* Dump to the terminal */
    screen_paint();
    printf("prompt:> ");
@@ -239,7 +264,6 @@
        {
         cde = realloc(str, strlen(str) + strlen(vacio) + 1);
         if (!cde){
-          printf("Error: realloc falló\n");
           free(str);
           return;
         }
@@ -267,7 +291,6 @@
          aux = graphic_space_line(game, id_east, i);
          cde = realloc(str, strlen(str) + strlen(aux) + 1);
          if (!cde) {
-           printf("Error: realloc falló\n");
            free(aux);
            free(str);
            return;
@@ -280,7 +303,6 @@
        {
          cde = realloc(str, strlen(str) + strlen(vacio) + 1);
          if (!cde){
-           printf("Error: realloc falló\n");
            free(str);
            return;
          }
@@ -298,7 +320,7 @@
  
  char *graphic_space_line(Game *game, Id id, int n_line)
  {
-   Id id_player;
+   Id id_player, id_east, id_west;
    int n_obj;
    Space *space = NULL;
    char *str = malloc(128), all_obj[64] = "";
@@ -320,6 +342,10 @@
      free(str);
      return NULL;
    }
+
+   /**hmmmm esto es para printear lo de < y >, pero por ahora no sé cómo ponerlo */
+   id_east = game_get_connection(game, space_get_id(space), E);
+   id_west = game_get_connection(game, space_get_id(space), W);
  
    if (n_line == 0 || n_line == 8)
    {

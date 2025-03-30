@@ -59,6 +59,7 @@
   "files.associations": {
     "game_reader.h": "c",
     "graphic_engine.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "stdlib.h": "c"
   }
 }

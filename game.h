@@ -183,12 +183,11 @@ Player *game_get_player(Game *game);
  * @return a pointer to the set of objects
  */
 Set *game_get_objects(Game *game);
-
 /**
  * @brief It gets the number of spaces in the game
  * @author David Buendía
  *
- * @param game a pointer to the game
+ * @param game a point er to the game
  * @return the number of spaces in the game
  */
 int game_get_numspaces(Game *game);
@@ -213,33 +212,33 @@ Id game_get_space_id_at(Game *game, int position);
  */
 Status game_add_character(Game *game, Character *character);
 
-/********TRADUCIR------------------- */
+/********************************************************************************+TRADUCIR------------------- */
 /**
- * @brief Obtiene el ID de un objeto a partir de su nombre
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief Gets the ID of an object based on its name
+ * @author Xinyi Huang and Lucia Ordovas
  *
- * @param game Puntero al juego
- * @param obj_name Nombre del objeto
- * @return ID del objeto o NO_ID si no se encuentra
+ * @param game Pointer to the game
+ * @param obj_name Name of the object
+ * @return Id of the object or NO_ID if not found
  */
 Id game_get_object_id(Game *game, char *obj_name);
 
 /**
- * @brief Obtiene el número de objetos que hay en el juego
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief Gets the number of objects in the game
+ * @author Xinyi Huang and Lucia Ordovas
  *
- * @param game puntero al juego
- * @return devuelve el número de objetos que hay en el juego
+ * @param game Pointer to the game
+ * @return The number of objects in the game
  */
 int game_get_numobj(Game *game);
 
 /**
- * @brief It gets the Id of the object in the position given
+ * @brief Gets the ID of the object at the given position
  * @author Alejandro Fernández
  *
- * @param game a pointer to the game
- * @param position the position in the array
- * @return the id of the object or NO_ID
+ * @param game A pointer to the game
+ * @param position The position in the array
+ * @return The ID of the object or NO_ID
  */
 Id game_get_object_id_at(Game *game, int position);
 /**
@@ -252,41 +251,87 @@ Id game_get_object_id_at(Game *game, int position);
  */
 Space *game_get_space_at(Game *game, int position);
 
+/**
+ * @brief Gets an object by its ID
+ * @author Xinyi Huang
+ * 
+ * @param game Pointer to the game
+ * @param id ID of the object
+ * @return Pointer to the object or NULL if somethings going bad
+ */
 Object *game_get_object(Game *game, Id id);
 
 /**
- * @brief Obtiene el personaje en un espacio específico
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief Gets the character in a specific space
+ * @author Xinyi Huang and Lucia Ordovas
  *
- * @param game Puntero al juego
- * @param space_id ID del espacio
- * @return Puntero al personaje en el espacio, NULL si no hay personaje o si hay un error
+ * @param game Pointer to the game
+ * @param space_id ID of the space
+ * @return Pointer to the character in the space, NULL if no character or if there's an error
  */
 Character *game_get_character_in_space(Game *game, Id space_id);
 
 /**
- * @brief Obtiene el mensaje del character en el espacio
- * @author Xinyi Huang y Lucia Ordovas
+ * @brief Gets the character's message in the space
+ * @author Xinyi Huang and Lucia Ordovas
  *
- * @param game Puntero al juego
- * @return Mensaje del character
+ * @param game Pointer to the game
+ * @return Character's message
  */
 char *game_get_message(Game *game);
 
 /**
- * @brief Obtiene la descripcion de un objeto especifico
+ * @brief Gets the description of a specific object
  * @author Lucia Ordovas
  *
- * @param game Puntero al juego
- * @param obj_name nombre del objeto
- * @return Descripcion del objeto
+ * @param game Pointer to the game
+ * @param obj_name Name of the object
+ * @return Object's description
  */
 char *game_get_object_description(Game *game, char *obj_name);
 
-
+/**
+ * @brief Gets the ID of the space in the given direction
+ * @author Xinyi Huang
+ *
+ * @param game A pointer to the game
+ * @param space_act ID of current space
+ * @param dir Direction the player wants to move
+ * @return ID of the space the player wants to move to
+ */
 Id game_get_connection(Game *game, Id space_act, Direction dir);
+
+/**
+ * @brief Verify if the space the player wants to move is open or not
+ * @author Xinyi Huang
+ *
+ * @param game A pointer to the game
+ * @param space_act ID of current space
+ * @param dir Direction the player wants to move
+ * @return True if is able to move, False in the opposite case
+ */
 Bool game_connection_is_open(Game *game, Id space_act, Direction dir );
+
+/**
+ * @brief Gets a Link by its ID
+ * @author Xinyi Huang
+ * 
+ * @param game Pointer to the game
+ * @param id ID of the link
+ * @return Pointer to the link or NULL if somethings going bad
+ */
 link *game_get_link(Game *game, Id id_link);
+
+/**
+ * @brief Adds a link to the game
+ * @author Xinyi Huang
+ * 
+ * @param game a pointer to the game
+ * @param link a pointer to link
+ * @return Return OK if successful. ERROR if an error occurs
+ */
 Status game_add_link(Game *game, link *link);
+
+// int game_get_numLink(Game *game);
 
 #endif

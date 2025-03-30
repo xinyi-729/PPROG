@@ -187,7 +187,6 @@ Status space_set_gdesc(Space *space, char *gdesc, int row)
 
 Status space_print(Space *space)
 {
-  Id idaux = NO_ID;
   int i;
 
   /* Error Control */
@@ -199,43 +198,7 @@ Status space_print(Space *space)
   /* 1. Print the id and the name of the space */
   fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", space->id, space->name);
 
-  // /* 2. For each direction, print its link */
-  // idaux = space_get_north(space);
-  // if (idaux != NO_ID)
-  // {
-  //   fprintf(stdout, "---> North link: %ld.\n", idaux);
-  // }
-  // else
-  // {
-  //   fprintf(stdout, "---> No north link.\n");
-  // }
-  // idaux = space_get_south(space);
-  // if (idaux != NO_ID)
-  // {
-  //   fprintf(stdout, "---> South link: %ld.\n", idaux);
-  // }
-  // else
-  // {
-  //   fprintf(stdout, "---> No south link.\n");
-  // }
-  // idaux = space_get_east(space);
-  // if (idaux != NO_ID)
-  // {
-  //   fprintf(stdout, "---> East link: %ld.\n", idaux);
-  // }
-  // else
-  // {
-  //   fprintf(stdout, "---> No east link.\n");
-  // }
-  // idaux = space_get_west(space);
-  // if (idaux != NO_ID)
-  // {
-  //   fprintf(stdout, "---> West link: %ld.\n", idaux);
-  // }
-  // else
-  // {
-  //   fprintf(stdout, "---> No west link.\n");
-  // }
+  /*2. Now we print the links in game_print, not in space*/
 
   /* 3. Print if there is an object in the space or not */
   if (space_get_object(space))

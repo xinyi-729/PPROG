@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "inventory.h"
+#include "set.h"
+
+
+#define MAX_BACKPACK 10
 
 struct _Inventory
 {
@@ -19,7 +23,7 @@ struct _Inventory
 };
 
 /*--------------------------------------------------------------------*/
-Inventory *inventory_create(int max_objs)
+Inventory *inventory_create()
 {
     Inventory *inventory = (Inventory *)malloc(sizeof(Inventory));
     if (inventory == NULL)
@@ -32,7 +36,7 @@ Inventory *inventory_create(int max_objs)
         return NULL;
     }
 
-    inventory->max_objs = max_objs;
+    inventory->max_objs = MAX_BACKPACK;
 
     return inventory;
 }
@@ -76,12 +80,22 @@ int inventory_get_max_objs(Inventory *inventory)
     return inventory->max_objs;
 }
 
-Set *inventory_get_objs(Inventory *inventory)
-{
-    if (inventory == NULL)
-        return NULL;
+/*DIJO LA PROFE QUE NO SE PUEDE USAR ESTO*/
+// Set *inventory_get_objs(Inventory *inventory)
+// {
+//     if (inventory == NULL)
+//         return NULL;
 
-    return inventory->objs;
+//     return inventory->objs;
+// }
+
+Id inventory_get_obj_id(Inventory *inv, int pos){
+    Id obj;
+    if(!inv || pos<0 || pos>= MAX_BACKPACK)
+        return NO_ID;
+    
+    obj = set_get_id(inv->objs, pos);
+    return obj;
 }
 
 /*---------------------------------------------------------------*/
@@ -136,4 +150,15 @@ Status inventory_print(Inventory *inventory)
     }
 
     return OK;
+}
+
+int inventory_get_n_obj(Inventory *inv){
+    if(!inv)
+        return -1;
+    
+    if(inventory_is_empty(inv) == TRUE)
+        return 0;
+    
+
+    return set_get_n_ids(inv->objs);
 }

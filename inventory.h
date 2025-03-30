@@ -11,7 +11,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "set.h"
+#include "types.h"
 
 /**
  * @brief Inventory
@@ -24,10 +24,9 @@ typedef struct _Inventory Inventory;
  * @brief It creates a new inventory
  * @author Lucía Ordovás
  * 
- * @param max_objs maximum number of objects that the player can collect
  * @return a new inventory initialized
  */
-Inventory* inventory_create(int max_objs);
+Inventory* inventory_create();
 
 /**
  * @brief It destroys an inventory
@@ -68,15 +67,15 @@ Status inventory_del(Inventory *inventory, int obj_id);
  */
 int inventory_get_max_objs(Inventory *inventory);
 
-/**
- * @brief It gets the set of objects of the inventory
- * @author Lucía Ordovás
- *
- * @param inventory a pointer to inventory
- * 
- * @return the set of objects or NULL in case of error
- */
-Set* inventory_get_objs(Inventory *inventory);
+// /**
+//  * @brief It gets the set of objects of the inventory
+//  * @author Lucía Ordovás
+//  *
+//  * @param inventory a pointer to inventory
+//  * 
+//  * @return the set of objects or NULL in case of error
+//  */
+// Set* inventory_get_objs(Inventory *inventory);
 
 
 /**
@@ -118,4 +117,7 @@ Bool inventory_is_empty(Inventory *inventory);
  */
 Status inventory_print(Inventory *inventory);
 
+
+Id inventory_get_obj_id(Inventory *inv, int pos);
+int inventory_get_n_obj(Inventory *inv);
 #endif

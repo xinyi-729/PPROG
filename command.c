@@ -165,7 +165,7 @@ Status command_get_user_input(Command* command) {
     token2 = strtok(NULL, "\n");
     if(token2 != NULL){
       strcpy(argum, token2);
-      return command_set_argument(command, argum);
+      command_set_argument(command, argum);
     }
 
     cmd = UNKNOWN;

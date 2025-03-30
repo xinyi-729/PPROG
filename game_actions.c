@@ -74,6 +74,8 @@ char* game_actions_inspect(Game *game);
 
 void game_actions_move(Game *game);
 
+
+
 Status game_actions_update(Game *game, Command *command)
 {
   CommandCode cmd;
@@ -137,84 +139,6 @@ void game_actions_exit(Game *game)
   command_set_exit(game_get_last_command(game), OK);
 }
 
-// Status game_actions_take(Game *game)
-// {
-//   int i;
-//   Command *command = NULL;
-//   Space *player_space = NULL;
-//   Player *player = NULL;
-//   Id *space_ids = NULL;
-//   char *object_name = NULL;
-//   Id object_id = NO_ID;
-
-//   command = game_get_last_command(game);
-
-//   if (command == NULL)
-//   {
-//     return ERROR;
-//   }
-
-//   if (game == NULL)
-//   {
-//     command_set_exit(command, ERROR);
-//     return ERROR;
-//   }
-
-//   object_name = command_get_object_name(command);
-
-//   if (object_name == NULL)
-//   {
-//     command_set_exit(command, ERROR);
-//     return ERROR;
-//   }
-
-//   player_space = game_get_space(game, game_get_player_location(game));
-//   if (player_space == NULL)
-//   {
-//     command_set_exit(command, ERROR);
-//     return ERROR;
-//   }
-
-//   if (set_getNumberIds(space_get_object(player_space)) == 0)
-//   {
-//     command_set_exit(command, ERROR);
-//     return ERROR;
-//   }
-
-//   player = game_get_player(game);
-//   if (player == NULL || player_get_object(player) != NO_ID)
-//   {
-//     command_set_exit(command, ERROR);
-//     return ERROR;
-//   }
-
-//   space_ids = set_getIds(space_get_object(player_space));
-//   for (i = 0; i < set_getNumberIds(space_get_object(player_space)); i++)
-//   {
-//     if (strcmp(object_name, game_get_object_name(game, space_ids[i])) == 0)
-//     {
-//       object_id = space_ids[i];
-//       if (player_set_object(player, object_id) == ERROR)
-//       {
-//         command_set_exit(command, ERROR);
-//         return ERROR;
-//       }
-
-//       if (set_del(space_get_object(player_space), object_id) == ERROR)
-//       {
-//         command_set_exit(command, ERROR);
-//         return ERROR;
-//       }
-//       command_set_exit(game_get_last_command(game), OK);
-//       return OK;
-//     }
-//   }
-//   command_set_exit(game_get_last_command(game), ERROR);
-//   return ERROR;
-// }
-
-/*PROBAR*/
-
 Status game_actions_take(Game *game)
 {
   Id player_space_id = NO_ID;
@@ -237,7 +161,6 @@ Status game_actions_take(Game *game)
     return ERROR;
 
   name_obj = command_get_argument(cmd);
-
   if (name_obj == NULL)
   {
     return ERROR;
@@ -511,17 +434,18 @@ void game_actions_move(Game *game){
     return;
   }
 
+
   /*Para no repetir códigos...*/
   if(strcmp(arg, "n")==0 || strcmp(arg, "north") == 0 ){
     dir = N;
   }
-  else if(strcmp(arg, "s")==0 || strcmp(arg, "south") == 0 ){
+  if(strcmp(arg, "s")==0 || strcmp(arg, "south") == 0 ){
     dir = S;
   }
-  else if(strcmp(arg, "w")==0 || strcmp(arg, "west") == 0 ){
+  if(strcmp(arg, "w")==0 || strcmp(arg, "west") == 0 ){
     dir = W;
   }
-  else if(strcmp(arg, "e")==0 || strcmp(arg, "east") == 0 ){
+  if(strcmp(arg, "e")==0 || strcmp(arg, "east") == 0 ){
     dir = E;
   }
 
@@ -539,25 +463,4 @@ void game_actions_move(Game *game){
   return;
 }
 
-// void game_actions_back(Game *game)
-// {
-//   Id current_id = NO_ID;
-//   Id space_id = NO_ID;
-  
-//   space_id = game_get_player_location(game);
 
-//   if (NO_ID == space_id)
-//   {
-//     command_set_exit(game_get_last_command(game), ERROR);
-//     return;
-//   }
-
-//   current_id = space_get_north(game_get_space(game, space_id));
-//   if (current_id != NO_ID)
-//   {
-//     game_set_player_location(game, current_id);
-//   }
-
-//   command_set_exit(game_get_last_command(game), OK);
-//   return;
-// }

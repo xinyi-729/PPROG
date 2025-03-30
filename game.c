@@ -151,35 +151,6 @@ Status game_set_player_location(Game *game, Id id)
   return player_set_location(game->player, id);
 }
 
-/*ESTAS DOS FUNCIONES SE QUITAN*/
-// Set *game_get_objects_location(Game *game, Id id)
-// {
-
-//   Space *space = NULL;
-//   if (game == NULL || id == NO_ID)
-//   {
-//     return NULL;
-//   }
-
-//   space = game_get_space(game, id);
-
-//   return space_get_object(space);
-// }
-
-// Status game_set_object_location(Game *game, Id id)
-// {
-//   Space *space = NULL;
-//   if (game == NULL)
-//   {
-//     return ERROR;
-//   }
-
-//   space = game_get_space(game, id);
-//   space_set_object(space, id);
-
-//   return OK;
-// }
-
 Command *game_get_last_command(Game *game)
 {
   if (!game)
@@ -229,6 +200,11 @@ void game_print(Game *game)
   for (i = 0; i < game->n_objects; i++)
   {
     object_print(game->object[i]);
+  }
+
+  printf("=> Enlaces: ");
+  for(i=0; i<game->n_links; i++){
+    link_print(game->links[i]);
   }
 }
 
@@ -507,3 +483,10 @@ Status game_add_link(Game *game, link *link){
 
   return OK;
 }
+
+// int game_get_numLink(Game *game){
+//   if(!game)
+//     return -1;
+
+//   return game->n_links;
+// }
