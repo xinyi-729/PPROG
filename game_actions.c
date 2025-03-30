@@ -206,6 +206,7 @@ Status game_actions_drop(Game *game)
     return ERROR;
   }
 
+
   player_space = game_get_space(game, game_get_player_location(game));
   if (player_space == NULL)
   {
@@ -220,8 +221,10 @@ Status game_actions_drop(Game *game)
     return ERROR;
   }
 
-  name_obj = command_get_argument(cmd);
+  if (!(cmd = game_get_last_command(game)))
+  return ERROR;
 
+  name_obj = command_get_argument(cmd);
   if (name_obj == NULL)
   {
     return ERROR;
@@ -240,9 +243,12 @@ Status game_actions_drop(Game *game)
 
   if (player_del_object(player, object_id) == ERROR)
   {
+
     command_set_exit(game_get_last_command(game), ERROR);
     return ERROR;
   }
+
+
 
   command_set_exit(game_get_last_command(game), OK);
   return OK;

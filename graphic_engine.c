@@ -320,10 +320,11 @@
  
  char *graphic_space_line(Game *game, Id id, int n_line)
  {
-   Id id_player, id_east, id_west;
+   Id id_player;
    int n_obj;
    Space *space = NULL;
    char *str = malloc(128), all_obj[64] = "";
+  //  Id id_west, id_east;
  
    if (!str)
      return NULL;
@@ -344,8 +345,8 @@
    }
 
    /**hmmmm esto es para printear lo de < y >, pero por ahora no sé cómo ponerlo */
-   id_east = game_get_connection(game, space_get_id(space), E);
-   id_west = game_get_connection(game, space_get_id(space), W);
+  //  id_east = game_get_connection(game, space_get_id(space), E);
+  //  id_west = game_get_connection(game, space_get_id(space), W);
  
    if (n_line == 0 || n_line == 8)
    {
