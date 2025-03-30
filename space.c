@@ -104,8 +104,6 @@ const char *space_get_name(Space *space)
   return space->name;
 }
 
-
-/*set_object ahora se llama add_obj*/
 Status space_add_object(Space *space, Id id)
 {
   if (!space)
@@ -116,7 +114,7 @@ Status space_add_object(Space *space, Id id)
   if (set_add(space->objects, id) == ERROR)
   {
     return ERROR;
-  };
+  }
 
   return OK;
 }
@@ -130,16 +128,6 @@ Status space_del_object(Space *space, Id id){
     return ERROR;
 
   return OK;
-}
-
-Set *space_get_object(Space *space)
-{
-  if (!space)
-  {
-    return NULL;
-  }
-
-  return space->objects;
 }
 
 Id space_get_character_id(Space *space)
@@ -201,7 +189,7 @@ Status space_print(Space *space)
   /*2. Now we print the links in game_print, not in space*/
 
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object(space))
+  if (space->objects != NULL)
   {
 
     fprintf(stdout, "---> Objects in the space: \n");
@@ -211,6 +199,14 @@ Status space_print(Space *space)
   {
     fprintf(stdout, "---> No objects in the space.\n");
   }
+
+  /*character*/
+  if(space_get_character_id(space)!=NO_ID){
+    fprintf(stdout, "---> character in space: Id: %ld\n", space->character);
+  
+  }
+  else 
+    fprintf(stdout, "--->No character in space\n");
 
   fprintf(stdout, "--> Description:\n");
   for (i = 0; i < GDESC_ROWS; i++)
@@ -229,21 +225,19 @@ Status space_print(Space *space)
 }
 
 Id space_get_objetc_id_at(Space *space, int pos){
-  Set *set=NULL;
 
   if(!space || pos<0){
     return NO_ID;
   }
 
-  set = space_get_object(space);
-  if(!set)
+  if(space->objects == NULL)
     return NO_ID;
 
-  if(pos >= set_get_n_ids(set))
+  if(pos >= set_get_n_ids(space->objects))
     return NO_ID;
 
 
-  return set_get_id(set, pos);
+  return set_get_id(space->objects, pos);
 }
 
 Bool space_has_object(Space *space, Id id){
@@ -255,3 +249,18 @@ Bool space_has_object(Space *space, Id id){
 
 }
 
+Bool space_has_character(Space *space){
+  
+  if(space->character != NO_ID)
+    return TRUE;
+    
+  return FALSE;
+
+}
+
+int space_get_n_obj(Space *space){
+  if(!space)
+    return -1;
+
+  return set_get_n_ids(space->objects);
+}

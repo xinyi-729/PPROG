@@ -35,12 +35,12 @@
    Area *map, *descript, *banner, *help, *feedback;
  };
  
- void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id);
- void get_all_obj_name(Game *game, Space *space, char *all_obj);
- 
- /*DEVUelve un str del id dado*/
- char *graphic_space_line(Game *game, Id id, int n_line);
- void graphic_eng_next_back(Graphic_engine *ge, Game *game, Id id);
+ /*private functions */
+ void graphic_engine_paint_space(Graphic_engine *ge, Game *game, Id id);
+ void graphic_engine_get_all_obj_name(Game *game, Space *space, char *all_obj);
+ char *graphic_engine_space_line(Game *game, Id id, int n_line);
+ void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id);
+
  /*--------------------------------------------------------------------- */
  Graphic_engine *graphic_engine_create()
  {
@@ -85,7 +85,7 @@
  void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
  {
    Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, backpack_obj=NO_ID;
-   Space *space_act = NULL;
+   Space *space_act = NULL, *aux_space;
    char str[255], all_obj[128] = "";
    CommandCode last_cmd = UNKNOWN;
    extern char *cmd_to_str[N_CMD][N_CMDT];
@@ -110,7 +110,7 @@
  
      if (id_back != NO_ID)
      {
-       graphic_eng_next_back(ge, game, id_back);
+       graphic_engine_next_back(ge, game, id_back);
        sprintf(str, "                         ^");
        screen_area_puts(ge->map, str);
      }
@@ -118,20 +118,20 @@
  
      if (id_act != NO_ID)
      {
-       graphic_eng_paint_space(ge, game, id_act);
+       graphic_engine_paint_space(ge, game, id_act);
      }
 
      if (id_next != NO_ID)
      {
        sprintf(str, "                        v");
        screen_area_puts(ge->map, str);
-       graphic_eng_next_back(ge, game, id_next);
+       graphic_engine_next_back(ge, game, id_next);
      }
    }
 
    /* Paint in the description area */
    screen_area_clear(ge->descript);
-   get_all_obj_name(game, space_act, all_obj);
+   graphic_engine_get_all_obj_name(game, space_act, all_obj);
  
    /*FOR OBJECTS */
    sprintf(str, "  Objects: ");
@@ -142,13 +142,13 @@
      for (j = 0; j < game_get_numspaces(game); j++)
      {
        if(space_has_object(game_get_space_at(game, j), game_get_object_id_at(game, i)) == TRUE){
-         sprintf(str, "    %s in %ld ", game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
+         sprintf(str, "    %s:   %ld ", game_get_object_name(game, game_get_object_id_at(game, i)), game_get_space_id_at(game, j));
          screen_area_puts(ge->descript, str);
        }
      }
    }
  
-   sprintf(str, "           ");
+   sprintf(str, "            ");
    screen_area_puts(ge->descript, str);
    sprintf(str, "            ");
    screen_area_puts(ge->descript, str);
@@ -156,21 +156,37 @@
    /*FOR CHARACTERS*/
    sprintf(str, "  Characters: ");
    screen_area_puts(ge->descript, str);
- 
-   for (i = 0; i < game_get_numspaces(game); i++)
-   {
-     character = game_get_character(game, game_get_space_id_at(game, i));
-     if (character_get_id(character) != NO_ID)
-     {
-       sprintf(str, "    %s: %ld (%d)", character_get_graphic_description(character), game_get_space_id_at(game, i), character_get_health(character));
-     }
-     
+
+   for(i=0; i<game_get_numspaces(game); i++) {
+    aux_space = game_get_space_at(game, i);
+    character = game_get_character(game, space_get_character_id(aux_space));
+    if(space_has_character(aux_space) == TRUE && character != NULL){
+      sprintf(str, "    %s:   %ld (HP:%d)", character_get_graphic_description(character), game_get_space_id_at(game, i), character_get_health(character));
+      screen_area_puts(ge->descript, str);
+    }
    }
 
    sprintf(str, "           ");
    screen_area_puts(ge->descript, str);
    sprintf(str, "           ");
    screen_area_puts(ge->descript, str);
+
+   /*FOR PRINT MESSAGE*/
+   for(i=0; i<game_get_numspaces(game); i++) {
+    aux_space = game_get_space_at(game, i);
+    character = game_get_character(game, space_get_character_id(aux_space));
+    if(space_has_character(aux_space) == TRUE && character != NULL){
+      if(id_act == game_get_space_id_at(game, i)){
+        sprintf(str, "  -Message: %s", character_get_message(character));
+        screen_area_puts(ge->descript, str);
+      }
+    }
+   }
+   sprintf(str, "           ");
+   screen_area_puts(ge->descript, str);
+   sprintf(str, "           ");
+   screen_area_puts(ge->descript, str);
+
 
    /*FOR OBJECTS IN INVENTORY*/
    sprintf(str,"  BackPack: ");
@@ -187,7 +203,7 @@
    screen_area_puts(ge->descript, str);
  
    /*FOR PLAYER HEALTH*/
-   sprintf(str, "  Player: %ld (%d)", id_act, player_get_health(player));
+   sprintf(str, "  Player: %ld (HP:%d)", id_act, player_get_health(player));
    screen_area_puts(ge->descript, str);
  
 
@@ -222,7 +238,7 @@
 
  }
  
- void graphic_eng_paint_space(Graphic_engine *ge, Game *game, Id id)
+ void graphic_engine_paint_space(Graphic_engine *ge, Game *game, Id id)
  {
    Id id_act = NO_ID, id_east = NO_ID, id_west = NO_ID;
    char vacio[255] = "                  ";
@@ -249,7 +265,7 @@
  
        if (id_west != NO_ID)
        {
-         aux = graphic_space_line(game, id_west, i);
+         aux = graphic_engine_space_line(game, id_west, i);
          cde = realloc(str, strlen(str) + strlen(aux) + 1);
          if (!cde) {
            free(aux);
@@ -274,7 +290,7 @@
        if (id_act != NO_ID)
        {
  
-         aux = graphic_space_line(game, id_act, i);
+         aux = graphic_engine_space_line(game, id_act, i);
          cde = realloc(str, strlen(str) + strlen(aux) + 1);
          if (!cde) {
            free(aux);
@@ -288,7 +304,7 @@
  
        if (id_east != NO_ID)
        {
-         aux = graphic_space_line(game, id_east, i);
+         aux = graphic_engine_space_line(game, id_east, i);
          cde = realloc(str, strlen(str) + strlen(aux) + 1);
          if (!cde) {
            free(aux);
@@ -318,12 +334,13 @@
      free(str);
  }
  
- char *graphic_space_line(Game *game, Id id, int n_line)
+ char *graphic_engine_space_line(Game *game, Id id, int n_line)
  {
    Id id_player;
    int n_obj;
    Space *space = NULL;
    char *str = malloc(128), all_obj[64] = "";
+   Character *character =NULL;
   //  Id id_west, id_east;
  
    if (!str)
@@ -356,11 +373,23 @@
    {
      if (id_player == id)
      {
-       sprintf(str, "| m0^        %3d|  ", (int)id);
+      if(space_has_character(space) == TRUE){
+        character = game_get_character(game, space_get_character_id(space));
+        sprintf(str, "| m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
+      }
+      else
+        sprintf(str, "| m0^        %3d|  ", (int)id);
+
      }
      else
      {
-       sprintf(str, "|            %3d|  ", (int)id);
+      if(space_has_character(space) == TRUE){
+        character = game_get_character(game, space_get_character_id(game_get_space(game,id)));
+        sprintf(str, "|     %s %3d|  ", character_get_graphic_description(character),(int)id);
+      }
+      else
+        sprintf(str, "|            %3d|  ", (int)id);
+       
      }
    }
    else if (n_line >= 2 && n_line <= 6)
@@ -369,10 +398,10 @@
    }
    else if (n_line == 7)
    {
-     n_obj = set_get_n_ids(space_get_object(space));
+     n_obj = space_get_n_obj(space);
      if (n_obj > 0)
      {
-       get_all_obj_name(game, space, all_obj);
+       graphic_engine_get_all_obj_name(game, space, all_obj);
        /*Imprime todos los objetos que haya*/
        sprintf(str, "|%-*s|  ", NUM_COLUMN_SPACE - 2, all_obj);
      }
@@ -389,7 +418,7 @@
    return str;
  }
  
- void get_all_obj_name(Game *game, Space *space, char *all_obj)
+ void graphic_engine_get_all_obj_name(Game *game, Space *space, char *all_obj)
  {
    int n_objs, i;
    char *aux_obname = NULL;
@@ -399,7 +428,7 @@
    if (!game || !space)
      return;
  
-   n_objs = set_get_n_ids(space_get_object(space));
+   n_objs = space_get_n_obj(space);
    if (n_objs < 0)
    {
      return;
@@ -429,11 +458,12 @@
    return;
  }
  
- void graphic_eng_next_back(Graphic_engine *ge, Game *game, Id id)
+ void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id)
  {
    Id id_act = NO_ID;
    char all_obj[128] = "", str[255];
    Space *space_act;
+   Character *character;
    int n_obj, i;
    char *aux_gdesc = NULL;
    char str_space[GDESC_ROWS][GDESC_COLS];
@@ -458,14 +488,24 @@
      sprintf(str, "                  +---------------+  ");
      screen_area_puts(ge->map, str);
  
-     if (id == id_act)
-     {
-       sprintf(str, "                  | m0^        %3d|  ", (int)id);
+     if (id == id_act){
+      if(space_has_character(space_act) == TRUE){
+        character = game_get_character(game, space_get_character_id(space_act));
+        sprintf(str, "                  | m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
+      }
+      else
+        sprintf(str, "                  | m0^        %3d|  ", (int)id);
+
        screen_area_puts(ge->map, str);
      }
      else
      {
-       sprintf(str, "                  |            %3d|  ", (int)id);
+      if(space_has_character(space_act) == TRUE){
+        character = game_get_character(game, space_get_character_id(game_get_space(game,id)));
+        sprintf(str, "                  |     %s %3d|  ", character_get_graphic_description(character),(int)id);
+      }
+      else
+        sprintf(str, "                  |            %3d|  ", (int)id);
        screen_area_puts(ge->map, str);
      }
  
@@ -476,16 +516,12 @@
      }
  
      /*printear objetos*/
-     n_obj = set_get_n_ids(space_get_object(space_act));
+     n_obj = space_get_n_obj(space_act);
      if (n_obj > 0)
      {
-       get_all_obj_name(game, space_act, all_obj);
-       if (all_obj[0] == '\0')
-       {
-         printf("error en all_obj\n");
-       }
+       graphic_engine_get_all_obj_name(game, space_act, all_obj);
        /*Imprime todos los objetos que haya*/
-       sprintf(str, "                  |%-*s|  ", NUM_COLUMN_SPACE - 2, all_obj); /*ya veré si da tiempo de hacerla bonita */
+       sprintf(str, "                  |%-*s|  ", NUM_COLUMN_SPACE - 2, all_obj);
        screen_area_puts(ge->map, str);
        sprintf(str, "                  +---------------+  ");
        screen_area_puts(ge->map, str);

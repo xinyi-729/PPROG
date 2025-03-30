@@ -14,9 +14,6 @@
 
  #include "character.h"
 
- #define GDESC_SIZE 6
-
-
 struct _Character
 {
   Id id;
@@ -72,19 +69,6 @@ Id character_get_id(Character *character)
 
   return character->id;
 }
-
-/*Esta funcion no se necesita porque el id es únido e inmodificable*/
-// Status character_set_id(character *character, Id id)
-// {
-//   if (!character || id == NO_ID)
-//   {
-//     return ERROR;
-//   }
-
-//   character->id = id;
-
-//   return OK;
-// }
 
 char *character_get_name(Character *character)
 {

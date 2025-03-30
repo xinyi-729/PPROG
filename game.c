@@ -71,6 +71,10 @@ Game *game_create()
   {
     newGame->character[i] = NULL;
   }
+  for (i = 0; i < MAX_LINKS; i++)
+  {
+    newGame->links[i] = NULL;
+  }
 
   newGame->n_spaces = 0;
   newGame->n_objects = 0;
@@ -104,6 +108,10 @@ Status game_destroy(Game *game)
   for (i = 0; i < game->n_characters; i++)
   {
     character_destroy(game->character[i]);
+  }
+  for (i = 0; i < game->n_links; i++)
+  {
+    link_destroy(game->links[i]);
   }
 
   player_destroy(game->player);
@@ -239,6 +247,7 @@ Character *game_get_character(Game *game, Id id)
     return NULL;
   }
 
+
   for (i = 0; i < game->n_characters; i++)
   {
     if (character_get_id(game->character[i]) == id)
@@ -246,6 +255,7 @@ Character *game_get_character(Game *game, Id id)
       return game->character[i];
     }
   }
+  printf("2222\n");
 
   return NULL;
 }
@@ -484,9 +494,22 @@ Status game_add_link(Game *game, link *link){
   return OK;
 }
 
-// int game_get_numLink(Game *game){
-//   if(!game)
-//     return -1;
+Id game_get_character_id_at(Game *game, int position)
+{
+  if (position < 0 || position >= game->n_characters)
+  {
+    return NO_ID;
+  }
 
-//   return game->n_links;
-// }
+  return character_get_id(game->character[position]);
+}
+
+int game_get_numcharacter(Game *game)
+{
+  if (game == NULL)
+  {
+    return -1;
+  }
+
+  return game->n_characters;
+}

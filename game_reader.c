@@ -38,7 +38,7 @@ Status game_reader_load_spaces(Game *game, char *filename);
 Status game_reader_load_objects(Game* game, char *filename);
 
 
-// Status game_reader_load_character(Game *game, char*filename);
+Status game_reader_load_character(Game *game, char*filename);
 Status game_reader_load_links(Game *game, char*filename);
 
 /*----------------------------------------------------------------*/
@@ -55,7 +55,11 @@ Status game_create_from_file(Game *game, char *filename) {
   if (game_reader_load_objects(game, filename) == ERROR ) {
     return ERROR;
   }
+
   if(game_reader_load_links(game, filename) == ERROR){
+    return ERROR;
+  }
+  if(game_reader_load_character(game, filename) == ERROR){
     return ERROR;
   }
 
@@ -187,9 +191,69 @@ Status game_reader_load_spaces(Game *game, char *filename)
   return status;
 }
 
-// Status game_reader_load_character(Game *game, char*filename){
-  
-// }
+Status game_reader_load_character(Game *game, char*filename){
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char gdesc[GDESC_SIZE] = "", message[WORD_SIZE] = "";
+  char *toks = NULL;
+  Id id= NO_ID, location = NO_ID;
+  Character *c= NULL;
+  Status status = OK;
+  int health;
+  Bool friend;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#c:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc, toks);
+      toks = strtok(NULL, "|");
+      location = atol(toks);
+      toks = strtok(NULL, "|");
+      health = atol(toks);
+      toks = strtok(NULL, "|");
+      friend = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(message,toks);
+
+#ifdef DEBUG
+      printf("Leido: %ld|%s|%s|%ld|%d|%d|%s\n", id, name, gdesc, location,health, friend,message);
+#endif
+      c = character_create(id);
+      if (c != NULL) {
+        character_set_name(c,name);
+        character_set_graphic_description(c, gdesc);
+        character_set_health(c,health);
+        character_set_friend(c, friend);
+        character_set_message(c,message);
+        space_set_character_id(game_get_space(game, location), id);
+        game_add_character(game, c);
+      }
+
+    }
+  }
+
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
+}
 
 
 

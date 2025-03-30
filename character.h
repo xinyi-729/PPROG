@@ -11,6 +11,8 @@
 #ifndef character_H  
 #define character_H
 
+#define GDESC_SIZE 6
+
 #include "types.h"
 
 

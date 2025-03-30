@@ -65,11 +65,6 @@ Status space_set_name(Space* space, char* name);
  */
 const char* space_get_name(Space* space);
 
-
-
-
-
-
 /**
  * @brief It sets whether the space has an object or not
  * @author Profesores PPROG
@@ -89,16 +84,6 @@ Status space_add_object(Space* space, Id id);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status space_del_object(Space *space, Id id);
-
-/**
- * @brief It gets whether the space has an object or not
- * @author Alejandro Fernández
- *
- * @param space a pointer to the space
- * @return a pointer to Set, specifying the objects in the space.
- */
-Set *space_get_object(Space* space);
-
 
 /**
  * @brief It gets whether the space has a character or not
@@ -171,4 +156,7 @@ Id space_get_objetc_id_at(Space *space, int pos);
    * @return TRUE si el objeto está presente, FALSE en caso contrario
    */
   Bool space_has_object(Space *space, Id id);
+
+  Bool space_has_character(Space *space);
+  int space_get_n_obj(Space *space);
 #endif

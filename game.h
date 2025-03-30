@@ -332,6 +332,7 @@ link *game_get_link(Game *game, Id id_link);
  */
 Status game_add_link(Game *game, link *link);
 
-// int game_get_numLink(Game *game);
+Id game_get_character_id_at(Game *game, int position);
+int game_get_numcharacter(Game *game);
 
 #endif
