@@ -29,7 +29,9 @@
  */
 struct _Game
 {
-  Player *player;
+  Player *players[MAX_PLAYERS];
+  int n_players;
+  int turn;
   Object *object[MAX_OBJECTS];
   Character *character[MAX_CHARACTERS];
   Space *spaces[MAX_SPACES];
@@ -76,10 +78,21 @@ Game *game_create()
     newGame->links[i] = NULL;
   }
 
+  for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    newGame->players[i] = NULL;
+  }
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    newGame->players[i] = NULL;
+  }
+  newGame->n_players=0;
+
   newGame->n_spaces = 0;
   newGame->n_objects = 0;
+  newGame->n_links = 0;
   newGame->n_characters = 0;
-  newGame->player = player_create(729);
+  newGame->turn = 0;
   newGame->last_cmd = command_create();
   newGame->finished = FALSE;
 
@@ -114,7 +127,11 @@ Status game_destroy(Game *game)
     link_destroy(game->links[i]);
   }
 
-  player_destroy(game->player);
+  for (i = 0; i < game->n_players; i++)
+  {
+    player_destroy(game->players[i]);
+  }
+
   free(game);
   game = NULL;
   return OK;
@@ -146,7 +163,7 @@ Id game_get_player_location(Game *game)
   {
     return NO_ID;
   }
-  return player_get_location(game->player);
+  return player_get_location(game_get_player(game));
 }
 
 Status game_set_player_location(Game *game, Id id)
@@ -156,7 +173,7 @@ Status game_set_player_location(Game *game, Id id)
     return ERROR;
   }
 
-  return player_set_location(game->player, id);
+  return player_set_location(game_get_player(game), id);
 }
 
 Command *game_get_last_command(Game *game)
@@ -194,14 +211,10 @@ void game_print(Game *game)
     space_print(game->spaces[i]);
   }
 
-  printf("=> Jugador: ");
-  if (game->player)
+  printf("=> Jugadores: \n");
+  for (i = 0; i < game->n_players; i++)
   {
-    player_print(game->player);
-  }
-  else
-  {
-    printf("No se ha asignado un jugador.\n");
+    player_print(game->players[i]);
   }
 
   printf("=> Objetos: \n");
@@ -229,14 +242,12 @@ Status game_add_space(Game *game, Space *space)
   return OK;
 }
 
-Player *game_get_player(Game *game)
-{
-  if (game == NULL)
-  {
-    return NULL;
+Player *game_get_player(Game *game){
+  if(game == NULL){
+    return ERROR;
   }
-
-  return game->player;
+  
+  return game->players[game->turn];
 }
 
 Character *game_get_character(Game *game, Id id)
@@ -512,4 +523,28 @@ int game_get_numcharacter(Game *game)
   }
 
   return game->n_characters;
+}
+
+/*----------------------------------------------------------------------*/
+/* Funciones adicionales (F11) */
+Status game_add_player(Game *game, Player *player){
+  if (game == NULL || player == NULL || game->n_players >= MAX_PLAYERS){
+    return ERROR;
+  }
+
+  game->players[game->n_players] = player;
+
+  game->n_players++;
+
+  return OK;
+}
+
+Status game_next_turn(Game *game){
+  if(game == NULL || game->n_players <= 0){
+    return ERROR;
+  }
+
+  game->turn = (game->turn +1) % game->n_players;
+
+  return OK;
 }

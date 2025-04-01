@@ -37,16 +37,37 @@ Status game_reader_load_spaces(Game *game, char *filename);
 */
 Status game_reader_load_objects(Game* game, char *filename);
 
-
+/**
+ * @brief It loads the players from a file
+ * @author Ana Maria
+ *
+ * @param game a pointer to the game 
+ * @param filename a pointer to the file name
+ * @return status (OK), if everything goes well or ERROR if there was some mistake
+*/
+Status game_reader_load_players(Game *game, char *filename);
+/**
+ * @brief It loads the characters from a file
+ * @author Ana Maria
+ *
+ * @param game a pointer to the game 
+ * @param filename a pointer to the file name
+ * @return status (OK), if everything goes well or ERROR if there was some mistake
+*/
 Status game_reader_load_character(Game *game, char*filename);
+/**
+ * @brief It loads the links from a file
+ * @author Ana Maria
+ *
+ * @param game a pointer to the game 
+ * @param filename a pointer to the file name
+ * @return status (OK), if everything goes well or ERROR if there was some mistake
+*/
 Status game_reader_load_links(Game *game, char*filename);
 
 /*----------------------------------------------------------------*/
 
 Status game_create_from_file(Game *game, char *filename) {
-  if (game_create(game) == ERROR) {
-    return ERROR;
-  }
 
   if (game_reader_load_spaces(game, filename) == ERROR ) {
     return ERROR;
@@ -63,8 +84,9 @@ Status game_create_from_file(Game *game, char *filename) {
     return ERROR;
   }
 
-  /* El jugador estan en el primer espacio */
-  game_set_player_location(game, game_get_space_id_at(game, 0));
+  if(game_reader_load_players(game,filename)==ERROR){
+    return ERROR;
+  }
 
   return OK;
 }
@@ -321,4 +343,71 @@ Status game_reader_load_links(Game *game, char*filename){
   fclose(file);
   return status;
 
+}
+
+Status game_reader_load_players(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char player_name[WORD_SIZE] = "";
+  char player_desc[WORD_SIZE] = "";
+  char *toks = NULL;
+  int health,objects;
+  Id id = NO_ID, location = NO_ID;
+  Player *player  = NULL;
+  Status status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#p:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(player_name, toks);
+      toks = strtok(NULL, "|");
+      strcpy(player_desc, toks);
+      toks = strtok(NULL, "|");
+      location = atol(toks);
+      toks = strtok(NULL, "|");
+      health = atol(toks);
+      toks = strtok(NULL, "|");
+      objects = atol(toks);
+#ifdef DEBUG
+      printf("Leido: %ld|%s|%s|%ld|%d|%d\n", id, player_name, player_desc,location,health,objects);
+#endif
+      /* Creamos el jugador a partir del fichero */
+      player = player_create(id);
+      if (player != NULL) {
+        player_set_health(player, health);
+        player_set_location(player, location);
+        player_set_name(player,player_name);
+       
+       
+       player_set_graphic_description(player, player_desc);
+        
+        
+        
+        inventory_set_max_objs(player_get_backpack(player),objects);
+
+        /*hacer un game add player ya q ahora hay mas de uno como pasaba con los objetos en la anterior*/
+        game_add_player(game,player);
+      }
+
+    }
+  }
+
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
 }

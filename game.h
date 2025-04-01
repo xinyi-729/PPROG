@@ -22,6 +22,7 @@
 #define MAX_SPACES 100
 #define MAX_CHARACTERS 10
 #define MAX_LINKS 400
+#define MAX_PLAYERS 10
 
 #define PLAYER_ID 729
 #define IN_PLAYER 407
@@ -334,5 +335,26 @@ Status game_add_link(Game *game, link *link);
 
 Id game_get_character_id_at(Game *game, int position);
 int game_get_numcharacter(Game *game);
+
+/*--------------------------------------------------------------*/
+/* Funciones adicionales (F11) */
+/**
+ * @brief Adds a player to the game
+ * @author Lucia Ordovas
+ * 
+ * @param game a pointer to the game
+ * @param player a pointer to player
+ * @return Return OK if successful. ERROR if an error occurs
+ */
+Status game_add_player(Game *game, Player *player);
+
+/**
+ * @brief updates the turn to the next player
+ * @author Lucia Ordovas
+ * 
+ * @param game a pointer to the game
+ * @return Return OK if successful. ERROR if an error occurs
+ */
+Status game_next_turn(Game *game);
 
 #endif

@@ -108,6 +108,7 @@ Status game_actions_update(Game *game, Command *command)
 
   case ATTACK:
     game_actions_attack(game);
+    break;
 
   case CHAT:
     game_actions_chat(game);

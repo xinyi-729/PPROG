@@ -173,6 +173,24 @@ Bool player_backpack_is_full(Player *player);
  * @return TRUE if its empty or FALSE if not
  */
 Bool player_backpack_is_empty(Player *player);
+/**
+ * @brief It gets the graphic description from a player
+ * @author Ana Maldonado
+ *
+ * @param player a pointer to the player
+ * @return the player graphic description
+ */
+char *player_get_graphic_description(Player *player);
+
+/**
+ * @brief It sets a character a graphic description
+ * @author Ana Maldonado
+ *
+ * @param character a pointer to the player
+ * @param gdesc graphic description of the player
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_graphic_description(Player *player, char *gdesc);
 
 /**
  * @brief It prints the information of a player

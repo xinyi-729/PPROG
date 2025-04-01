@@ -16,6 +16,7 @@
 #include "types.h"
 
 #define MAX_OBJS 5
+#define GDESC_SIZE 6
 
 struct _Player{
 Id id;
@@ -23,6 +24,7 @@ char name [WORD_SIZE+1];
 Id player_location;
 int health;
 Inventory *backpack;
+char gdesc[GDESC_SIZE + 1];
 };
 
 Player* player_create (Id id){
@@ -45,6 +47,7 @@ Player* player_create (Id id){
   newPlayer->player_location = NO_ID;
   newPlayer->health = 10;
   newPlayer->backpack = inventory_create(MAX_OBJS);
+   newPlayer->gdesc[0]='\0';
 
   return newPlayer;
 }
@@ -181,6 +184,31 @@ Bool player_backpack_is_empty(Player *player){
   
   return inventory_is_empty(player->backpack);
 }
+
+char *player_get_graphic_description(Player *player)
+{
+  if (player == NULL)
+  {
+    return NULL;
+  }
+
+  return player->gdesc;
+}
+
+Status player_set_graphic_description(Player *player, char *gdesc)
+{
+  if (!player || !gdesc || strlen(gdesc) > 6)/*El mayor q 6?*/
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(player->gdesc, gdesc))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
 
 Status player_print(const Player* player) {
   if (!player) return ERROR;

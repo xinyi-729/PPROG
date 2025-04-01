@@ -38,6 +38,7 @@
  /*private functions */
  void graphic_engine_paint_space(Graphic_engine *ge, Game *game, Id id);
  void graphic_engine_get_all_obj_name(Game *game, Space *space, char *all_obj);
+ void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr);
  char *graphic_engine_space_line(Game *game, Id id, int n_line);
  void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id);
 
@@ -339,7 +340,7 @@
    Id id_player;
    int n_obj;
    Space *space = NULL;
-   char *str = malloc(128), all_obj[64] = "";
+   char *str = malloc(128), all_obj[64] = "", all_character[64] = "";
    Character *character =NULL;
   //  Id id_west, id_east;
  
@@ -375,7 +376,9 @@
      {
       if(space_has_character(space) == TRUE){
         character = game_get_character(game, space_get_character_id(space));
-        sprintf(str, "| m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
+        graphic_engine_get_charater_desc_str(game, space, all_character);
+        sprintf(str, "| m0^ %-*s%3d|  ", NUM_COLUMN_SPACE - 10, all_character, (int)id);
+        //sprintf(str, "| m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
       }
       else
         sprintf(str, "| m0^        %3d|  ", (int)id);
@@ -453,6 +456,40 @@
    if (strlen(all_obj) > 0)
    {
      all_obj[strlen(all_obj) - 1] = '\0';
+   }
+ 
+   return;
+ }
+
+ void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr)
+ {
+   char *aux_chardesc = NULL;
+   Id char_id_i = NO_ID;
+   Character *ch = NULL;
+ 
+   if (!game || !space)
+     return;
+ 
+   if (space_get_character_id(space) == -1)
+   {
+     return;
+   }
+ 
+   all_chr[0] = '\0';
+ 
+   /*Guardo del nombre del personaje obtenido en all_chr usando strcat, que concadena */
+   {
+     char_id_i = space_get_character_id(space);
+ 
+     ch = game_get_character(game, char_id_i);
+     aux_chardesc = character_get_graphic_description(ch);
+ 
+     strcat(all_chr, aux_chardesc);
+   }
+ 
+   if (strlen(all_chr) == 0)
+   {
+     all_chr[strlen(all_chr) - 1] = '\0';
    }
  
    return;

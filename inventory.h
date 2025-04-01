@@ -66,6 +66,7 @@ Status inventory_del(Inventory *inventory, int obj_id);
  * @return the maximun number of objects, -1 in case of error
  */
 int inventory_get_max_objs(Inventory *inventory);
+Status inventory_set_max_objs(Inventory *inventory,int num);
 
 // /**
 //  * @brief It gets the set of objects of the inventory
