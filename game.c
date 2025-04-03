@@ -30,6 +30,11 @@
 struct _Game
 {
   Player *players[MAX_PLAYERS];
+<<<<<<< HEAD
+=======
+  int n_players;
+  int turn;
+>>>>>>> 66675c6cd1c7c2c87f1d82c361142a349781351c
   Object *object[MAX_OBJECTS];
   Character *character[MAX_CHARACTERS];
   Space *spaces[MAX_SPACES];
@@ -82,13 +87,25 @@ Game *game_create()
   {
     newGame->players[i] = NULL;
   }
+<<<<<<< HEAD
 
   newGame->n_players = 0;
+=======
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    newGame->players[i] = NULL;
+  }
+  newGame->n_players=0;
+>>>>>>> 66675c6cd1c7c2c87f1d82c361142a349781351c
 
   newGame->n_spaces = 0;
   newGame->n_objects = 0;
-  newGame->n_characters = 0;
   newGame->n_links = 0;
+  newGame->n_characters = 0;
+<<<<<<< HEAD
+  newGame->n_links = 0;
+=======
+>>>>>>> 66675c6cd1c7c2c87f1d82c361142a349781351c
   newGame->turn = 0;
   newGame->last_cmd = command_create();
   newGame->finished = FALSE;

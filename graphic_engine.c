@@ -38,6 +38,7 @@
  /*private functions */
  void graphic_engine_paint_space(Graphic_engine *ge, Game *game, Id id);
  void graphic_engine_get_all_obj_name(Game *game, Space *space, char *all_obj);
+ void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr);
  char *graphic_engine_space_line(Game *game, Id id, int n_line);
  void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr);
  void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id);
@@ -448,6 +449,10 @@
         character = game_get_character(game, space_get_character_id(space));
         graphic_engine_get_charater_desc_str(game, space, all_character);
         sprintf(str, "| m0^ %-*s%3d|  ", NUM_COLUMN_SPACE - 10, all_character, (int)id);
+<<<<<<< HEAD
+=======
+        //sprintf(str, "| m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
+>>>>>>> 66675c6cd1c7c2c87f1d82c361142a349781351c
       }
       else
         sprintf(str, "| m0^        %3d|  ", (int)id);
@@ -563,7 +568,10 @@
  
    return;
  }
+<<<<<<< HEAD
  
+=======
+>>>>>>> 66675c6cd1c7c2c87f1d82c361142a349781351c
  
  void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id)
  {
