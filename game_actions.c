@@ -62,13 +62,13 @@ Status game_actions_attack(Game *game);
 Status game_actions_chat(Game *game);
 
 /**
- * @brief It inspects a specific object from the description
+ * @brief It inspects a specific object 
  * @author Lucía Ordovás
  *
  * @param game a pointer to the game
- * @return OK if everything goes well or ERROR if there was some mistake
+ * @return OK if everything goes well or ERROR if there was some mistake 
  */
-char* game_actions_inspect(Game *game);
+Status game_actions_inspect(Game *game);
 
 
 
@@ -385,36 +385,84 @@ Status game_actions_chat(Game *game)
   return ERROR;
 }
 
-char* game_actions_inspect(Game *game)
-{
+Status game_actions_inspect(Game *game){
   Command *cmd = NULL;
+  Object *object = NULL;
+  Player *player = NULL;
+  Space *space = NULL;
+  Id id_object = NO_ID, id_player_location = NO_ID;
   char *name_obj = NULL;
+  char *description = NULL;
 
-  if (!game)
-  {
+  if (game == NULL){
     command_set_exit(game_get_last_command(game), ERROR);
-    return NULL;
+    return ERROR;
   }
 
-  /* Obtenemos el ultimo comando */
-  if (!(cmd = game_get_last_command(game)))
-  {
+  cmd = game_get_last_command(game);
+  if (cmd == NULL){
     command_set_exit(game_get_last_command(game), ERROR);
-    return NULL;
+    return ERROR;
   }
 
-  /* Obtenemos el nombre del objeto */
+  /* Obtenemos el TAD del objeto a inspeccionar */
   name_obj = command_get_argument(cmd);
-  if (!name_obj)
-  {
+  if (name_obj == NULL){
     command_set_exit(game_get_last_command(game), ERROR);
-    return NULL;
+    return ERROR;
   }
 
+  id_object = game_get_object_id(game, name_obj);
+  if(id_object == NO_ID){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  object = game_get_object(game, id_object);
+  if(object == NULL){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  /* Obtenemos el TAD del jugador */
+  player = game_get_player(game);
+  if(player == NULL){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  /* Obtenemos el TAD del espacio donde esta el jugador */
+  id_player_location = game_get_player_location(game);
+  if(id_player_location == NO_ID){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  space = game_get_space(game, id_player_location);
+  if (space == NULL){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  /* El inventario del jugador debe contener al objeto a inspeccionar, o bien
+  el jugador y el objeto deben estar en el mismo espacio */
+  if(player_has_object(player, id_object) == FALSE && space_has_object(space, id_object) == FALSE){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  /* Aqui solo comprobamos que al obtener la descripcion, no hay ningun error,
+  no hacemos nada con ella ni con los TADs obtenidos, solo comprobaciones */
+  description = game_get_object_description_from_name(game, name_obj);
+  if(description == NULL){
+    command_set_exit(game_get_last_command(game), ERROR);
+    return ERROR;
+  }
+
+  /* Asignamos al status del comando OK si todo va bien */
   command_set_exit(game_get_last_command(game), OK);
 
-  /* Retornamos la descripcion del objeto a partir de su nombre */
-  return game_get_object_description(game, name_obj);
+  return OK;
 }
 
 

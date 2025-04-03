@@ -79,6 +79,13 @@ int inventory_get_max_objs(Inventory *inventory)
 
     return inventory->max_objs;
 }
+Status inventory_set_max_objs(Inventory *inventory,int num){
+    if(inventory==NULL||num<0){
+        return ERROR;
+    }
+    inventory->max_objs=num;
+    return OK;
+}
 
 /*DIJO LA PROFE QUE NO SE PUEDE USAR ESTO*/
 // Set *inventory_get_objs(Inventory *inventory)

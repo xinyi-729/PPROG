@@ -66,6 +66,7 @@ Status inventory_del(Inventory *inventory, int obj_id);
  * @return the maximun number of objects, -1 in case of error
  */
 int inventory_get_max_objs(Inventory *inventory);
+Status inventory_set_max_objs(Inventory *inventory,int num);
 
 // /**
 //  * @brief It gets the set of objects of the inventory
@@ -108,16 +109,33 @@ Bool inventory_is_full(Inventory *inventory);
  * @return TRUE if its empty or FALSE if not
  */
 Bool inventory_is_empty(Inventory *inventory);
+
 /**
  * @brief It prints an inventory
  * @author Lucía Ordovás
  *
  * @param inventory a pointer to inventory
- * @return nothing
+ * @return OK or ERROR
  */
 Status inventory_print(Inventory *inventory);
 
-
+/**
+ * @brief It gets the id of the object of the inventory
+ * @author Lucía Ordovás
+ *
+ * @param inventory a pointer to inventory
+ * @param pos the position of the object in the array 
+ * @return id of the object in the given position
+ */
 Id inventory_get_obj_id(Inventory *inv, int pos);
+
+/**
+ * @brief It gets the number of objects of the inventory
+ * @author Lucía Ordovás
+ *
+ * @param inventory a pointer to inventory
+ * @return the number of objects of the inventory
+ */
 int inventory_get_n_obj(Inventory *inv);
+
 #endif

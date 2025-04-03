@@ -13,11 +13,11 @@
 #s:14|Hole|         |         |         |         |         |
 
 
-#o:300|Grain|11
-#o:301|p|11
-#o:302|Leaf|122
-#o:303|Apple|13
-#o:304|Crumb|14
+#o:300|Grain|11|This is the Grain|
+#o:301|p|11|This is the p|
+#o:302|Leaf|122|This is the Leaf|
+#o:303|Apple|13|This is the apple|
+#o:304|Crumb|14|Tihs is the Crumb|
 
 
 #l:400|Link0|11|121|1|1|
@@ -51,3 +51,7 @@
 
 #c:500|spider|^Ooo|11|5|0|I'm bad bug|
 #c:501|spider|/\oo/\|123|5|0|I won't talk to you!|
+
+#p:1|ant|mO^|11|5|3|
+#p:2|ant2|mO^|11|5|3|
+

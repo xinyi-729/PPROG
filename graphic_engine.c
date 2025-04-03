@@ -39,6 +39,7 @@
  void graphic_engine_paint_space(Graphic_engine *ge, Game *game, Id id);
  void graphic_engine_get_all_obj_name(Game *game, Space *space, char *all_obj);
  char *graphic_engine_space_line(Game *game, Id id, int n_line);
+ void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr);
  void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id);
 
  /*--------------------------------------------------------------------- */
@@ -92,6 +93,14 @@
    int i, j;
    Character *character = NULL;
    Player *player=NULL;
+   Object *object = NULL;
+   Space *space = NULL;
+   Id id_object = NO_ID, id_player_location = NO_ID;
+   char *name_obj = NULL;
+   char *description = NULL;
+   Command *cmd = NULL;
+   CommandCode last_cmd_code = UNKNOWN;
+   Status last_cmd_status = ERROR;
 
 
   player = game_get_player(game);
@@ -206,8 +215,70 @@
    sprintf(str, "  Player: %ld (HP:%d)", id_act, player_get_health(player));
    screen_area_puts(ge->descript, str);
  
+   /* FOR THE OBJECT TO INSPECT */
+   last_cmd_code = command_get_code(game_get_last_command(game));
+   last_cmd_status = command_get_exit(game_get_last_command(game));
+   if(last_cmd_code == INSPECT && last_cmd_status == OK){
+      /* Obtenemos el TAD del objeto a inspeccionar */
+      cmd = game_get_last_command(game);
+      name_obj = command_get_argument(cmd);
+      if (name_obj == NULL){
+        return;
+      }
 
-
+      id_object = game_get_object_id(game, name_obj);
+      if(id_object == NO_ID){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      object = game_get_object(game, id_object);
+      if(object == NULL){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      /* Obtenemos el TAD del jugador */
+      player = game_get_player(game);
+      if(player == NULL){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      /* Obtenemos el TAD del espacio donde esta el jugador */
+      id_player_location = game_get_player_location(game);
+      if(id_player_location == NO_ID){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      space = game_get_space(game, id_player_location);
+      if (space == NULL){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      /* El inventario del jugador debe contener al objeto a inspeccionar, o bien
+      el jugador y el objeto deben estar en el mismo espacio */
+      if(player_has_object(player, id_object) == FALSE && space_has_object(space, id_object) == FALSE){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      description = game_get_object_description_from_name(game, name_obj);
+      if(description == NULL){
+        command_set_exit(game_get_last_command(game), ERROR);
+        return;
+      }
+    
+      /* Printeamos en el area del banner */
+      sprintf(str, "           ");
+      screen_area_puts(ge->descript, str);
+      sprintf(str, "            ");
+      screen_area_puts(ge->descript, str);
+      sprintf(str, "  Description of the %s: %s", name_obj, description);
+      screen_area_puts(ge->descript, str);
+    }
 
    /* Paint in the banner area */
    screen_area_puts(ge->banner, "    The anthill game ");
@@ -220,7 +291,7 @@
    screen_area_puts(ge->help, str);
    sprintf(str, "     exit or e, take or t <name_object>, drop or d <name_object>,");
    screen_area_puts(ge->help, str);
-   sprintf(str, "     move or m <direcction>, attack or a, chat or c");
+   sprintf(str, "     move or m <direcction>, attack or a, chat or c, inspect or i <object> ");
    screen_area_puts(ge->help, str);
  
 
@@ -339,7 +410,7 @@
    Id id_player;
    int n_obj;
    Space *space = NULL;
-   char *str = malloc(128), all_obj[64] = "";
+   char *str = malloc(128), all_obj[64] = "", all_character[64] = "";
    Character *character =NULL;
   //  Id id_west, id_east;
  
@@ -375,7 +446,8 @@
      {
       if(space_has_character(space) == TRUE){
         character = game_get_character(game, space_get_character_id(space));
-        sprintf(str, "| m0^ %s %3d|  ", character_get_graphic_description(character),(int)id);
+        graphic_engine_get_charater_desc_str(game, space, all_character);
+        sprintf(str, "| m0^ %-*s%3d|  ", NUM_COLUMN_SPACE - 10, all_character, (int)id);
       }
       else
         sprintf(str, "| m0^        %3d|  ", (int)id);
@@ -457,6 +529,41 @@
  
    return;
  }
+
+ void graphic_engine_get_charater_desc_str(Game *game, Space *space, char *all_chr)
+ {
+   char *aux_chardesc = NULL;
+   Id char_id_i = NO_ID;
+   Character *ch = NULL;
+ 
+   if (!game || !space)
+     return;
+ 
+   if (space_get_character_id(space) == -1)
+   {
+     return;
+   }
+ 
+   all_chr[0] = '\0';
+ 
+   /*Guardo del nombre del personaje obtenido en all_chr usando strcat, que concadena */
+   {
+     char_id_i = space_get_character_id(space);
+ 
+     ch = game_get_character(game, char_id_i);
+     aux_chardesc = character_get_graphic_description(ch);
+ 
+     strcat(all_chr, aux_chardesc);
+   }
+ 
+   if (strlen(all_chr) == 0)
+   {
+     all_chr[strlen(all_chr) - 1] = '\0';
+   }
+ 
+   return;
+ }
+ 
  
  void graphic_engine_next_back(Graphic_engine *ge, Game *game, Id id)
  {

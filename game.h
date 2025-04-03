@@ -22,6 +22,7 @@
 #define MAX_SPACES 100
 #define MAX_CHARACTERS 10
 #define MAX_LINKS 400
+#define MAX_PLAYERS 10
 
 #define PLAYER_ID 729
 #define IN_PLAYER 407
@@ -281,14 +282,33 @@ Character *game_get_character_in_space(Game *game, Id space_id);
 char *game_get_message(Game *game);
 
 /**
- * @brief Gets the description of a specific object
+ * @brief Gets the inventory of the player
+ * @author Lucia Ordovas
+ *
+ * @param game Pointer to the game
+ * @return pointer to inventory
+ */
+Inventory *game_get_inventory(Game *game);
+
+/**
+ * @brief Gets the description of a specific object from its name
  * @author Lucia Ordovas
  *
  * @param game Pointer to the game
  * @param obj_name Name of the object
  * @return Object's description
  */
-char *game_get_object_description(Game *game, char *obj_name);
+char *game_get_object_description_from_name(Game *game, char *obj_name);
+
+/**
+ * @brief Checks if the inventory of the player has the object 
+ * @author Lucia Ordovas
+ *
+ * @param game Pointer to the game
+ * @param obj_name Name of the object
+ * @return TRUE or FALSE
+ */
+Bool game_inventory_has_object(Game *game, char *obj_name);
 
 /**
  * @brief Gets the ID of the space in the given direction
@@ -334,5 +354,26 @@ Status game_add_link(Game *game, link *link);
 
 Id game_get_character_id_at(Game *game, int position);
 int game_get_numcharacter(Game *game);
+
+/*--------------------------------------------------------------*/
+/* Funciones adicionales (F11) */
+/**
+ * @brief Adds a player to the game
+ * @author Lucia Ordovas
+ * 
+ * @param game a pointer to the game
+ * @param player a pointer to player
+ * @return Return OK if successful. ERROR if an error occurs
+ */
+Status game_add_player(Game *game, Player *player);
+
+/**
+ * @brief updates the turn to the next player
+ * @author Lucia Ordovas
+ * 
+ * @param game a pointer to the game
+ * @return Return OK if successful. ERROR if an error occurs
+ */
+Status game_next_turn(Game *game);
 
 #endif
